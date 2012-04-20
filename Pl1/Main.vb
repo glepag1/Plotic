@@ -849,6 +849,7 @@ Public Class Main
 
         Dim RenderBars As Integer = INIRead(silentTemplateFile, "Render", "RenderBars", "0")
         Dim ScaleRadius As Integer = INIRead(silentTemplateFile, "Render", "ScaleRadius", "0")
+        Dim backgroundColorARGB As Array = INIRead(silentTemplateFile, "Render", "BackgroundARGB", "255,0,0,0").Split(",")
 
         Dim RenderAttachText As Integer = INIRead(silentTemplateFile, "Attach", "RenderAttachText", "0")
         Dim VerticalMultiplier As String = INIRead(silentTemplateFile, "Attach", "VerticalMultiplier", "1")
@@ -919,10 +920,12 @@ Public Class Main
         soldest.DrawImage(sol, 0, 0, solscaled.Width + 1, solscaled.Height + 1)
 
         If RenderTTK = 1 Then
-            Pl.ImageGraphic.Clear(Color.Black)
+            'Pl.ImageGraphic.Clear(Color.Black)
+            Pl.ImageGraphic.Clear(Color.FromArgb(Integer.Parse(backgroundColorARGB(0).ToString), Integer.Parse(backgroundColorARGB(1).ToString), Integer.Parse(backgroundColorARGB(2).ToString), Integer.Parse(backgroundColorARGB(3).ToString)))
             Pl.ImageGraphic.DrawImage(solscaled, sil_centerX, sil_centerY)
         Else
-            Pl.ImageGraphic.Clear(Color.Black)
+            'Pl.ImageGraphic.Clear(Color.Black)
+            Pl.ImageGraphic.Clear(Color.FromArgb(Integer.Parse(backgroundColorARGB(0).ToString), Integer.Parse(backgroundColorARGB(1).ToString), Integer.Parse(backgroundColorARGB(2).ToString), Integer.Parse(backgroundColorARGB(3).ToString)))
         End If
         If RenderBars = 1 Then
             drawBars(Pl.ImageGraphic)
@@ -1681,6 +1684,7 @@ Public Class Main
 
         Dim soldestMask As Graphics = Graphics.FromImage(solscaledMask)
 
+        ' The silhouette will be covering most of the image, instead of drawing the image, just white out the area and cap it at 9800
         If silhouetteHeight > 9800 Then
             Pl.MaskGraphic.Clear(Color.White)
             silhouetteHeight = 9800
@@ -1700,10 +1704,12 @@ Public Class Main
         soldest.DrawImage(sol, 0, 0, solscaled.Width + 1, solscaled.Height + 1)
 
         If chkTimeToKill.Checked Then
-            Pl.ImageGraphic.Clear(Color.Black)
+            ' Pl.ImageGraphic.Clear(Color.Black)
+            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
             Pl.ImageGraphic.DrawImage(solscaled, sil_centerX, sil_centerY)
         Else
-            Pl.ImageGraphic.Clear(Color.Black)
+            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
+            'Pl.ImageGraphic.Clear(Color.Black)
         End If
         If chkBars.Checked Then
             drawBars(Pl.ImageGraphic)
@@ -2151,6 +2157,7 @@ Public Class Main
 
         INIWrite(spath, "Render", "ScaleRadius", "1")
         INIWrite(spath, "Render", "RenderBars", "1")
+        INIWrite(spath, "Render", "BackgroundARGB", "255,0,0,0")
 
         INIWrite(spath, "Title", "RenderTitleText", "1")
         INIWrite(spath, "Title", "TitleText", "AEK-17")
