@@ -3,6 +3,9 @@
     Private strTitle As String
     Private strInfo As String
     Private strSubText As String
+
+    Private strBackgroundColor As String
+
     Private bmpImage As Bitmap = New Bitmap(2000, 2000)
     Private bmpSilh As Bitmap = New Bitmap(2000, 2000)
     Private bmpMask As Bitmap = New Bitmap(2000, 2000)
@@ -239,6 +242,15 @@
         End Get
         Set(ByVal Value As String)
             strSubText = Value
+        End Set
+    End Property
+
+    Property BackgroundColor() As String
+        Get
+            Return strBackgroundColor
+        End Get
+        Set(ByVal Value As String)
+            strBackgroundColor = Value
         End Set
     End Property
 
