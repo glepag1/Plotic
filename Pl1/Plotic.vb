@@ -26,6 +26,9 @@
     Private dblAdjSpreadMin As Double
     Private dblAdjSpreadInc As Double
     Private dblGridLineSpace As Double
+
+    Private dblHealthPercent As Double
+
     Private intBurst As Integer
     Private intBulletsPerBurst As Integer
     Private dblFirstShot As Double
@@ -378,6 +381,14 @@
         End Set
     End Property
 
+    Property HealthPercent() As Double
+        Get
+            Return dblHealthPercent
+        End Get
+        Set(ByVal Value As Double)
+            dblHealthPercent = Value
+        End Set
+    End Property
     Property Image() As Bitmap
         Get
             Return bmpImage

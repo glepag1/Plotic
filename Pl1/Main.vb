@@ -194,8 +194,8 @@ Public Class Main
         Dim dblDamageAtMaxRange As Double = Pl.DamageMin + (((Pl.DamageMax - Pl.DamageMin) / (Pl.RangeMax - Pl.RangeMin)) * (numTTKRange.Value - Pl.RangeMin))
         Dim dblDamageAtMinRange As Double = Pl.DamageMin + (((Pl.DamageMax - Pl.DamageMin) / (Pl.RangeMax - Pl.RangeMin)) * (0 - Pl.RangeMin))
         'If dblDamageAtMinRange < Pl.DamageMin Then dblDamageAtMinRange = Pl.DamageMin
-        Dim TTK As Double = ((Math.Round((100 / dblDamageAtMaxRange), 0) - 1) / (Pl.RateOfFire / 60)) + (numTTKRange.Value / Pl.BulletVelocity)
-        Dim TTKMin As Double = ((Math.Round((100 / dblDamageAtMinRange), 0) - 1) / (Pl.RateOfFire / 60)) + (numTTKRange.Value / Pl.BulletVelocity)
+        Dim TTK As Double = ((Math.Round((Pl.HealthPercent / dblDamageAtMaxRange), 0) - 1) / (Pl.RateOfFire / 60)) + (numTTKRange.Value / Pl.BulletVelocity)
+        Dim TTKMin As Double = ((Math.Round((Pl.HealthPercent / dblDamageAtMinRange), 0) - 1) / (Pl.RateOfFire / 60)) + (numTTKRange.Value / Pl.BulletVelocity)
         g.DrawString((Math.Round((TTK * 1000), 0)) & "ms", New Font("Arial", 15), brushGoldenRod, (leftX - 45), (yPixel + 5))
 
         'g.DrawLine(penDamage, 10, yPixel, 1950, yPixel)
@@ -1203,6 +1203,9 @@ Public Class Main
         Pl.AdjSpreadInc = getAdjustInc()
         Pl.AdjSpreadMin = getAdjustMin()
         Pl.GridLineSpace = Double.Parse(numLineSpace.Value)
+
+        Pl.HealthPercent = numHealthPercent.Value
+
         If txtTitle.Text = "<<GUN>>" Then
             Pl.Title = Pl.Gun
         Else
