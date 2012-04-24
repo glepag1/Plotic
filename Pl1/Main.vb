@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.2"
+    Private Const VERSION As String = "Plotic v2.21"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -2469,7 +2469,7 @@ ByVal DefaultValue As String) As String
         If weapon = "M16A4" Then weapon = "M16A4_2"
         If weapon = "M4A1" Then weapon = "M4A1_2"
         Dim data = GetData(weapon, "")
-        If data = "FILENOTFOUND" Then Return "ERROR"
+        If data = "FILENOTFOUND" Then Return -1
         data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "InitialSpeed"))
         Dim start = InStr(data, "InitialSpeed")
         Dim Test = InStr(data, "z") + 2
@@ -2488,7 +2488,7 @@ ByVal DefaultValue As String) As String
         If weapon = "M4A1" Then weapon = "M4A1_2"
         Dim value As String = "RateOfFire "
         Dim data = GetData(weapon, "")
-        If data = "FILENOTFOUND" Then Return "ERROR"
+        If data = "FILENOTFOUND" Then Return -1
         data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, value))
         Dim start = InStr(data, value) + (Len(value))
         data = Microsoft.VisualBasic.Mid(data, start, 200)
@@ -2569,6 +2569,7 @@ ByVal DefaultValue As String) As String
 
     Public Function GetValue(ByVal weapon As String, ByVal value As String, Optional ByVal stance As String = "Stand")
         Dim data = GetData(weapon, "")
+        If data = "FILENOTFOUND" Then Return -1
         Dim preparsevalues = "-IncreasePerShotMinAngleMaxAngleDecreasePerSecondRecoilAmplitudeMaxRecoilAmplitudeIncPerShotHorizo" + _
 "ntalRecoilAmplitudeIncPerShotMinHorizontalRecoilAmplitudeIncPerShotMaxHorizontalRecoilAmplitudeMaxRe" + _
 "coilAmplitudeDecreaseFactor-"
@@ -2644,6 +2645,9 @@ ByVal DefaultValue As String) As String
         If File.Exists(path) Then
             Return My.Computer.FileSystem.ReadAllText(path)
         Else
+            Debug.WriteLine("Weapon File Not Found: " & path)
+            ' MsgBox("Weapon File Not Found: " & path)
+            Me.BackgroundWorker1.CancelAsync()
             Return "FILENOTFOUND"
         End If
     End Function
