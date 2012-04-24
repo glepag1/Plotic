@@ -581,12 +581,39 @@ Public Class Main
         'g.DrawString("Correction: " + Pl. + "%", New Font("Consolas", 30), greenBrush1, hPos, 190)
     End Sub
     Public Sub drawTitle(ByVal g As Graphics)
+
+        ' Make a StringFormat object that centers.
+        Dim sf As New StringFormat
+        'sf.LineAlignment = StringAlignment.Center
+        sf.Alignment = StringAlignment.Center
+
+
         Dim greenBrush1 As New SolidBrush(Color.YellowGreen)
-        Dim rect As New Rectangle(700, 28, 675, 250)
+
+        Dim testTitle As Integer = (Pl.Title.Length * 90)
+        Dim testInfo As Integer = (Pl.Info.Length * 60)
+        Dim testSubText As Integer = (Pl.SubText.Length * 40)
+
+        Dim rectWidth As Integer
+
+        If testTitle > testInfo And testTitle > testSubText Then
+            rectWidth = (Pl.Title.Length * 90)
+        End If
+        If testInfo > testTitle And testInfo > testSubText Then
+            rectWidth = (Pl.Info.Length * 60)
+        End If
+        If testSubText > testTitle And testSubText > testInfo Then
+            rectWidth = (Pl.SubText.Length * 40)
+        End If
+
+        Dim rectCenter As Integer = 1000 - Math.Floor(rectWidth / 2)
+        Dim rect As New Rectangle(rectCenter, 28, rectWidth, 250)
+        '        Dim rect As New Rectangle(600, 28, 775, 250)
+
         g.FillRectangle(New SolidBrush(Color.FromArgb(127, 0, 0, 0)), rect)
-        g.DrawString(Pl.Title, New Font("Arial", 90), greenBrush1, 800, 30)
-        g.DrawString(Pl.Info, New Font("Consolas", 60), greenBrush1, 710, 130)
-        g.DrawString(Pl.SubText, New Font("Consolas", 40), greenBrush1, 710, 220)
+        g.DrawString(Pl.Title, New Font("Arial", 90), greenBrush1, 1000, 30, sf)
+        g.DrawString(Pl.Info, New Font("Consolas", 60), greenBrush1, 1000, 130, sf)
+        g.DrawString(Pl.SubText, New Font("Consolas", 40), greenBrush1, 1000, 220, sf)
 
     End Sub
     Public Sub drawGrid(ByVal g As Graphics)
@@ -1703,15 +1730,13 @@ Public Class Main
         Dim soldest As Graphics = Graphics.FromImage(solscaled)
         soldest.DrawImage(sol, 0, 0, solscaled.Width + 1, solscaled.Height + 1)
 
-        If chkTimeToKill.Checked Then
-            ' Pl.ImageGraphic.Clear(Color.Black)
-            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
+        If chkTimeToKill.Checked Then   'Draw the Scale Target if the option is checked.
+            Pl.ImageGraphic.Clear(Color.FromArgb(0, 0, 0, 0))
             Pl.ImageGraphic.DrawImage(solscaled, sil_centerX, sil_centerY)
         Else
-            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
-            'Pl.ImageGraphic.Clear(Color.Black)
+            Pl.ImageGraphic.Clear(Color.FromArgb(0, 0, 0, 0))
         End If
-        If chkBars.Checked Then
+        If chkBars.Checked Then 'Draw bars first if option is checked
             drawBars(Pl.ImageGraphic)
         End If
         Dim scale = Val(Pl.Scale)
