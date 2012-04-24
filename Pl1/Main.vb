@@ -1731,10 +1731,10 @@ Public Class Main
         soldest.DrawImage(sol, 0, 0, solscaled.Width + 1, solscaled.Height + 1)
 
         If chkTimeToKill.Checked Then   'Draw the Scale Target if the option is checked.
-            Pl.ImageGraphic.Clear(Color.FromArgb(0, 0, 0, 0))
+            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
             Pl.ImageGraphic.DrawImage(solscaled, sil_centerX, sil_centerY)
         Else
-            Pl.ImageGraphic.Clear(Color.FromArgb(0, 0, 0, 0))
+            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
         End If
         If chkBars.Checked Then 'Draw bars first if option is checked
             drawBars(Pl.ImageGraphic)
