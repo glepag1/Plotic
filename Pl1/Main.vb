@@ -1230,10 +1230,10 @@ Public Class Main
 
         Pl.BulletDrop = Math.Abs(Double.Parse(getbulletdata(projectileHash, "Gravity"), System.Globalization.CultureInfo.InvariantCulture))
 
-        Pl.DamageMax = getbulletdata(projectileHash, "StartDamage")
-        Pl.DamageMin = getbulletdata(projectileHash, "EndDamage")
-        Pl.RangeMax = getbulletdata(projectileHash, "DamageFalloffEndDistance")
-        Pl.RangeMin = getbulletdata(projectileHash, "DamageFalloffStartDistance")
+        Pl.DamageMax = Double.Parse(getbulletdata(projectileHash, "StartDamage"), System.Globalization.CultureInfo.InvariantCulture)
+        Pl.DamageMin = Double.Parse(getbulletdata(projectileHash, "EndDamage"), System.Globalization.CultureInfo.InvariantCulture)
+        Pl.RangeMax = Double.Parse(getbulletdata(projectileHash, "DamageFalloffEndDistance"), System.Globalization.CultureInfo.InvariantCulture)
+        Pl.RangeMin = Double.Parse(getbulletdata(projectileHash, "DamageFalloffStartDistance"), System.Globalization.CultureInfo.InvariantCulture)
 
         Pl.BulletVelocity = GetSpeed(Pl.Gun)
         Pl.MaxDistance = Pl.BulletVelocity * timeToLive
