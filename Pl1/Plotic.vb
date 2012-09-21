@@ -18,7 +18,9 @@
     Private dblRecoilUp As Double
     Private dblRecoilRight As Double
     Private dblRecoilLeft As Double
-    Private dblRecoilDecrease As Double
+
+    'Dropping recoil decrease
+    'Private dblRecoilDecrease As Double
     Private dblSpreadMin As Double
     Private dblSpreadInc As Double
     Private dblAdjRecoilH As Double
@@ -281,14 +283,15 @@
             dblRecoilLeft = Value
         End Set
     End Property
-    Property RecoilDecrease() As Double
-        Get
-            Return dblRecoilDecrease
-        End Get
-        Set(ByVal Value As Double)
-            dblRecoilDecrease = Value
-        End Set
-    End Property
+    'Recoil decrease drop v2.23
+    ' Property RecoilDecrease() As Double
+    'Get
+    'Return dblRecoilDecrease
+    'End Get
+    'Set(ByVal Value As Double)
+    'dblRecoilDecrease = Value
+    'End Set
+    'End Property
     Property FirstShot() As Double
         Get
             Return dblFirstShot

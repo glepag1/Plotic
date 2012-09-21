@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.22"
+    Private Const VERSION As String = "Plotic v2.23"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -1051,11 +1051,12 @@ Public Class Main
                 End If
                 centerx += rndD(1000 + CDbl(dblRecoilR * scale), 1000 - Int(CDbl(dblRecoilL) * scale)) - 1000
                 spread += CDbl(dblSpreadInc) * scale
-                Try
-                    centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, RecoilDecreaseAmount, RateOfFire, scale, "x"), 0)
-                    centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, RecoilDecreaseAmount, RateOfFire, scale, "y"), 0)
-                Catch ex As Exception
-                End Try
+                'remvoing recoil decrease v2.23
+                'Try
+                'centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, RecoilDecreaseAmount, RateOfFire, scale, "x"), 0)
+                'centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, RecoilDecreaseAmount, RateOfFire, scale, "y"), 0)
+                'Catch ex As Exception
+                'End Try
 
             Next
         Next
@@ -1150,7 +1151,8 @@ Public Class Main
         Pl.RecoilLeft = Double.Parse(numRecoilLeft.Value)
         Pl.RecoilRight = Double.Parse(numRecoilRight.Value)
 
-        Pl.RecoilDecrease = Double.Parse(numRecoilDecrease.Value)
+        'dropping recoil decrease v2.23
+        'Pl.RecoilDecrease = Double.Parse(numRecoilDecrease.Value)
 
         Pl.SpreadInc = Double.Parse(numSpreadInc.Value)
         Pl.SpreadMin = Double.Parse(numSpreadMin.Value)
@@ -1191,7 +1193,9 @@ Public Class Main
         Pl.RecoilUp = Double.Parse(GetValue(Pl.Gun, "RecoilAmplitudeIncPerShot", getStance()), System.Globalization.CultureInfo.InvariantCulture)
         Pl.RecoilLeft = Double.Parse(GetValue(Pl.Gun, "HorizontalRecoilAmplitudeIncPerShotMax", getStance()), System.Globalization.CultureInfo.InvariantCulture)
         Pl.RecoilRight = Math.Abs(Double.Parse(GetValue(Pl.Gun, "HorizontalRecoilAmplitudeIncPerShotMin", getStance()), System.Globalization.CultureInfo.InvariantCulture))
-        Pl.RecoilDecrease = Double.Parse(GetValue(Pl.Gun, "RecoilAmplitudeDecreaseFactor", getStance()), System.Globalization.CultureInfo.InvariantCulture)
+
+        'Removing Decrease Calculations v2.23
+        'Pl.RecoilDecrease = Double.Parse(GetValue(Pl.Gun, "RecoilAmplitudeDecreaseFactor", getStance()), System.Globalization.CultureInfo.InvariantCulture)
 
         Pl.SpreadInc = Double.Parse(GetValue(Pl.Gun, "IncreasePerShot", getStance()), System.Globalization.CultureInfo.InvariantCulture)
         Pl.SpreadMin = Double.Parse(getMinAngle())
@@ -1697,7 +1701,9 @@ Public Class Main
         Dim dblSpreadMin As Double = calculateAdjustment(Pl.SpreadMin, Pl.AdjSpreadMin)
         Dim dblSpreadInc As Double = calculateAdjustment(Pl.SpreadInc, Pl.AdjSpreadInc)
 
-        Dim dblRecoilDeceasePerSecond As Double = Double.Parse(Pl.RecoilDecrease, System.Globalization.CultureInfo.InvariantCulture)
+        'Removing recoil Decrease calculations v2.23
+        'Dim dblRecoilDeceasePerSecond As Double = Double.Parse(Pl.RecoilDecrease, System.Globalization.CultureInfo.InvariantCulture)
+
         Dim solMask As Bitmap = New Bitmap(My.Resources.sil_mask_fullsize)
 
         Dim silhouetteHeight As Integer = Math.Round((Math.Atan(1.85 / Pl.TargetRange) * (180 / Math.PI)) * Pl.Scale, 0)
@@ -1852,9 +1858,9 @@ Public Class Main
                 'Calculate the new spread value
                 spread += CDbl(dblSpreadInc) * scale
                 Try
-                    'Calculate the recoil decrease
-                    centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "x"), 0)
-                    centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "y"), 0)
+                    'Calculate the recoil decrease v2.23
+                    'centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "x"), 0)
+                    'centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "y"), 0)
                 Catch
 
                 End Try
@@ -2787,27 +2793,28 @@ ByVal DefaultValue As String) As String
         End If
     End Sub
 
-    Public Function RecoilDecrease(ByVal StartX As Integer, ByVal StartY As Integer, ByVal ShootX As Integer, ByVal ShootY As Integer, ByVal DecPerSec As Double, ByVal RoF As Integer, ByVal PxPerDegScale As Integer, ByVal YorX As String)
-        Dim diffX, diffY As Integer
+    'removing recoil decrease calculations v2.23
+    'Public Function RecoilDecrease(ByVal StartX As Integer, ByVal StartY As Integer, ByVal ShootX As Integer, ByVal ShootY As Integer, ByVal DecPerSec As Double, ByVal RoF As Integer, ByVal PxPerDegScale As Integer, ByVal YorX As String)
+    'Dim diffX, diffY As Integer
 
-        diffX = Math.Abs(StartX - ShootX)
-        diffY = Math.Abs(StartY - ShootY)
-        Dim hypotenuseBig = Math.Sqrt(diffY ^ 2 + diffX ^ 2)
-        Dim hypotenuseSmall = PxPerDegScale * (DecPerSec / 10) / (RoF / 60)
-        Dim sideScaleRatio = diffY / hypotenuseBig
-        Dim bottomScaleRatio = diffX / hypotenuseBig
-        Dim diffXSmall = bottomScaleRatio * hypotenuseSmall
-        Dim diffYSmall = sideScaleRatio * hypotenuseSmall
-        If YorX = "Y" Or YorX = "y" Then
-            If diffYSmall > Math.Abs(ShootY - StartY) Then Return StartY Else 
-            Return Math.Round(diffYSmall + ShootY, 0)
-        Else
-            If diffXSmall > Math.Abs(StartX - ShootX) Then Return StartX Else 
-            If StartX > ShootX Then Return Math.Round(ShootX + diffXSmall, 0) Else Return Math.Round(ShootX - diffXSmall, 0)
-            Exit Function
-        End If
-        Return 0
-    End Function
+    'diffX = Math.Abs(StartX - ShootX)
+    'diffY = Math.Abs(StartY - ShootY)
+    'Dim hypotenuseBig = Math.Sqrt(diffY ^ 2 + diffX ^ 2)
+    'Dim hypotenuseSmall = PxPerDegScale * (DecPerSec / 10) / (RoF / 60)
+    'Dim sideScaleRatio = diffY / hypotenuseBig
+    'Dim bottomScaleRatio = diffX / hypotenuseBig
+    'Dim diffXSmall = bottomScaleRatio * hypotenuseSmall
+    'Dim diffYSmall = sideScaleRatio * hypotenuseSmall
+    'If YorX = "Y" Or YorX = "y" Then
+    'If diffYSmall > Math.Abs(ShootY - StartY) Then Return StartY Else 
+    'Return Math.Round(diffYSmall + ShootY, 0)
+    'Else
+    'If diffXSmall > Math.Abs(StartX - ShootX) Then Return StartX Else 
+    'If StartX > ShootX Then Return Math.Round(ShootX + diffXSmall, 0) Else Return Math.Round(ShootX - diffXSmall, 0)
+    'Exit Function
+    'End If
+    'Return 0
+    'End Function
 
     Private Sub LinkLabel1_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         frmAbout.Show()
