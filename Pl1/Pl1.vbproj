@@ -192,6 +192,7 @@
     <None Include="Resources\bullet_tracer.png" />
     <None Include="Resources\bullet_white.png" />
     <None Include="Resources\clip.png" />
+    <None Include="Resources\knife.bmp" />
     <Content Include="Silent_install_INI_help.txt" />
   </ItemGroup>
   <ItemGroup>
