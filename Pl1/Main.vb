@@ -100,6 +100,16 @@ Public Class Main
             Debug.WriteLine("NOT FOUND: " & silentIniTemplatePath)
             CreateTemplateIni()
         End If
+
+        'Check for Gun Proper file, if it isn't found, create it.
+        Dim gunProperPath As String = Path.Combine(Directory.GetCurrentDirectory, "gun_proper.ini")
+        If File.Exists(gunProperPath) Then
+            Debug.WriteLine("FOUND: " & gunProperPath)
+        Else
+            Debug.WriteLine("NOT FOUND: " & gunProperPath)
+            CreateGunProper()
+        End If
+
         picPlot.Image = New Bitmap(My.Resources.knife)
         picPlot.SizeMode = PictureBoxSizeMode.Zoom
         comboWeapon1.Items.Add("<<CUSTOM>>")
@@ -2157,6 +2167,102 @@ Public Class Main
 
     Private Sub ToolStripStatusLabel2_Click(sender As System.Object, e As System.EventArgs) Handles ToolStripStatusLabel2.Click
         System.Diagnostics.Process.Start("http://symthic.com")
+    End Sub
+
+    Private Sub CreateGunProper()
+        ' Dim sValue As String
+        Dim spath As String = Path.Combine(Directory.GetCurrentDirectory, "gun_proper.ini")
+
+        'Close Quarters Gun Names
+        INIWrite(spath, "ProperName", "ACR", "ACW-R (CQ)")
+        INIWrite(spath, "ProperName", "JNG90", "JNG-90 (CQ)")
+        INIWrite(spath, "ProperName", "L86", "L86A2 (CQ)")
+        INIWrite(spath, "ProperName", "LSAT", "LSAT (CQ)")
+        INIWrite(spath, "ProperName", "HK417", "M417 (CQ)")
+        INIWrite(spath, "ProperName", "MP5K", "MK5 (CQ)")
+        INIWrite(spath, "ProperName", "MTAR", "MTAR-21 (CQ)")
+        INIWrite(spath, "ProperName", "SCAR-L", "SCAR-L (CQ)")
+        INIWrite(spath, "ProperName", "SteyrAug", "AUG A3 (CQ)")
+        'Back to Karkland Gun Names
+        INIWrite(spath, "ProperName", "famas", "FAMAS (B2K)")
+        INIWrite(spath, "ProperName", "hk53", "G53 (B2K)")
+        INIWrite(spath, "ProperName", "MG36", "MG36 (B2K)")
+        INIWrite(spath, "ProperName", "PP-19", "PP-19 (B2K)")
+        INIWrite(spath, "ProperName", "QBB-95", "QBB-95 (B2K)")
+        INIWrite(spath, "ProperName", "QBU-88", "QBU-88 (B2K)")
+        INIWrite(spath, "ProperName", "QBZ-95B", "QBZ-95B (B2K)")
+        'Stock Gun Names
+        INIWrite(spath, "ProperName", "A91", "A-91")
+        INIWrite(spath, "ProperName", "aek971", "AEK-971")
+        INIWrite(spath, "ProperName", "AK74M", "AK-74M")
+        INIWrite(spath, "ProperName", "AKS74u", "AKS-74u")
+        INIWrite(spath, "ProperName", "AN94", "AN-94")
+        INIWrite(spath, "ProperName", "ASVal", "AS Val")
+        INIWrite(spath, "ProperName", "F2000", "F2000")
+        INIWrite(spath, "ProperName", "G3A3", "G3A3")
+        INIWrite(spath, "ProperName", "G36C", "G36C")
+        INIWrite(spath, "ProperName", "Glock17", "G17C")
+        INIWrite(spath, "ProperName", "Glock18", "G18")
+        INIWrite(spath, "ProperName", "kh2002", "KH2002")
+        INIWrite(spath, "ProperName", "L85A2", "L85A2")
+        INIWrite(spath, "ProperName", "L96", "L96")
+        INIWrite(spath, "ProperName", "M4A1", "M4A1")
+        INIWrite(spath, "ProperName", "M9", "M9")
+        INIWrite(spath, "ProperName", "M16A4", "M16A3")
+        INIWrite(spath, "ProperName", "M27IAR", "M27 IAR")
+        INIWrite(spath, "ProperName", "M39EBR", "M39 EMR")
+        INIWrite(spath, "ProperName", "M40A5", "M40A5")
+        INIWrite(spath, "ProperName", "m60", "M60A4")
+        INIWrite(spath, "ProperName", "m93r", "93R")
+        INIWrite(spath, "ProperName", "M98B", "M98B")
+        INIWrite(spath, "ProperName", "M240", "M240B")
+        INIWrite(spath, "ProperName", "M249", "M249")
+        INIWrite(spath, "ProperName", "M416", "M416")
+        INIWrite(spath, "ProperName", "M1911", "M1911")
+        INIWrite(spath, "ProperName", "MagpulPDR", "PDW-R")
+        INIWrite(spath, "ProperName", "MK11", "MK11 Mod 0")
+        INIWrite(spath, "ProperName", "MP7", "MP7")
+        INIWrite(spath, "ProperName", "mp412rex", "MP412 REX")
+        INIWrite(spath, "ProperName", "MP443", "MP443")
+        INIWrite(spath, "ProperName", "P90", "P90")
+        INIWrite(spath, "ProperName", "Pecheneg", "PKP PECHENEG")
+        INIWrite(spath, "ProperName", "PP2000", "PP-2000")
+        INIWrite(spath, "ProperName", "rpk", "RPK-74M")
+        INIWrite(spath, "ProperName", "SCAR-H", "SCAR-H")
+        INIWrite(spath, "ProperName", "SG553LB", "SG553")
+        INIWrite(spath, "ProperName", "sks", "SKS")
+        INIWrite(spath, "ProperName", "SV98", "SV98")
+        INIWrite(spath, "ProperName", "SVD", "SVD")
+        INIWrite(spath, "ProperName", "Taurus44", ".44 MAGNUM")
+        INIWrite(spath, "ProperName", "Type88", "TYPE 88 LMG")
+        INIWrite(spath, "ProperName", "UMP45", "UMP-45")
+
+        'sValue = INIRead(sPath, "section2", "key2-1", "Unknown") ' specify all
+        'MessageBox.Show(sValue, "section2/key2-1/unknown", MessageBoxButtons.OK)
+
+        'sValue = INIRead(sPath, "section2", "XYZ", "Unknown") ' specify all
+        'MessageBox.Show(sValue, "section2/xyz/unknown", MessageBoxButtons.OK)
+
+        'sValue = INIRead(sPath, "section2", "XYZ") ' use zero-length string as default
+        'MessageBox.Show(sValue, "section2/XYZ", MessageBoxButtons.OK)
+
+        'sValue = INIRead(sPath, "section1") ' get all keys in section
+        'sValue = sValue.Replace(ControlChars.NullChar, "|"c) ' change embedded NULLs to pipe chars
+        'MessageBox.Show(sValue, "section1 pre delete", MessageBoxButtons.OK)
+
+        'INIDelete(sPath, "section1", "key1-2") ' delete middle entry in section 1
+        'sValue = INIRead(sPath, "section1") ' get all keys in section again
+        'sValue = sValue.Replace(ControlChars.NullChar, "|"c) ' change embedded NULLs to pipe chars
+        'MessageBox.Show(sValue, "section1 post delete", MessageBoxButtons.OK)
+
+        'sValue = INIRead(sPath) ' get all section names
+        'sValue = sValue.Replace(ControlChars.NullChar, "|"c) ' change embedded NULLs to pipe chars
+        'MessageBox.Show(sValue, "All sections pre delete", MessageBoxButtons.OK)
+
+        'INIDelete(sPath, "section1") ' delete section
+        'sValue = INIRead(spath) ' get all section names
+        'sValue = sValue.Replace(ControlChars.NullChar, "|"c) ' change embedded NULLs to pipe chars
+        'MessageBox.Show(sValue, "All sections post delete", MessageBoxButtons.OK)
     End Sub
 
     Private Sub CreateTemplateIni()
