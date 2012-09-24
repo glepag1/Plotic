@@ -228,14 +228,14 @@ Partial Class Main
         Me.radUnderBipod = New System.Windows.Forms.RadioButton()
         Me.radUnderForegrip = New System.Windows.Forms.RadioButton()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
+        Me.NumericUpDown5 = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
         Me.picPlot = New System.Windows.Forms.PictureBox()
         Me.viewToolStrip = New System.Windows.Forms.ToolStripDropDownButton()
         Me.ViewMainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewHeatMapToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NumericUpDown5 = New System.Windows.Forms.NumericUpDown()
-        Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -298,9 +298,9 @@ Partial Class Main
         Me.contextImgRightClick.SuspendLayout()
         Me.grpBarrel.SuspendLayout()
         Me.grpUnderBarrel.SuspendLayout()
-        CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'grpStance
@@ -485,6 +485,7 @@ Partial Class Main
         Me.comboWeapon1.Location = New System.Drawing.Point(8, 21)
         Me.comboWeapon1.Name = "comboWeapon1"
         Me.comboWeapon1.Size = New System.Drawing.Size(205, 21)
+        Me.comboWeapon1.Sorted = True
         Me.comboWeapon1.TabIndex = 0
         Me.comboWeapon1.Text = "(Select Gun)"
         '
@@ -2793,6 +2794,32 @@ Partial Class Main
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "."
         '
+        'NumericUpDown5
+        '
+        Me.NumericUpDown5.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.NumericUpDown5.DecimalPlaces = 2
+        Me.NumericUpDown5.ForeColor = System.Drawing.Color.White
+        Me.NumericUpDown5.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown5.Location = New System.Drawing.Point(37, 16)
+        Me.NumericUpDown5.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.NumericUpDown5.Name = "NumericUpDown5"
+        Me.NumericUpDown5.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.NumericUpDown5.Size = New System.Drawing.Size(48, 20)
+        Me.NumericUpDown5.TabIndex = 43
+        '
+        'NumericUpDown2
+        '
+        Me.NumericUpDown2.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.NumericUpDown2.DecimalPlaces = 2
+        Me.NumericUpDown2.ForeColor = System.Drawing.Color.White
+        Me.NumericUpDown2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown2.Location = New System.Drawing.Point(70, 43)
+        Me.NumericUpDown2.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.NumericUpDown2.Name = "NumericUpDown2"
+        Me.NumericUpDown2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.NumericUpDown2.Size = New System.Drawing.Size(48, 20)
+        Me.NumericUpDown2.TabIndex = 44
+        '
         'picPlot
         '
         Me.picPlot.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
@@ -2843,32 +2870,6 @@ Partial Class Main
         Me.ViewTTKToolStripMenuItem.Name = "ViewTTKToolStripMenuItem"
         Me.ViewTTKToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.ViewTTKToolStripMenuItem.Text = "View: TTK"
-        '
-        'NumericUpDown5
-        '
-        Me.NumericUpDown5.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.NumericUpDown5.DecimalPlaces = 2
-        Me.NumericUpDown5.ForeColor = System.Drawing.Color.White
-        Me.NumericUpDown5.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown5.Location = New System.Drawing.Point(37, 16)
-        Me.NumericUpDown5.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.NumericUpDown5.Name = "NumericUpDown5"
-        Me.NumericUpDown5.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.NumericUpDown5.Size = New System.Drawing.Size(48, 20)
-        Me.NumericUpDown5.TabIndex = 43
-        '
-        'NumericUpDown2
-        '
-        Me.NumericUpDown2.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.NumericUpDown2.DecimalPlaces = 2
-        Me.NumericUpDown2.ForeColor = System.Drawing.Color.White
-        Me.NumericUpDown2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown2.Location = New System.Drawing.Point(70, 43)
-        Me.NumericUpDown2.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.NumericUpDown2.Name = "NumericUpDown2"
-        Me.NumericUpDown2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.NumericUpDown2.Size = New System.Drawing.Size(48, 20)
-        Me.NumericUpDown2.TabIndex = 44
         '
         'Main
         '
@@ -2979,9 +2980,9 @@ Partial Class Main
         Me.grpBarrel.PerformLayout()
         Me.grpUnderBarrel.ResumeLayout(False)
         Me.grpUnderBarrel.PerformLayout()
-        CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
