@@ -74,6 +74,7 @@ Public Class Main
         'first shot
         'Dim test0 = GetAttachmentValue("G3A3", "TargetPointer", "MinAngleModifier", "StandZoom")
         'Check for a Palette file in the same directory, use if found, otherwise use internal resource
+
         Dim palettePath As String = Path.Combine(Directory.GetCurrentDirectory, "pal.png")
         If File.Exists(palettePath) Then
             paletteOverride = True
@@ -1581,7 +1582,7 @@ Public Class Main
                 CheckToolStripTTK_ThreadSafe(CheckState.Unchecked)
                 SetImage_ThreadSafe(Pl.Image)
                 MainToolStripMenuItem.Checked = True
-                MaskToolStripMenuItem.Checked = False
+                'MaskToolStripMenuItem.Checked = False
                 HeatMapToolStripMenuItem.Checked = False
                 TTKToolStripMenuItem.Checked = False
             Case "heat"
@@ -1593,7 +1594,7 @@ Public Class Main
                 CheckToolStripTTK_ThreadSafe(CheckState.Unchecked)
                 SetImage_ThreadSafe(Pl.HeatMap)
                 MainToolStripMenuItem.Checked = False
-                MaskToolStripMenuItem.Checked = False
+                'MaskToolStripMenuItem.Checked = False
                 HeatMapToolStripMenuItem.Checked = True
                 TTKToolStripMenuItem.Checked = False
             Case "mask"
@@ -1605,7 +1606,7 @@ Public Class Main
                 CheckToolStripHeatMap_ThreadSafe(CheckState.Unchecked)
                 SetImage_ThreadSafe(Pl.Mask)
                 MainToolStripMenuItem.Checked = False
-                MaskToolStripMenuItem.Checked = True
+                'MaskToolStripMenuItem.Checked = True
                 HeatMapToolStripMenuItem.Checked = False
                 TTKToolStripMenuItem.Checked = False
 
@@ -1618,7 +1619,7 @@ Public Class Main
                 CheckToolStripHeatMap_ThreadSafe(CheckState.Unchecked)
                 SetImage_ThreadSafe(Pl.TTK)
                 MainToolStripMenuItem.Checked = False
-                MaskToolStripMenuItem.Checked = False
+                'MaskToolStripMenuItem.Checked = False
                 HeatMapToolStripMenuItem.Checked = False
                 TTKToolStripMenuItem.Checked = True
             Case Else
@@ -1630,7 +1631,7 @@ Public Class Main
                 CheckToolStripTTK_ThreadSafe(CheckState.Unchecked)
                 SetImage_ThreadSafe(Pl.Image)
                 MainToolStripMenuItem.Checked = True
-                MaskToolStripMenuItem.Checked = False
+                'MaskToolStripMenuItem.Checked = False
                 HeatMapToolStripMenuItem.Checked = False
                 TTKToolStripMenuItem.Checked = False
 
@@ -1930,6 +1931,15 @@ Public Class Main
             Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
             ' Colorize the memory bitmap and assign it as the picture boxes image
             Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
+            If chkRenderHeatTitle.Checked Then
+                drawTitle(Pl.HeatGraphic)
+            End If
+            If chkRenderHeatBars.Checked Then
+                drawBars(Pl.HeatGraphic)
+            End If
+            If chkRenderHeatAdjust.Checked Then
+                drawAdjustments(Pl.HeatGraphic)
+            End If
         End If
         If chkTitles.Checked Then
             drawTitle(Pl.ImageGraphic)
@@ -1949,6 +1959,7 @@ Public Class Main
         If chkDrawGrid.Checked Then
             drawGrid(Pl.ImageGraphic)
         End If
+
         If chkRenderHeatBars.Checked Then
             drawBars(Pl.HeatGraphic)
         End If
@@ -1958,6 +1969,7 @@ Public Class Main
         If chkRenderHeatTitle.Checked Then
             drawTitle(Pl.HeatGraphic)
         End If
+
         drawTTKSplit(Pl.TTKGraphic)
         If chkDrawTTKGrid.Checked Then
             drawTTKGrid(Pl.TTKGraphic)
@@ -2009,7 +2021,7 @@ Public Class Main
 
         Me.ZoomToolStripMenuItem.Enabled = True
         Me.TTKToolStripMenuItem.Enabled = True
-        Me.MaskToolStripMenuItem.Enabled = True
+        'Me.MaskToolStripMenuItem.Enabled = True
 
     End Sub
 
@@ -2397,6 +2409,8 @@ Public Class Main
         For Each DataPoint As HeatPoint In aHeatPoints
             ' Render current heat point on draw surface
             DrawHeatPoint(DrawSurface, DataPoint, numHeatRadius.Value)
+            'iCaller = 0 Called from the async worker
+            'iCaller = 1 Called from the preview
             If iCaller = 0 Then
                 BackgroundWorker1.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
             Else
@@ -2598,7 +2612,7 @@ ByVal DefaultValue As String) As String
     Private Sub MainToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles MainToolStripMenuItem.Click
         selectView("main")
     End Sub
-    Private Sub MaskToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles MaskToolStripMenuItem.Click
+    Private Sub MaskToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs)
         selectView("mask")
     End Sub
     Private Sub HeatMapToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles HeatMapToolStripMenuItem.Click
@@ -3063,7 +3077,15 @@ ByVal DefaultValue As String) As String
     End Sub
 
     Private Sub chkHeatMap_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHeatMap.CheckedChanged
-
+        If sender.checked Then
+            chkRenderHeatAdjust.Enabled = True
+            chkRenderHeatBars.Enabled = True
+            chkRenderHeatTitle.Enabled = True
+        Else
+            chkRenderHeatAdjust.Enabled = False
+            chkRenderHeatBars.Enabled = False
+            chkRenderHeatTitle.Enabled = False
+        End If
     End Sub
     Private Sub drawSamplePoints()
         Dim bSampleMap As Bitmap = New Bitmap(400, 400)
@@ -3100,7 +3122,7 @@ ByVal DefaultValue As String) As String
         HeatPoints.Clear()
     End Sub
 
-    Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
+    Private Sub btnRenderHeatPreview_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderHeatPreview.Click
         drawSamplePoints()
     End Sub
 

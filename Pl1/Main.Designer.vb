@@ -97,6 +97,8 @@ Partial Class Main
         Me.txtSub = New System.Windows.Forms.TextBox()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.tabSaveOptions = New System.Windows.Forms.TabPage()
+        Me.chkRenderAllAttach = New System.Windows.Forms.CheckBox()
+        Me.btnRenderAll = New System.Windows.Forms.Button()
         Me.chkSaveTTKChart = New System.Windows.Forms.CheckBox()
         Me.chkSaveHeatMap = New System.Windows.Forms.CheckBox()
         Me.Label32 = New System.Windows.Forms.Label()
@@ -108,6 +110,8 @@ Partial Class Main
         Me.chkSaveImage = New System.Windows.Forms.CheckBox()
         Me.btnSaveImage = New System.Windows.Forms.Button()
         Me.tabHeatMap = New System.Windows.Forms.TabPage()
+        Me.btnRenderHeatPreview = New System.Windows.Forms.Button()
+        Me.picHeatPointSample = New System.Windows.Forms.PictureBox()
         Me.Label58 = New System.Windows.Forms.Label()
         Me.chkRenderHeatBars = New System.Windows.Forms.CheckBox()
         Me.chkRenderHeatTitle = New System.Windows.Forms.CheckBox()
@@ -209,7 +213,6 @@ Partial Class Main
         Me.Label27 = New System.Windows.Forms.Label()
         Me.contextImgRightClick = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HeatMapToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -236,10 +239,6 @@ Partial Class Main
         Me.ViewHeatMapToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.btnRenderAll = New System.Windows.Forms.Button()
-        Me.chkRenderAllAttach = New System.Windows.Forms.CheckBox()
-        Me.picHeatPointSample = New System.Windows.Forms.PictureBox()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -258,6 +257,7 @@ Partial Class Main
         Me.GroupBox1.SuspendLayout()
         Me.tabSaveOptions.SuspendLayout()
         Me.tabHeatMap.SuspendLayout()
+        CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numIntensityScale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numHeatRadius, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabAdvanced.SuspendLayout()
@@ -305,7 +305,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'grpStance
@@ -1198,6 +1197,31 @@ Partial Class Main
         Me.tabSaveOptions.TabIndex = 2
         Me.tabSaveOptions.Text = "Save"
         '
+        'chkRenderAllAttach
+        '
+        Me.chkRenderAllAttach.AutoSize = True
+        Me.chkRenderAllAttach.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.chkRenderAllAttach.ForeColor = System.Drawing.Color.White
+        Me.chkRenderAllAttach.Location = New System.Drawing.Point(267, 158)
+        Me.chkRenderAllAttach.Name = "chkRenderAllAttach"
+        Me.chkRenderAllAttach.Size = New System.Drawing.Size(85, 17)
+        Me.chkRenderAllAttach.TabIndex = 54
+        Me.chkRenderAllAttach.Text = "Attachments"
+        Me.chkRenderAllAttach.UseVisualStyleBackColor = False
+        '
+        'btnRenderAll
+        '
+        Me.btnRenderAll.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.btnRenderAll.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnRenderAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRenderAll.ForeColor = System.Drawing.Color.Gold
+        Me.btnRenderAll.Location = New System.Drawing.Point(231, 129)
+        Me.btnRenderAll.Name = "btnRenderAll"
+        Me.btnRenderAll.Size = New System.Drawing.Size(121, 23)
+        Me.btnRenderAll.TabIndex = 53
+        Me.btnRenderAll.Text = "Render All Weapons"
+        Me.btnRenderAll.UseVisualStyleBackColor = False
+        '
         'chkSaveTTKChart
         '
         Me.chkSaveTTKChart.AutoSize = True
@@ -1321,7 +1345,7 @@ Partial Class Main
         'tabHeatMap
         '
         Me.tabHeatMap.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.tabHeatMap.Controls.Add(Me.Button1)
+        Me.tabHeatMap.Controls.Add(Me.btnRenderHeatPreview)
         Me.tabHeatMap.Controls.Add(Me.picHeatPointSample)
         Me.tabHeatMap.Controls.Add(Me.Label58)
         Me.tabHeatMap.Controls.Add(Me.chkRenderHeatBars)
@@ -1338,6 +1362,30 @@ Partial Class Main
         Me.tabHeatMap.Size = New System.Drawing.Size(362, 185)
         Me.tabHeatMap.TabIndex = 3
         Me.tabHeatMap.Text = "Heat Map"
+        '
+        'btnRenderHeatPreview
+        '
+        Me.btnRenderHeatPreview.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.btnRenderHeatPreview.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnRenderHeatPreview.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRenderHeatPreview.ForeColor = System.Drawing.Color.YellowGreen
+        Me.btnRenderHeatPreview.Location = New System.Drawing.Point(149, 114)
+        Me.btnRenderHeatPreview.Name = "btnRenderHeatPreview"
+        Me.btnRenderHeatPreview.Size = New System.Drawing.Size(100, 25)
+        Me.btnRenderHeatPreview.TabIndex = 76
+        Me.btnRenderHeatPreview.Text = "Preview"
+        Me.btnRenderHeatPreview.UseVisualStyleBackColor = False
+        '
+        'picHeatPointSample
+        '
+        Me.picHeatPointSample.BackColor = System.Drawing.Color.Black
+        Me.picHeatPointSample.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.picHeatPointSample.Location = New System.Drawing.Point(149, 8)
+        Me.picHeatPointSample.Name = "picHeatPointSample"
+        Me.picHeatPointSample.Size = New System.Drawing.Size(100, 100)
+        Me.picHeatPointSample.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.picHeatPointSample.TabIndex = 75
+        Me.picHeatPointSample.TabStop = False
         '
         'Label58
         '
@@ -2611,50 +2659,43 @@ Partial Class Main
         '
         'contextImgRightClick
         '
-        Me.contextImgRightClick.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainToolStripMenuItem, Me.MaskToolStripMenuItem, Me.HeatMapToolStripMenuItem, Me.TTKToolStripMenuItem, Me.ToolStripSeparator1, Me.ZoomToolStripMenuItem})
+        Me.contextImgRightClick.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainToolStripMenuItem, Me.HeatMapToolStripMenuItem, Me.TTKToolStripMenuItem, Me.ToolStripSeparator1, Me.ZoomToolStripMenuItem})
         Me.contextImgRightClick.Name = "contextImgRightClick"
-        Me.contextImgRightClick.Size = New System.Drawing.Size(127, 120)
+        Me.contextImgRightClick.Size = New System.Drawing.Size(153, 120)
         '
         'MainToolStripMenuItem
         '
         Me.MainToolStripMenuItem.Checked = True
         Me.MainToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.MainToolStripMenuItem.Name = "MainToolStripMenuItem"
-        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.MainToolStripMenuItem.Text = "&Main"
-        '
-        'MaskToolStripMenuItem
-        '
-        Me.MaskToolStripMenuItem.Enabled = False
-        Me.MaskToolStripMenuItem.Name = "MaskToolStripMenuItem"
-        Me.MaskToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
-        Me.MaskToolStripMenuItem.Text = "Mas&k"
         '
         'HeatMapToolStripMenuItem
         '
         Me.HeatMapToolStripMenuItem.Enabled = False
         Me.HeatMapToolStripMenuItem.Name = "HeatMapToolStripMenuItem"
-        Me.HeatMapToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.HeatMapToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.HeatMapToolStripMenuItem.Text = "&Heat Map"
         '
         'TTKToolStripMenuItem
         '
         Me.TTKToolStripMenuItem.Enabled = False
         Me.TTKToolStripMenuItem.Name = "TTKToolStripMenuItem"
-        Me.TTKToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.TTKToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.TTKToolStripMenuItem.Text = "&TTK"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(123, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
         '
         'ZoomToolStripMenuItem
         '
         Me.ZoomToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.X500ToolStripMenuItem, Me.X1000ToolStripMenuItem, Me.X1000ToolStripMenuItem1})
         Me.ZoomToolStripMenuItem.Enabled = False
         Me.ZoomToolStripMenuItem.Name = "ZoomToolStripMenuItem"
-        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
+        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ZoomToolStripMenuItem.Text = "&Zoom"
         '
         'X500ToolStripMenuItem
@@ -2881,55 +2922,6 @@ Partial Class Main
         Me.ViewTTKToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.ViewTTKToolStripMenuItem.Text = "View: TTK"
         '
-        'btnRenderAll
-        '
-        Me.btnRenderAll.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.btnRenderAll.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnRenderAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnRenderAll.ForeColor = System.Drawing.Color.Gold
-        Me.btnRenderAll.Location = New System.Drawing.Point(231, 129)
-        Me.btnRenderAll.Name = "btnRenderAll"
-        Me.btnRenderAll.Size = New System.Drawing.Size(121, 23)
-        Me.btnRenderAll.TabIndex = 53
-        Me.btnRenderAll.Text = "Render All Weapons"
-        Me.btnRenderAll.UseVisualStyleBackColor = False
-        '
-        'chkRenderAllAttach
-        '
-        Me.chkRenderAllAttach.AutoSize = True
-        Me.chkRenderAllAttach.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.chkRenderAllAttach.ForeColor = System.Drawing.Color.White
-        Me.chkRenderAllAttach.Location = New System.Drawing.Point(267, 158)
-        Me.chkRenderAllAttach.Name = "chkRenderAllAttach"
-        Me.chkRenderAllAttach.Size = New System.Drawing.Size(85, 17)
-        Me.chkRenderAllAttach.TabIndex = 54
-        Me.chkRenderAllAttach.Text = "Attachments"
-        Me.chkRenderAllAttach.UseVisualStyleBackColor = False
-        '
-        'picHeatPointSample
-        '
-        Me.picHeatPointSample.BackColor = System.Drawing.Color.Black
-        Me.picHeatPointSample.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.picHeatPointSample.Location = New System.Drawing.Point(149, 8)
-        Me.picHeatPointSample.Name = "picHeatPointSample"
-        Me.picHeatPointSample.Size = New System.Drawing.Size(100, 100)
-        Me.picHeatPointSample.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.picHeatPointSample.TabIndex = 75
-        Me.picHeatPointSample.TabStop = False
-        '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.Button1.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.ForeColor = System.Drawing.Color.YellowGreen
-        Me.Button1.Location = New System.Drawing.Point(149, 114)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(100, 25)
-        Me.Button1.TabIndex = 76
-        Me.Button1.Text = "Preview"
-        Me.Button1.UseVisualStyleBackColor = False
-        '
         'Main
         '
         Me.AcceptButton = Me.btnStart
@@ -2982,6 +2974,7 @@ Partial Class Main
         Me.tabSaveOptions.PerformLayout()
         Me.tabHeatMap.ResumeLayout(False)
         Me.tabHeatMap.PerformLayout()
+        CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numIntensityScale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numHeatRadius, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabAdvanced.ResumeLayout(False)
@@ -3042,7 +3035,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3126,7 +3118,6 @@ Partial Class Main
     Friend WithEvents chkSaveHeatMap As System.Windows.Forms.CheckBox
     Friend WithEvents contextImgRightClick As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents MainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MaskToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HeatMapToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TTKToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
@@ -3262,5 +3253,5 @@ Partial Class Main
     Friend WithEvents chkRenderAllAttach As System.Windows.Forms.CheckBox
     Friend WithEvents btnRenderAll As System.Windows.Forms.Button
     Friend WithEvents picHeatPointSample As System.Windows.Forms.PictureBox
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents btnRenderHeatPreview As System.Windows.Forms.Button
 End Class
