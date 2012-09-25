@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.3"
+    Private Const VERSION As String = "Plotic v2.31"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -1140,7 +1140,7 @@ Public Class Main
         Me.grpStance.Enabled = False
         Me.viewToolStrip.Enabled = False
 
-        ' Enable to stop button
+        ' Enable the stop button
         btnStop.Enabled = True
 
         selectView("main")
@@ -1975,14 +1975,10 @@ Public Class Main
 
 
     End Sub
-
     Private Sub BackgroundWorker1_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles BackgroundWorker1.ProgressChanged
         Me.ToolStripProgressBar1.Value = e.ProgressPercentage
     End Sub
 
-    Private Sub buildFileName()
-        saveImageFileName = convertFileName(txtFilename.Text)
-    End Sub
     Private Sub BackgroundWorker1_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
         If e.Cancelled Then
             mainToolStripStatus.Text = "Cancelled"
@@ -2016,6 +2012,11 @@ Public Class Main
         Me.MaskToolStripMenuItem.Enabled = True
 
     End Sub
+
+    Private Sub buildFileName()
+        saveImageFileName = convertFileName(txtFilename.Text)
+    End Sub
+
     Private Sub SaveImage()
 
         Dim b As New Bitmap(Pl.Image)
@@ -3046,11 +3047,29 @@ ByVal DefaultValue As String) As String
     End Sub
 
     Private Sub chkHeatMap_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHeatMap.CheckedChanged
-        drawSamplePoint()
-    End Sub
-    Private Sub drawSamplePoint()
 
     End Sub
+    Private Function drawSamplePoints(bSurface As Bitmap, iRadius As Integer) As Bitmap
+        Dim bImage As Bitmap = New Bitmap(100, 100)
+
+
+        ' Create new graphics surface from memory bitmap
+        Dim DrawSurface As Graphics = Graphics.FromImage(bImage)
+
+        ' Set background color to white so that pixels can be correctly colorized
+        DrawSurface.Clear(Color.White)
+
+        Dim hCount As Integer = 1
+        ' Traverse heat point data and draw masks for each heat point
+        'For Each DataPoint As HeatPoint In aHeatPoints
+        ' Render current heat point on draw surface
+        'DrawHeatPoint(DrawSurface, DataPoint, numHeatRadius.Value)
+        'BackgroundWorker1.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
+        'hCount += 1
+        'Next
+
+        Return bSurface
+    End Function
 End Class
 #Region "Structures"
 Public Structure HeatPoint
