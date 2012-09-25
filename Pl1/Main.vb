@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.23"
+    Private Const VERSION As String = "Plotic v2.3"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -586,10 +586,10 @@ Public Class Main
         Dim rect As New Rectangle(1498, 288, 500, 140)
         g.FillRectangle(New SolidBrush(Color.FromArgb(127, 0, 0, 0)), rect)
 
-        Dim bulletType = getbulletdata(GetValue(Pl.Gun, "ProjectileData"), "AmmunitionType")
+        Dim bulletType = getbulletdata(GetValue(Pl.FileName, "ProjectileData"), "AmmunitionType")
 
-        Dim bulletRounds = GetValue(Pl.Gun, "MagazineCapacity")
-        Dim bulletMagazines = GetValue(Pl.Gun, "NumberOfMagazines")
+        Dim bulletRounds = GetValue(Pl.FileName, "MagazineCapacity")
+        Dim bulletMagazines = GetValue(Pl.FileName, "NumberOfMagazines")
         '        g.DrawString("Ammo: " & bulletType.ToString, New Font("Consolas", 35), greenBrush2, hPos, 290)
         g.DrawString(bulletType.ToString, New Font("Consolas", 35), greenBrush2, hPos, 290)
         g.DrawString("Rounds: " + bulletRounds.ToString, New Font("Consolas", 30), greenBrush1, hPos, 330)
@@ -3044,7 +3044,15 @@ ByVal DefaultValue As String) As String
             chkWriteHitRates.Checked = False
         End If
     End Sub
+
+    Private Sub chkHeatMap_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHeatMap.CheckedChanged
+        drawSamplePoint()
+    End Sub
+    Private Sub drawSamplePoint()
+
+    End Sub
 End Class
+#Region "Structures"
 Public Structure HeatPoint
     Public X As Integer
     Public Y As Integer
@@ -3063,4 +3071,5 @@ Public Structure ProperName
         FileName = iFileName
     End Sub
 End Structure
+#End Region
 
