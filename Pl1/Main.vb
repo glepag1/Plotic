@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.31"
+    Private Const VERSION As String = "Plotic v2.4"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -1102,7 +1102,7 @@ Public Class Main
         End If
         If RenderHeatMap = 1 Then
             Application.DoEvents()
-            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, CInt(Val(HeatRadius)))
+            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, CInt(Val(HeatRadius)), 0)
             ' Colorize the memory bitmap and assign it as the picture boxes image
             Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
         End If
@@ -1927,7 +1927,7 @@ Public Class Main
         If chkHeatMap.Checked Then
             SetOutPutText_ThreadSafe("Please wait... Creating heat map")
             Application.DoEvents()
-            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value)
+            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
             ' Colorize the memory bitmap and assign it as the picture boxes image
             Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
         End If
@@ -2385,7 +2385,7 @@ Public Class Main
     End Sub
 
 #Region "Heat Map Creation"
-    Private Function CreateIntensityMask(bSurface As Bitmap, aHeatPoints As List(Of HeatPoint), iRadius As Integer) As Bitmap
+    Private Function CreateIntensityMask(bSurface As Bitmap, aHeatPoints As List(Of HeatPoint), iRadius As Integer, iCaller As Integer) As Bitmap
         ' Create new graphics surface from memory bitmap
         Dim DrawSurface As Graphics = Graphics.FromImage(bSurface)
 
@@ -2397,7 +2397,11 @@ Public Class Main
         For Each DataPoint As HeatPoint In aHeatPoints
             ' Render current heat point on draw surface
             DrawHeatPoint(DrawSurface, DataPoint, numHeatRadius.Value)
-            BackgroundWorker1.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
+            If iCaller = 0 Then
+                BackgroundWorker1.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
+            Else
+                Me.ToolStripProgressBar1.Value = Math.Round((hCount / aHeatPoints.Count) * 100)
+            End If
             hCount += 1
         Next
 
@@ -3090,7 +3094,7 @@ ByVal DefaultValue As String) As String
             Next
         Next
 
-        bSampleMap = CreateIntensityMask(bSampleMap, HeatPoints, numHeatRadius.Value)
+        bSampleMap = CreateIntensityMask(bSampleMap, HeatPoints, numHeatRadius.Value, 1)
         bSampleMap = Colorize(bSampleMap, 255, paletteOverride)
         SetSample_ThreadSafe(bSampleMap)
         HeatPoints.Clear()
@@ -3098,6 +3102,10 @@ ByVal DefaultValue As String) As String
 
     Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
         drawSamplePoints()
+    End Sub
+
+    Private Sub btnRenderAll_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAll.Click
+
     End Sub
 End Class
 #Region "Structures"
