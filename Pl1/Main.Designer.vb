@@ -236,6 +236,9 @@ Partial Class Main
         Me.ViewHeatMapToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btnRenderAll = New System.Windows.Forms.Button()
+        Me.chkRenderAllAttach = New System.Windows.Forms.CheckBox()
+        Me.picHeatPointSample = New System.Windows.Forms.PictureBox()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -301,6 +304,7 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'grpStance
@@ -1174,6 +1178,8 @@ Partial Class Main
         'tabSaveOptions
         '
         Me.tabSaveOptions.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.tabSaveOptions.Controls.Add(Me.chkRenderAllAttach)
+        Me.tabSaveOptions.Controls.Add(Me.btnRenderAll)
         Me.tabSaveOptions.Controls.Add(Me.chkSaveTTKChart)
         Me.tabSaveOptions.Controls.Add(Me.chkSaveHeatMap)
         Me.tabSaveOptions.Controls.Add(Me.Label32)
@@ -1197,7 +1203,7 @@ Partial Class Main
         Me.chkSaveTTKChart.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.chkSaveTTKChart.Enabled = False
         Me.chkSaveTTKChart.ForeColor = System.Drawing.Color.White
-        Me.chkSaveTTKChart.Location = New System.Drawing.Point(256, 117)
+        Me.chkSaveTTKChart.Location = New System.Drawing.Point(249, 16)
         Me.chkSaveTTKChart.Name = "chkSaveTTKChart"
         Me.chkSaveTTKChart.Size = New System.Drawing.Size(103, 17)
         Me.chkSaveTTKChart.TabIndex = 52
@@ -1210,7 +1216,7 @@ Partial Class Main
         Me.chkSaveHeatMap.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.chkSaveHeatMap.Enabled = False
         Me.chkSaveHeatMap.ForeColor = System.Drawing.Color.White
-        Me.chkSaveHeatMap.Location = New System.Drawing.Point(256, 94)
+        Me.chkSaveHeatMap.Location = New System.Drawing.Point(149, 16)
         Me.chkSaveHeatMap.Name = "chkSaveHeatMap"
         Me.chkSaveHeatMap.Size = New System.Drawing.Size(101, 17)
         Me.chkSaveHeatMap.TabIndex = 51
@@ -1271,6 +1277,7 @@ Partial Class Main
         Me.lblPath.Name = "lblPath"
         Me.lblPath.Size = New System.Drawing.Size(340, 13)
         Me.lblPath.TabIndex = 46
+        Me.lblPath.Text = "<<Plotic>>"
         Me.lblPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtFilename
@@ -1313,6 +1320,7 @@ Partial Class Main
         'tabHeatMap
         '
         Me.tabHeatMap.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.tabHeatMap.Controls.Add(Me.picHeatPointSample)
         Me.tabHeatMap.Controls.Add(Me.Label58)
         Me.tabHeatMap.Controls.Add(Me.chkRenderHeatBars)
         Me.tabHeatMap.Controls.Add(Me.chkRenderHeatTitle)
@@ -2871,6 +2879,39 @@ Partial Class Main
         Me.ViewTTKToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.ViewTTKToolStripMenuItem.Text = "View: TTK"
         '
+        'btnRenderAll
+        '
+        Me.btnRenderAll.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.btnRenderAll.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnRenderAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRenderAll.ForeColor = System.Drawing.Color.Gold
+        Me.btnRenderAll.Location = New System.Drawing.Point(231, 129)
+        Me.btnRenderAll.Name = "btnRenderAll"
+        Me.btnRenderAll.Size = New System.Drawing.Size(121, 23)
+        Me.btnRenderAll.TabIndex = 53
+        Me.btnRenderAll.Text = "Render All Weapons"
+        Me.btnRenderAll.UseVisualStyleBackColor = False
+        '
+        'chkRenderAllAttach
+        '
+        Me.chkRenderAllAttach.AutoSize = True
+        Me.chkRenderAllAttach.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.chkRenderAllAttach.ForeColor = System.Drawing.Color.White
+        Me.chkRenderAllAttach.Location = New System.Drawing.Point(267, 158)
+        Me.chkRenderAllAttach.Name = "chkRenderAllAttach"
+        Me.chkRenderAllAttach.Size = New System.Drawing.Size(85, 17)
+        Me.chkRenderAllAttach.TabIndex = 54
+        Me.chkRenderAllAttach.Text = "Attachments"
+        Me.chkRenderAllAttach.UseVisualStyleBackColor = False
+        '
+        'picHeatPointSample
+        '
+        Me.picHeatPointSample.Location = New System.Drawing.Point(149, 8)
+        Me.picHeatPointSample.Name = "picHeatPointSample"
+        Me.picHeatPointSample.Size = New System.Drawing.Size(100, 100)
+        Me.picHeatPointSample.TabIndex = 75
+        Me.picHeatPointSample.TabStop = False
+        '
         'Main
         '
         Me.AcceptButton = Me.btnStart
@@ -2983,6 +3024,7 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3199,4 +3241,7 @@ Partial Class Main
     Friend WithEvents chkDrawTarget As System.Windows.Forms.CheckBox
     Friend WithEvents grpBulletDropCustom As System.Windows.Forms.GroupBox
     Friend WithEvents grpTTKCustom As System.Windows.Forms.GroupBox
+    Friend WithEvents chkRenderAllAttach As System.Windows.Forms.CheckBox
+    Friend WithEvents btnRenderAll As System.Windows.Forms.Button
+    Friend WithEvents picHeatPointSample As System.Windows.Forms.PictureBox
 End Class
