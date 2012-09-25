@@ -239,6 +239,7 @@ Partial Class Main
         Me.btnRenderAll = New System.Windows.Forms.Button()
         Me.chkRenderAllAttach = New System.Windows.Forms.CheckBox()
         Me.picHeatPointSample = New System.Windows.Forms.PictureBox()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -1320,6 +1321,7 @@ Partial Class Main
         'tabHeatMap
         '
         Me.tabHeatMap.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.tabHeatMap.Controls.Add(Me.Button1)
         Me.tabHeatMap.Controls.Add(Me.picHeatPointSample)
         Me.tabHeatMap.Controls.Add(Me.Label58)
         Me.tabHeatMap.Controls.Add(Me.chkRenderHeatBars)
@@ -2906,11 +2908,27 @@ Partial Class Main
         '
         'picHeatPointSample
         '
+        Me.picHeatPointSample.BackColor = System.Drawing.Color.Black
+        Me.picHeatPointSample.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.picHeatPointSample.Location = New System.Drawing.Point(149, 8)
         Me.picHeatPointSample.Name = "picHeatPointSample"
         Me.picHeatPointSample.Size = New System.Drawing.Size(100, 100)
+        Me.picHeatPointSample.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.picHeatPointSample.TabIndex = 75
         Me.picHeatPointSample.TabStop = False
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.Button1.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button1.ForeColor = System.Drawing.Color.YellowGreen
+        Me.Button1.Location = New System.Drawing.Point(149, 114)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(100, 25)
+        Me.Button1.TabIndex = 76
+        Me.Button1.Text = "Preview"
+        Me.Button1.UseVisualStyleBackColor = False
         '
         'Main
         '
@@ -3244,4 +3262,5 @@ Partial Class Main
     Friend WithEvents chkRenderAllAttach As System.Windows.Forms.CheckBox
     Friend WithEvents btnRenderAll As System.Windows.Forms.Button
     Friend WithEvents picHeatPointSample As System.Windows.Forms.PictureBox
+    Friend WithEvents Button1 As System.Windows.Forms.Button
 End Class

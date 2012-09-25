@@ -2165,6 +2165,18 @@ Public Class Main
             picPlot.Image = [image]
         End If
     End Sub
+    Delegate Sub SetSample_Delegate(ByVal [image] As Bitmap)
+    ' The delegates subroutine.
+    Private Sub SetSample_ThreadSafe(ByVal [image] As Bitmap)
+        ' InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If picPlot.InvokeRequired Then
+            Dim MyDelegate As New SetImage_Delegate(AddressOf SetImage_ThreadSafe)
+            Me.Invoke(MyDelegate, New Object() {[image]})
+        Else
+            picHeatPointSample.Image = [image]
+        End If
+    End Sub
 #End Region
 
     Private Sub chkSaveImage_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkSaveImage.CheckedChanged
@@ -3049,27 +3061,44 @@ ByVal DefaultValue As String) As String
     Private Sub chkHeatMap_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHeatMap.CheckedChanged
 
     End Sub
-    Private Function drawSamplePoints(bSurface As Bitmap, iRadius As Integer) As Bitmap
-        Dim bImage As Bitmap = New Bitmap(100, 100)
+    Private Sub drawSamplePoints()
+        Dim bSampleMap As Bitmap = New Bitmap(400, 400)
+        Dim iIntense As Byte
+        'We want to use the heat map, so clear it
+        HeatPoints.Clear()
+        'Create random points using the selected intensity
+        For intNull = 0 To 35 - 1 ' Loop through rounds
+            For a = 0 To 5 - 1 ' Loop through bullet bursts
 
+                Select Case a
+                    Case 0
+                        iIntense = CByte(15 * numIntensityScale.Value)
+                    Case 1
+                        iIntense = CByte(12 * numIntensityScale.Value)
+                    Case 2
+                        iIntense = CByte(9 * numIntensityScale.Value)
+                    Case 3
+                        iIntense = CByte(6 * numIntensityScale.Value)
+                    Case 4
+                        iIntense = CByte(3 * numIntensityScale.Value)
+                    Case Else
+                        iIntense = CByte(1 * numIntensityScale.Value)
+                End Select
+                Dim x As Integer = rndD(200, 0)
+                Dim y As Integer = rndD(300, 0)
+                HeatPoints.Add(New HeatPoint(x, y, iIntense))
+            Next
+        Next
 
-        ' Create new graphics surface from memory bitmap
-        Dim DrawSurface As Graphics = Graphics.FromImage(bImage)
+        bSampleMap = CreateIntensityMask(bSampleMap, HeatPoints, numHeatRadius.Value)
+        bSampleMap = Colorize(bSampleMap, 255, paletteOverride)
+        SetSample_ThreadSafe(bSampleMap)
+        HeatPoints.Clear()
+    End Sub
 
-        ' Set background color to white so that pixels can be correctly colorized
-        DrawSurface.Clear(Color.White)
-
-        Dim hCount As Integer = 1
-        ' Traverse heat point data and draw masks for each heat point
-        'For Each DataPoint As HeatPoint In aHeatPoints
-        ' Render current heat point on draw surface
-        'DrawHeatPoint(DrawSurface, DataPoint, numHeatRadius.Value)
-        'BackgroundWorker1.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
-        'hCount += 1
-        'Next
-
-        Return bSurface
-    End Function
+    Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
+        drawSamplePoints()
+    End Sub
 End Class
 #Region "Structures"
 Public Structure HeatPoint
