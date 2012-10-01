@@ -1380,6 +1380,7 @@ Partial Class Main
         '
         Me.picHeatPointSample.BackColor = System.Drawing.Color.Black
         Me.picHeatPointSample.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.picHeatPointSample.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.picHeatPointSample.Location = New System.Drawing.Point(149, 8)
         Me.picHeatPointSample.Name = "picHeatPointSample"
         Me.picHeatPointSample.Size = New System.Drawing.Size(100, 100)
@@ -2661,41 +2662,41 @@ Partial Class Main
         '
         Me.contextImgRightClick.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainToolStripMenuItem, Me.HeatMapToolStripMenuItem, Me.TTKToolStripMenuItem, Me.ToolStripSeparator1, Me.ZoomToolStripMenuItem})
         Me.contextImgRightClick.Name = "contextImgRightClick"
-        Me.contextImgRightClick.Size = New System.Drawing.Size(153, 120)
+        Me.contextImgRightClick.Size = New System.Drawing.Size(127, 98)
         '
         'MainToolStripMenuItem
         '
         Me.MainToolStripMenuItem.Checked = True
         Me.MainToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.MainToolStripMenuItem.Name = "MainToolStripMenuItem"
-        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.MainToolStripMenuItem.Text = "&Main"
         '
         'HeatMapToolStripMenuItem
         '
         Me.HeatMapToolStripMenuItem.Enabled = False
         Me.HeatMapToolStripMenuItem.Name = "HeatMapToolStripMenuItem"
-        Me.HeatMapToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.HeatMapToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.HeatMapToolStripMenuItem.Text = "&Heat Map"
         '
         'TTKToolStripMenuItem
         '
         Me.TTKToolStripMenuItem.Enabled = False
         Me.TTKToolStripMenuItem.Name = "TTKToolStripMenuItem"
-        Me.TTKToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.TTKToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.TTKToolStripMenuItem.Text = "&TTK"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(123, 6)
         '
         'ZoomToolStripMenuItem
         '
         Me.ZoomToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.X500ToolStripMenuItem, Me.X1000ToolStripMenuItem, Me.X1000ToolStripMenuItem1})
         Me.ZoomToolStripMenuItem.Enabled = False
         Me.ZoomToolStripMenuItem.Name = "ZoomToolStripMenuItem"
-        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.ZoomToolStripMenuItem.Text = "&Zoom"
         '
         'X500ToolStripMenuItem

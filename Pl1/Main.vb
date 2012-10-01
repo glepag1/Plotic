@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.4"
+    Private Const VERSION As String = "Plotic v2.41"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -1926,11 +1926,6 @@ Public Class Main
             drawHitRate(Pl.ImageGraphic, Math.Round((aryHits(0) / (intBursts + 1) * 100), 2), Math.Round((aryHits(1) / (intBursts + 1) * 100), 2), Math.Round((aryHits(2) / (intBursts + 1) * 100), 2), Math.Round((aryHits(3) / (intBursts + 1) * 100), 2), Math.Round((aryHits(4) / (intBursts + 1) * 100), 2))
         End If
         If chkHeatMap.Checked Then
-            SetOutPutText_ThreadSafe("Please wait... Creating heat map")
-            Application.DoEvents()
-            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
-            ' Colorize the memory bitmap and assign it as the picture boxes image
-            Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
             If chkRenderHeatTitle.Checked Then
                 drawTitle(Pl.HeatGraphic)
             End If
@@ -1940,6 +1935,12 @@ Public Class Main
             If chkRenderHeatAdjust.Checked Then
                 drawAdjustments(Pl.HeatGraphic)
             End If
+            Pl.HeatGraphic = Graphics.FromImage(Pl.HeatMap)
+            SetOutPutText_ThreadSafe("Please wait... Creating heat map")
+            Application.DoEvents()
+            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
+            ' Colorize the memory bitmap and assign it as the picture boxes image
+            Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
         End If
         If chkTitles.Checked Then
             drawTitle(Pl.ImageGraphic)
@@ -1960,15 +1961,17 @@ Public Class Main
             drawGrid(Pl.ImageGraphic)
         End If
 
+        Dim TestDrawSurface As Graphics = Graphics.FromImage(Pl.HeatMap)
         If chkRenderHeatBars.Checked Then
-            drawBars(Pl.HeatGraphic)
+            drawBars(TestDrawSurface)
         End If
         If chkRenderHeatAdjust.Checked Then
-            drawAdjustments(Pl.HeatGraphic)
+            drawAdjustments(TestDrawSurface)
         End If
         If chkRenderHeatTitle.Checked Then
-            drawTitle(Pl.HeatGraphic)
+            drawTitle(TestDrawSurface)
         End If
+        Pl.HeatGraphic = TestDrawSurface
 
         drawTTKSplit(Pl.TTKGraphic)
         If chkDrawTTKGrid.Checked Then
@@ -2611,9 +2614,6 @@ ByVal DefaultValue As String) As String
 #Region "Context Menu Actions"
     Private Sub MainToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles MainToolStripMenuItem.Click
         selectView("main")
-    End Sub
-    Private Sub MaskToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs)
-        selectView("mask")
     End Sub
     Private Sub HeatMapToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles HeatMapToolStripMenuItem.Click
         selectView("heat")
