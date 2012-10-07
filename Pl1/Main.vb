@@ -2914,43 +2914,61 @@ ByVal DefaultValue As String) As String
             End If
 
     End Sub
-    Private Sub updateAttachmentSelection()
+    Private Function updateAttachmentSelection() As String
+        ' List order: HeavyBarrel(1), Silencer(2), Fls Supp(3), Fore Grip(4), Laser(5), Bipod(6)
+        Dim strAttachList As String = "000000"
+        Dim strAltList As String = ""
+
         If GetData(getFileName(comboWeapon1.Text), "HeavyBarrel") = "FILENOTFOUND" Then
             radBarrelHeavy.Enabled = False
         Else
             radBarrelHeavy.Enabled = True
+            strAltList = strAttachList.Remove(0, 1).Insert(0, "1")
+            strAttachList = strAltList
         End If
 
         If GetData(getFileName(comboWeapon1.Text), "Silencer") = "FILENOTFOUND" Then
             radBarrelSilencer.Enabled = False
         Else
             radBarrelSilencer.Enabled = True
+            strAltList = strAttachList.Remove(1, 1).Insert(1, "1")
+            strAttachList = strAltList
         End If
 
         If GetData(getFileName(comboWeapon1.Text), "Flash_Suppressor") = "FILENOTFOUND" Then
             radBarrelFlash.Enabled = False
         Else
             radBarrelFlash.Enabled = True
+            strAltList = strAttachList.Remove(2, 1).Insert(2, "1")
+            strAttachList = strAltList
         End If
 
         If GetData(getFileName(comboWeapon1.Text), "Foregrip") = "FILENOTFOUND" Then
             radUnderForegrip.Enabled = False
         Else
             radUnderForegrip.Enabled = True
+            strAltList = strAttachList.Remove(3, 1).Insert(3, "1")
+            strAttachList = strAltList
         End If
 
         If GetData(getFileName(comboWeapon1.Text), "TargetPointer") = "FILENOTFOUND" Then
             radUnderLaser.Enabled = False
         Else
             radUnderLaser.Enabled = True
+            strAltList = strAttachList.Remove(4, 1).Insert(4, "1")
+            strAttachList = strAltList
         End If
 
         If GetData(getFileName(comboWeapon1.Text), "Bipod") = "FILENOTFOUND" Then
             radUnderBipod.Enabled = False
         Else
             radUnderBipod.Enabled = True
+            strAltList = strAttachList.Remove(5, 1).Insert(5, "1")
+            strAttachList = strAltList
         End If
-    End Sub
+        Debug.WriteLine("Attach List: " & strAttachList & " : " & strAltList)
+        Return strAttachList
+    End Function
 
     'removing recoil decrease calculations v2.23
     'Public Function RecoilDecrease(ByVal StartX As Integer, ByVal StartY As Integer, ByVal ShootX As Integer, ByVal ShootY As Integer, ByVal DecPerSec As Double, ByVal RoF As Integer, ByVal PxPerDegScale As Integer, ByVal YorX As String)
@@ -3127,7 +3145,11 @@ ByVal DefaultValue As String) As String
     End Sub
 
     Private Sub btnRenderAll_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAll.Click
-
+        ' Loop through the list of guns and create a render of each one.
+        For Each DataPoint As ProperName In ProperNames
+            Pl.FileName = DataPoint.FileName
+            Pl.Gun = DataPoint.ProperName
+        Next
     End Sub
 End Class
 #Region "Structures"
