@@ -49,6 +49,39 @@
     Private dblTTKRangeMax As Double
     Private dblTTKRangeMin As Double
 
+    'Adding All options to the plotic object
+
+    Private dblHeatMapIntensity As Double
+
+    Private dblBackgroundColorAlpha As Integer
+    Private dblBackgroundColorRed As Integer
+    Private dblBackgroundColorGreen As Integer
+    Private dblBackgroundColorBlue As Integer
+
+    Private blnRenderTitle As Boolean
+    Private blnRenderBars As Boolean
+    Private blnRenderAdjustment As Boolean
+    Private blnRenderHitRates As Boolean
+    Private blnRenderTTK As Boolean
+    Private blnRenderScaleTarget As Boolean
+
+    Private blnRenderDropInfo As Boolean
+    Private blnRenderBulletDrop As Boolean
+    Private blnRenderAmmoInfo As Boolean
+    Private blnRenderTTKGrid As Boolean
+    Private blnRenderDropGrid As Boolean
+    Private blnRenderGrid As Boolean
+
+    Private blnScaleRadius As Boolean
+
+    Private blnRenderHeatMap As Boolean
+    Private blnRenderHeatTitle As Boolean
+    Private blnRenderHeatBars As Boolean
+    Private blnRenderHeatAdjust As Boolean
+
+
+
+
 
     Public Sub New()
 
@@ -145,6 +178,181 @@
     End Function
 #End Region
 #Region "Properties"
+
+    Property HeatMapIntensity() As Double
+        Get
+            Return dblHeatMapIntensity
+        End Get
+        Set(ByVal Value As Double)
+            dblHeatMapIntensity = Value
+        End Set
+    End Property
+
+    Property BackgroundColorAlpha() As Integer
+        Get
+            Return dblBackgroundColorAlpha
+        End Get
+        Set(ByVal Value As Integer)
+            dblBackgroundColorAlpha = Value
+        End Set
+    End Property
+    Property BackgroundColorRed() As Integer
+        Get
+            Return dblBackgroundColorRed
+        End Get
+        Set(ByVal Value As Integer)
+            dblBackgroundColorRed = Value
+        End Set
+    End Property
+    Property BackgroundColorGreen() As Integer
+        Get
+            Return dblBackgroundColorGreen
+        End Get
+        Set(ByVal Value As Integer)
+            dblBackgroundColorGreen = Value
+        End Set
+    End Property
+    Property BackgroundColorBlue() As Integer
+        Get
+            Return dblBackgroundColorBlue
+        End Get
+        Set(ByVal Value As Integer)
+            dblBackgroundColorBlue = Value
+        End Set
+    End Property
+
+    Property RenderTitle() As Boolean
+        Get
+            Return blnRenderTitle
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderTitle = Value
+        End Set
+    End Property
+    Property RenderBars() As Boolean
+        Get
+            Return blnRenderBars
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderBars = Value
+        End Set
+    End Property
+    Property RenderAdjustment() As Boolean
+        Get
+            Return blnRenderAdjustment
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderAdjustment = Value
+        End Set
+    End Property
+    Property RenderScaleTarget() As Boolean
+        Get
+            Return blnRenderScaleTarget
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderScaleTarget = Value
+        End Set
+    End Property
+    Property ScaleRadius() As Boolean
+        Get
+            Return blnScaleRadius
+        End Get
+        Set(ByVal Value As Boolean)
+            blnScaleRadius = Value
+        End Set
+    End Property
+    Property RenderTTK() As Boolean
+        Get
+            Return blnRenderTTK
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderTTK = Value
+        End Set
+    End Property
+
+    Property RenderHeatMap() As Boolean
+        Get
+            Return blnRenderHeatMap
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderHeatMap = Value
+        End Set
+    End Property
+    Property RenderHeatTitle() As Boolean
+        Get
+            Return blnRenderHeatTitle
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderHeatTitle = Value
+        End Set
+    End Property
+    Property RenderHeatBars() As Boolean
+        Get
+            Return blnRenderHeatBars
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderHeatBars = Value
+        End Set
+    End Property
+    Property RenderHeatAdjust() As Boolean
+        Get
+            Return blnRenderHeatAdjust
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderHeatAdjust = Value
+        End Set
+    End Property
+
+    Property RenderDropInfo() As Boolean
+        Get
+            Return blnRenderDropInfo
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderDropInfo = Value
+        End Set
+    End Property
+    Property RenderBulletDrop() As Boolean
+        Get
+            Return blnRenderBulletDrop
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderBulletDrop = Value
+        End Set
+    End Property
+    Property RenderAmmoInfo() As Boolean
+        Get
+            Return blnRenderAmmoInfo
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderAmmoInfo = Value
+        End Set
+    End Property
+    Property RenderGrid() As Boolean
+        Get
+            Return blnRenderGrid
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderGrid = Value
+        End Set
+    End Property
+    Property RenderTTKGrid() As Boolean
+        Get
+            Return blnRenderTTKGrid
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderTTKGrid = Value
+        End Set
+    End Property
+    Property RenderDropGrid() As Boolean
+        Get
+            Return blnRenderDropGrid
+        End Get
+        Set(ByVal Value As Boolean)
+            blnRenderDropGrid = Value
+        End Set
+    End Property
+
+
     Property DamageMax() As Double
         Get
             Return dblTTKDamageMax
@@ -260,6 +468,7 @@
         End Set
     End Property
 
+    'Drop this in favor of individual values.
     Property BackgroundColor() As String
         Get
             Return strBackgroundColor

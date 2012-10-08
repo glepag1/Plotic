@@ -63,7 +63,7 @@ Partial Class Main
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.bgWorker_RenderSingle = New System.ComponentModel.BackgroundWorker()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.mainToolStripStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -186,7 +186,7 @@ Partial Class Main
         Me.chkDrawTTK = New System.Windows.Forms.CheckBox()
         Me.comboSilhouetteStyle = New System.Windows.Forms.ComboBox()
         Me.Label48 = New System.Windows.Forms.Label()
-        Me.chkTimeToKill = New System.Windows.Forms.CheckBox()
+        Me.chkDrawScaleTarget = New System.Windows.Forms.CheckBox()
         Me.tabCustom = New System.Windows.Forms.TabPage()
         Me.grpSpread = New System.Windows.Forms.GroupBox()
         Me.Label47 = New System.Windows.Forms.Label()
@@ -243,6 +243,8 @@ Partial Class Main
         Me.txtBGColorGreen = New System.Windows.Forms.TextBox()
         Me.txtBGColorBlue = New System.Windows.Forms.TextBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.txtBGColorAlpha = New System.Windows.Forms.TextBox()
+        Me.bgWorker_RenderAll = New System.ComponentModel.BackgroundWorker()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -797,10 +799,10 @@ Partial Class Main
         Me.Label7.TabIndex = 1
         Me.Label7.Text = "Recoil V"
         '
-        'BackgroundWorker1
+        'bgWorker_RenderSingle
         '
-        Me.BackgroundWorker1.WorkerReportsProgress = True
-        Me.BackgroundWorker1.WorkerSupportsCancellation = True
+        Me.bgWorker_RenderSingle.WorkerReportsProgress = True
+        Me.bgWorker_RenderSingle.WorkerSupportsCancellation = True
         '
         'ToolStripProgressBar1
         '
@@ -2193,7 +2195,7 @@ Partial Class Main
         Me.TabPage1.Controls.Add(Me.chkDrawTTK)
         Me.TabPage1.Controls.Add(Me.comboSilhouetteStyle)
         Me.TabPage1.Controls.Add(Me.Label48)
-        Me.TabPage1.Controls.Add(Me.chkTimeToKill)
+        Me.TabPage1.Controls.Add(Me.chkDrawScaleTarget)
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
@@ -2332,17 +2334,17 @@ Partial Class Main
         Me.Label48.TabIndex = 100
         Me.Label48.Text = "Target Style"
         '
-        'chkTimeToKill
+        'chkDrawScaleTarget
         '
-        Me.chkTimeToKill.AutoSize = True
-        Me.chkTimeToKill.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.chkTimeToKill.ForeColor = System.Drawing.Color.White
-        Me.chkTimeToKill.Location = New System.Drawing.Point(8, 8)
-        Me.chkTimeToKill.Name = "chkTimeToKill"
-        Me.chkTimeToKill.Size = New System.Drawing.Size(109, 17)
-        Me.chkTimeToKill.TabIndex = 99
-        Me.chkTimeToKill.Text = "Draw scale target"
-        Me.chkTimeToKill.UseVisualStyleBackColor = False
+        Me.chkDrawScaleTarget.AutoSize = True
+        Me.chkDrawScaleTarget.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.chkDrawScaleTarget.ForeColor = System.Drawing.Color.White
+        Me.chkDrawScaleTarget.Location = New System.Drawing.Point(8, 8)
+        Me.chkDrawScaleTarget.Name = "chkDrawScaleTarget"
+        Me.chkDrawScaleTarget.Size = New System.Drawing.Size(109, 17)
+        Me.chkDrawScaleTarget.TabIndex = 99
+        Me.chkDrawScaleTarget.Text = "Draw scale target"
+        Me.chkDrawScaleTarget.UseVisualStyleBackColor = False
         '
         'tabCustom
         '
@@ -2934,7 +2936,7 @@ Partial Class Main
         Me.txtBGColorRed.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.txtBGColorRed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtBGColorRed.ForeColor = System.Drawing.Color.Red
-        Me.txtBGColorRed.Location = New System.Drawing.Point(24, 19)
+        Me.txtBGColorRed.Location = New System.Drawing.Point(42, 19)
         Me.txtBGColorRed.Name = "txtBGColorRed"
         Me.txtBGColorRed.Size = New System.Drawing.Size(23, 20)
         Me.txtBGColorRed.TabIndex = 106
@@ -2946,7 +2948,7 @@ Partial Class Main
         Me.txtBGColorGreen.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.txtBGColorGreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtBGColorGreen.ForeColor = System.Drawing.Color.Lime
-        Me.txtBGColorGreen.Location = New System.Drawing.Point(53, 19)
+        Me.txtBGColorGreen.Location = New System.Drawing.Point(71, 19)
         Me.txtBGColorGreen.Name = "txtBGColorGreen"
         Me.txtBGColorGreen.Size = New System.Drawing.Size(23, 20)
         Me.txtBGColorGreen.TabIndex = 107
@@ -2958,7 +2960,7 @@ Partial Class Main
         Me.txtBGColorBlue.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.txtBGColorBlue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtBGColorBlue.ForeColor = System.Drawing.Color.DeepSkyBlue
-        Me.txtBGColorBlue.Location = New System.Drawing.Point(82, 19)
+        Me.txtBGColorBlue.Location = New System.Drawing.Point(100, 19)
         Me.txtBGColorBlue.Name = "txtBGColorBlue"
         Me.txtBGColorBlue.Size = New System.Drawing.Size(23, 20)
         Me.txtBGColorBlue.TabIndex = 108
@@ -2967,16 +2969,34 @@ Partial Class Main
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.txtBGColorAlpha)
         Me.GroupBox3.Controls.Add(Me.txtBGColorRed)
         Me.GroupBox3.Controls.Add(Me.txtBGColorBlue)
         Me.GroupBox3.Controls.Add(Me.txtBGColorGreen)
         Me.GroupBox3.ForeColor = System.Drawing.Color.White
-        Me.GroupBox3.Location = New System.Drawing.Point(232, 6)
+        Me.GroupBox3.Location = New System.Drawing.Point(224, 6)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(127, 52)
+        Me.GroupBox3.Size = New System.Drawing.Size(135, 52)
         Me.GroupBox3.TabIndex = 109
         Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Background Color"
+        Me.GroupBox3.Text = "BG Color (ARGB) 0-255"
+        '
+        'txtBGColorAlpha
+        '
+        Me.txtBGColorAlpha.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.txtBGColorAlpha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtBGColorAlpha.ForeColor = System.Drawing.Color.White
+        Me.txtBGColorAlpha.Location = New System.Drawing.Point(13, 19)
+        Me.txtBGColorAlpha.Name = "txtBGColorAlpha"
+        Me.txtBGColorAlpha.Size = New System.Drawing.Size(23, 20)
+        Me.txtBGColorAlpha.TabIndex = 109
+        Me.txtBGColorAlpha.Text = "255"
+        Me.txtBGColorAlpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'bgWorker_RenderAll
+        '
+        Me.bgWorker_RenderAll.WorkerReportsProgress = True
+        Me.bgWorker_RenderAll.WorkerSupportsCancellation = True
         '
         'Main
         '
@@ -3130,7 +3150,7 @@ Partial Class Main
     Friend WithEvents lblIncTitle As System.Windows.Forms.Label
     Friend WithEvents numAdjInc As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgWorker_RenderSingle As System.ComponentModel.BackgroundWorker
     Friend WithEvents ToolStripProgressBar1 As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents mainToolStripStatus As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
@@ -3294,7 +3314,7 @@ Partial Class Main
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents comboSilhouetteStyle As System.Windows.Forms.ComboBox
     Friend WithEvents Label48 As System.Windows.Forms.Label
-    Friend WithEvents chkTimeToKill As System.Windows.Forms.CheckBox
+    Friend WithEvents chkDrawScaleTarget As System.Windows.Forms.CheckBox
     Friend WithEvents chkDrawTTK As System.Windows.Forms.CheckBox
     Friend WithEvents grpTargetAdjustments As System.Windows.Forms.GroupBox
     Friend WithEvents NumericUpDown3 As System.Windows.Forms.NumericUpDown
@@ -3316,4 +3336,6 @@ Partial Class Main
     Friend WithEvents txtBGColorRed As System.Windows.Forms.TextBox
     Friend WithEvents txtBGColorBlue As System.Windows.Forms.TextBox
     Friend WithEvents txtBGColorGreen As System.Windows.Forms.TextBox
+    Friend WithEvents txtBGColorAlpha As System.Windows.Forms.TextBox
+    Friend WithEvents bgWorker_RenderAll As System.ComponentModel.BackgroundWorker
 End Class

@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.41"
+    Private Const VERSION As String = "Plotic v2.5"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -907,7 +907,7 @@ Public Class Main
         Dim RenderTTK As Integer = INIRead(silentTemplateFile, "TTK", "RenderTTK", "0")
         Dim RenderHitRates As Integer = INIRead(silentTemplateFile, "TTK", "RenderHitRates", "0")
 
-        Dim RecoilDecreaseAmount As Double = INIRead(silentTemplateFile, "Recoil", "RecoilDecrease", "15")
+        'Dim RecoilDecreaseAmount As Double = INIRead(silentTemplateFile, "Recoil", "RecoilDecrease", "15")
 
 
         'TODO: Convert to arrays
@@ -1130,35 +1130,7 @@ Public Class Main
         exitApplication()
     End Sub
 
-    Private Sub createImage()
-        'Dim chrDecimalSymbol As Char = INIRead(silentTemplateFile, "Config", "DecimalSymbol", ".")
-
-        'Dim b As Bitmap = Pl.Image
-        'Dim fileDir = INIRead(silentTemplateFile, "Save", "SavePath", "Unknown")
-        'Dim fileName = convertFileName(INIRead(silentTemplateFile, "Save", "FileName", "Unknown"))
-        'Dim fullPath As String = Path.Combine(fileDir, fileName)
-
-        'Dim RenderTitleText As Integer = INIRead(silentTemplateFile, "Title", "RenderTitleText", "0")
-        'Dim RenderGrid As Integer = INIRead(silentTemplateFile, "Grid", "RenderGrid", "0")
-
-        'Dim RenderBars As Integer = INIRead(silentTemplateFile, "Render", "RenderBars", "0")
-        'Dim ScaleRadius As Integer = INIRead(silentTemplateFile, "Render", "ScaleRadius", "0")
-        'Dim backgroundColorARGB As Array = INIRead(silentTemplateFile, "Render", "BackgroundARGB", "255,0,0,0").Split(",")
-
-        'Dim RenderAttachText As Integer = INIRead(silentTemplateFile, "Attach", "RenderAttachText", "0")
-        'Dim VerticalMultiplier As String = INIRead(silentTemplateFile, "Attach", "VerticalMultiplier", "1")
-        'Dim MultiplyVerticalRecoil As Integer = INIRead(silentTemplateFile, "Attach", "MultiplyVerticalRecoil", "0")
-
-        'Dim IntensityScale As String = INIRead(silentTemplateFile, "HeatMap", "IntensityScale", "2")
-        'Dim RenderHeatMap As Integer = INIRead(silentTemplateFile, "HeatMap", "RenderHeatMap", "0")
-        'Dim HeatRadius As Integer = INIRead(silentTemplateFile, "HeatMap", "Radius", "0")
-
-        'Dim RenderTTK As Integer = INIRead(silentTemplateFile, "TTK", "RenderTTK", "0")
-        'Dim RenderHitRates As Integer = INIRead(silentTemplateFile, "TTK", "RenderHitRates", "0")
-
-        'Dim RecoilDecreaseAmount As Double = INIRead(silentTemplateFile, "Recoil", "RecoilDecrease", "15")
-
-
+    Private Sub createImage(ByVal iCaller As Integer, ByVal showUpdates As Boolean)
         'TODO: Convert to arrays
         Dim aryHits() As Integer = {0, 0, 0, 0, 0}
         Dim coord1x(Val(Pl.Burst)) As Integer
@@ -1176,12 +1148,15 @@ Public Class Main
 
         'Make Adjustments to values
         Dim dblRecoilH As Double = calculateAdjustment(Pl.RecoilUp, Pl.AdjRecoilV)
+
         Dim dblRecoilR As Double = calculateAdjustment(Pl.RecoilRight, Pl.AdjRecoilH)
         Dim dblRecoilL As Double = calculateAdjustment(Pl.RecoilLeft, Pl.AdjRecoilH)
 
         Dim dblSpreadMin As Double = calculateAdjustment(Pl.SpreadMin, Pl.AdjSpreadMin)
         Dim dblSpreadInc As Double = calculateAdjustment(Pl.SpreadInc, Pl.AdjSpreadInc)
 
+        'Removing recoil Decrease calculations v2.23
+        'Dim dblRecoilDeceasePerSecond As Double = Double.Parse(Pl.RecoilDecrease, System.Globalization.CultureInfo.InvariantCulture)
 
         Dim solMask As Bitmap = New Bitmap(My.Resources.sil_mask_fullsize)
 
@@ -1199,29 +1174,32 @@ Public Class Main
 
         Dim soldestMask As Graphics = Graphics.FromImage(solscaledMask)
 
+        ' The silhouette will be covering most of the image, instead of drawing the image, just white out the area and cap it at 9800
         If silhouetteHeight > 9800 Then
             Pl.MaskGraphic.Clear(Color.White)
+            silhouetteHeight = 9800
+            silhouetteWidth = Math.Round(silhouetteHeight / silhouetteDiff, 0)
         Else
             soldestMask.DrawImage(solMask, 0, 0, solscaledMask.Width + 1, solscaledMask.Height + 1)
             Pl.MaskGraphic.Clear(Color.Black)
             Pl.MaskGraphic.DrawImage(solscaledMask, sil_centerX, sil_centerY)
         End If
 
-        Dim sol As Bitmap = New Bitmap(My.Resources.sil_1_fullsize)
+        Dim sol As Bitmap = New Bitmap(Pl.Silh)
+
+
 
         Dim solscaled As New Bitmap(CInt(silhouetteWidth), CInt(silhouetteHeight))
         Dim soldest As Graphics = Graphics.FromImage(solscaled)
         soldest.DrawImage(sol, 0, 0, solscaled.Width + 1, solscaled.Height + 1)
 
-        If chkDrawTTK.Checked Then
-            'Pl.ImageGraphic.Clear(Color.Black)
-            Pl.ImageGraphic.Clear(Color.FromArgb(Integer.Parse(backgroundColorARGB(0).ToString), Integer.Parse(backgroundColorARGB(1).ToString), Integer.Parse(backgroundColorARGB(2).ToString), Integer.Parse(backgroundColorARGB(3).ToString)))
+        If Pl.RenderScaleTarget Then   'Draw the Scale Target if the option is checked.
+            Pl.ImageGraphic.Clear(Color.FromArgb(Pl.BackgroundColorAlpha, Pl.BackgroundColorRed, Pl.BackgroundColorGreen, Pl.BackgroundColorBlue))
             Pl.ImageGraphic.DrawImage(solscaled, sil_centerX, sil_centerY)
         Else
-            'Pl.ImageGraphic.Clear(Color.Black)
-            Pl.ImageGraphic.Clear(Color.FromArgb(Integer.Parse(backgroundColorARGB(0).ToString), Integer.Parse(backgroundColorARGB(1).ToString), Integer.Parse(backgroundColorARGB(2).ToString), Integer.Parse(backgroundColorARGB(3).ToString)))
+            Pl.ImageGraphic.Clear(Color.FromArgb(Pl.BackgroundColorAlpha, Pl.BackgroundColorRed, Pl.BackgroundColorGreen, Pl.BackgroundColorBlue))
         End If
-        If chkBars.Checked Then
+        If Pl.RenderBars Then 'Draw bars first if option is checked
             drawBars(Pl.ImageGraphic)
         End If
         Dim scale = Val(Pl.Scale)
@@ -1230,80 +1208,98 @@ Public Class Main
 
         Dim startX = 1000
         Dim startY = 1680
-        Dim RateOfFire As Double = Pl.RateOfFire
-        For ee = 0 To Pl.Burst
-            Dim uprecoil = 0
+
+        For ee = 0 To Pl.Burst ' Burst Loop
+            If bgWorker_RenderSingle.CancellationPending Then
+                ' Set Cancel to True
+                SetImage_ThreadSafe(Pl.Image)
+                bgWorker_RenderSingle.CancelAsync()
+                Exit For
+            End If
+            If bgWorker_RenderAll.CancellationPending Then
+                ' Set Cancel to True
+                If showUpdates Then SetImage_ThreadSafe(Pl.Image)
+                bgWorker_RenderAll.CancelAsync()
+                Exit For
+            End If
+            upd += 1
+            If upd = UPDATE_PERIOD Then
+                upd = 0
+                If showUpdates Then SetImage_ThreadSafe(Pl.Image)
+            End If
+
+            addBurstCount_ThreadSafe()
+            'Dim uprecoil = 0
             montako += 1
+            'Set the spread
             Dim spread = dblSpreadMin * scale
+
+            'Set the center and first fire point (center mass)
             Dim centerx = 1000
             Dim centy = 1680
             Dim iIntense As Byte
-            For a = 0 To Int(Pl.BulletsPerBurst) - 1
+            For a = 0 To Int(Pl.BulletsPerBurst) - 1 ' Loop through bullet bursts
+
+                'Set pen color based on bullet number, anything past 5 will show up as darkred
                 Dim pen1 As New System.Drawing.Pen(Color.DarkRed, 4)
                 Select Case a
                     Case 0
                         pen1.Color = Color.YellowGreen
-                        iIntense = CByte(15 * convertINIValue(IntensityScale, chrDecimalSymbol))
+                        iIntense = CByte(15 * Pl.HeatMapIntensity)
                     Case 1
                         pen1.Color = Color.Yellow
-                        iIntense = CByte(12 * convertINIValue(IntensityScale, chrDecimalSymbol))
+                        iIntense = CByte(12 * Pl.HeatMapIntensity)
                     Case 2
                         pen1.Color = Color.Orange
-                        iIntense = CByte(9 * convertINIValue(IntensityScale, chrDecimalSymbol))
+                        iIntense = CByte(9 * Pl.HeatMapIntensity)
                     Case 3
                         pen1.Color = Color.Red
-                        iIntense = CByte(6 * convertINIValue(IntensityScale, chrDecimalSymbol))
+                        iIntense = CByte(6 * Pl.HeatMapIntensity)
                     Case 4
                         pen1.Color = Color.DarkRed
-                        iIntense = CByte(3 * convertINIValue(IntensityScale, chrDecimalSymbol))
+                        iIntense = CByte(3 * Pl.HeatMapIntensity)
                 End Select
                 Dim radius
-                Dim mul As Integer = 100000
-                If ScaleRadius = 1 Then
+                'Dim mul As Integer = 100000
+                If Pl.ScaleRadius Then
                     radius = spread * Math.Sqrt(rndD(1000, 0) / 1000)
                 Else
                     radius = rndD(spread, 0)
                 End If
                 Dim angle = rndD(360, 0)
+
+                Dim RateOfFire As Double = Pl.RateOfFire
+
+                'Calculate X and Y values with spread
                 Dim x As Integer = centerx + radius * Math.Cos(angle)
                 Dim y As Integer = centy + radius * Math.Sin(angle)
 
                 'Add Target to heatpoints
                 HeatPoints.Add(New HeatPoint(x, y, iIntense))
 
-                If RenderTTK <> 1 Then
+                If Not Pl.RenderScaleTarget Then
                     Pl.ImageGraphic.DrawEllipse(pen1, x, y, 7, 7)
                 Else
                     'Debug.WriteLine((Val(colo.R) + Val(colo.G) + Val(colo.B)).ToString())
                     Select Case a
                         Case 0
-                            If Pl.bulletHit(x, y) Then
-                                aryHits(0) += 1
-                            End If
+                            If Pl.bulletHit(x, y) Then aryHits(0) += 1
                             coord1x(ee) = x
                             coord1y(ee) = y
                         Case 1
-                            If Pl.bulletHit(x, y) Then
-                                aryHits(1) += 1
-                            End If
+                            If Pl.bulletHit(x, y) Then aryHits(1) += 1
                             coord2x(ee) = x
                             coord2y(ee) = y
                         Case 2
-                            If Pl.bulletHit(x, y) Then
-                                aryHits(2) += 1
-                            End If
+                            If Pl.bulletHit(x, y) Then aryHits(2) += 1
                             coord3x(ee) = x
                             coord3y(ee) = y
                         Case 3
-                            If Pl.bulletHit(x, y) Then
-                                aryHits(3) += 1
-                            End If
+                            If Pl.bulletHit(x, y) Then aryHits(3) += 1
                             coord4x(ee) = x
                             coord4y(ee) = y
                         Case 4
-                            If Pl.bulletHit(x, y) Then
-                                aryHits(4) += 1
-                            End If
+                            If Pl.bulletHit(x, y) Then aryHits(4) += 1
                             coord5x(ee) = x
                             coord5y(ee) = y
                     End Select
@@ -1311,75 +1307,118 @@ Public Class Main
                 End If
 
                 Application.DoEvents()
+                'Calculate the new Y position
                 If a = 0 Then
                     centy -= (CDbl(Val(dblRecoilH)) * scale) * CDbl(Val(Pl.FirstShot))
                 Else
                     centy -= CDbl(Val(dblRecoilH)) * scale
                 End If
+                'Calculate the new X position
                 centerx += rndD(1000 + CDbl(dblRecoilR * scale), 1000 - Int(CDbl(dblRecoilL) * scale)) - 1000
+                'Calculate the new spread value
                 spread += CDbl(dblSpreadInc) * scale
-                'remvoing recoil decrease v2.23
-                'Try
-                'centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, RecoilDecreaseAmount, RateOfFire, scale, "x"), 0)
-                'centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, RecoilDecreaseAmount, RateOfFire, scale, "y"), 0)
-                'Catch ex As Exception
-                'End Try
+                Try
+                    'Calculate the recoil decrease v2.23
+                    'centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "x"), 0)
+                    'centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "y"), 0)
+                Catch
 
-            Next
-        Next
+                End Try
+
+            Next ' Next Bullet Burst
+
+            'Update the Progress bar
+
+            If iCaller = 0 Then
+                bgWorker_RenderSingle.ReportProgress(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
+            Else
+                Me.ToolStripProgressBar1.Value = (Math.Round(CInt((ee / Pl.Burst) * 100), 0))
+            End If
+
+        Next 'Next BURST
+
         Dim nl = Environment.NewLine
         Dim intBursts As Integer = Val(Pl.Burst)
-        If RenderTTK = 1 Then
+        If Pl.RenderScaleTarget Then
             For a = 0 To intBursts - 1
-                Dim pen1 As New System.Drawing.Pen(Color.YellowGreen, 4)
-                Dim pen2 As New System.Drawing.Pen(Color.Yellow, 4)
-                Dim pen3 As New System.Drawing.Pen(Color.Orange, 4)
-                Dim pen4 As New System.Drawing.Pen(Color.Red, 4)
-                Dim pen5 As New System.Drawing.Pen(Color.DarkRed, 4)
-
-                Pl.ImageGraphic.DrawEllipse(pen1, coord1x(a), coord1y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(pen2, coord2x(a), coord2y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(pen3, coord3x(a), coord3y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(pen4, coord4x(a), coord4y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(pen5, coord5x(a), coord5y(a), 7, 7)
+                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.YellowGreen, 4), coord1x(a), coord1y(a), 7, 7)
+                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Yellow, 4), coord2x(a), coord2y(a), 7, 7)
+                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Orange, 4), coord3x(a), coord3y(a), 7, 7)
+                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Red, 4), coord4x(a), coord4y(a), 7, 7)
+                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.DarkRed, 4), coord5x(a), coord5y(a), 7, 7)
             Next
+            SetImage_ThreadSafe(Pl.Image)
+            Application.DoEvents()
             Debug.WriteLine("Bursts: " & intBursts)
             Debug.WriteLine("Hits #1: " & aryHits(0))
+            Debug.WriteLine("1st. bullet: " + Math.Round((aryHits(0) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+                   "2nd. bullet: " + Math.Round((aryHits(1) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+                   "3rd. bullet: " + Math.Round((aryHits(2) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+                   "4th. bullet: " + Math.Round((aryHits(3) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+                   "5th. bullet: " + Math.Round((aryHits(4) / (intBursts + 1) * 100), 2).ToString + "%")
 
         End If
-        If RenderHitRates = 1 And RenderTTK = 1 Then
+        If Pl.RenderTTK And Pl.RenderScaleTarget Then
             drawHitRate(Pl.ImageGraphic, Math.Round((aryHits(0) / (intBursts + 1) * 100), 2), Math.Round((aryHits(1) / (intBursts + 1) * 100), 2), Math.Round((aryHits(2) / (intBursts + 1) * 100), 2), Math.Round((aryHits(3) / (intBursts + 1) * 100), 2), Math.Round((aryHits(4) / (intBursts + 1) * 100), 2))
         End If
-        If RenderHeatMap = 1 Then
+        If Pl.RenderHeatMap Then
+            'Pl.HeatGraphic = Graphics.FromImage(Pl.HeatMap)
+            SetOutPutText_ThreadSafe("Please wait... Creating heat map")
             Application.DoEvents()
-            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, CInt(Val(HeatRadius)), 0)
+            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
             ' Colorize the memory bitmap and assign it as the picture boxes image
             Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
         End If
-        If RenderTitleText = 1 Then
+
+        If Pl.RenderTitle Then
             drawTitle(Pl.ImageGraphic)
         End If
-        If RenderAttachText = 1 Then
+        If Pl.RenderAdjustment Then
             drawAdjustments(Pl.ImageGraphic)
         End If
-        If RenderGrid = 1 Then
+        If Pl.RenderBulletDrop Then
+            drawBulletDrop(Pl.ImageGraphic)
+        End If
+        If Pl.RenderDropInfo Then
+            drawDropInfo(Pl.ImageGraphic)
+        End If
+        If Pl.RenderAmmoInfo Then
+            drawBulletInfo(Pl.ImageGraphic)
+        End If
+        If Pl.RenderGrid Then
             drawGrid(Pl.ImageGraphic)
         End If
 
-
-        b.Save(fullPath)
-
-        If RenderHeatMap = 1 Then
-            Dim h As Bitmap = Pl.HeatMap
-            Dim heatFileName As String = fullPath.Insert((fullPath.Length - 4), "_heatmap")
-            h.Save(heatFileName)
+        Dim TestDrawSurface As Graphics = Graphics.FromImage(Pl.HeatMap)
+        If Pl.RenderHeatBars Then
+            drawBars(TestDrawSurface)
         End If
-        Debug.WriteLine("Image Saved: " & fullPath)
-        Debug.WriteLine("Shutting Down")
-        exitApplication()
+        If Pl.RenderHeatAdjust Then
+            drawAdjustments(TestDrawSurface)
+        End If
+        If Pl.RenderHeatTitle Then
+            drawTitle(TestDrawSurface)
+        End If
+        Pl.HeatGraphic = TestDrawSurface
+
+        drawTTKSplit(Pl.TTKGraphic)
+        If Pl.RenderTTKGrid Then
+            drawTTKGrid(Pl.TTKGraphic)
+        End If
+        If Pl.RenderDropGrid Then
+            'drawTTKGrid(Pl.TTKGraphic)
+            drawDropGrid(Pl.TTKGraphic)
+        End If
+        intBurstCycle = 0
+        drawTTKBulletDamageArc(Pl.TTKGraphic)
+        drawTTKBulletDropArc(Pl.TTKGraphic)
+        '       drawTTKChart(Pl.TTKGraphic)
+        '       ToggleToolStripMain_ThreadSafe(True)
+        '        selectView("main")
+        '        ToggleToolStripMask_ThreadSafe(True)
     End Sub
 
-    Private Sub btnStart_Click() Handles btnStart.Click
+    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
         intBurstCycle = 0
 
         'Disable all of the input boxes
@@ -1411,7 +1450,7 @@ Public Class Main
             loadPlotic()
         End If
 
-        BackgroundWorker1.RunWorkerAsync()
+        bgWorker_RenderSingle.RunWorkerAsync()
 
     End Sub
     Private Sub loadCustomPlotic()
@@ -1521,8 +1560,43 @@ Public Class Main
             Pl.Silh = New Bitmap(My.Resources.sil_3_fullsize)
         End If
 
-    End Sub
+        'Set new options
 
+        Pl.HeatMapIntensity = Double.Parse(numIntensityScale.Value, System.Globalization.CultureInfo.InvariantCulture)
+
+        Pl.BackgroundColorAlpha = Integer.Parse(txtBGColorAlpha.Text)
+        Pl.BackgroundColorRed = Integer.Parse(txtBGColorRed.Text)
+        Pl.BackgroundColorGreen = Integer.Parse(txtBGColorGreen.Text)
+        Pl.BackgroundColorBlue = Integer.Parse(txtBGColorBlue.Text)
+
+        setOption(chkDrawTarget, Pl.RenderScaleTarget)
+        setOption(chkTitles, Pl.RenderTitle)
+        setOption(chkBars, Pl.RenderBars)
+        setOption(chkPrintAdj, Pl.RenderAdjustment)
+        setOption(chkScaleRadius, Pl.ScaleRadius)
+        setOption(chkDrawTTK, Pl.RenderTTK)
+
+        setOption(chkHeatMap, Pl.RenderHeatMap)
+        setOption(chkRenderHeatTitle, Pl.RenderHeatTitle)
+        setOption(chkRenderHeatBars, Pl.RenderHeatBars)
+        setOption(chkRenderHeatAdjust, Pl.RenderHeatAdjust)
+
+        setOption(chkRenderBulletDrop, Pl.RenderBulletDrop)
+        setOption(chkWriteDropInfo, Pl.RenderDropInfo)
+        setOption(chkRenderAmmoInfo, Pl.RenderAmmoInfo)
+        setOption(chkDrawGrid, Pl.RenderGrid)
+
+        setOption(chkDrawTTKGrid, Pl.RenderTTKGrid)
+        setOption(chkDrawDropGrid, Pl.RenderDropGrid)
+
+
+    End Sub
+    Private Sub setOption(ByVal chkObject As System.Windows.Forms.CheckBox, ByRef blnObject As Boolean)
+        If chkObject.Checked Then
+            blnObject = True
+        Else : blnObject = False
+        End If
+    End Sub
     Private Function getMinAngle() As Double
         Dim strStanceBuild As String = ""
         If chkStanceZoom.Checked Then
@@ -1753,22 +1827,22 @@ Public Class Main
 
             attachCount += 1
         End If
-            If radUnderForegrip.Checked Then
+        If radUnderForegrip.Checked Then
             If attachCount > 0 Then
                 attachString += "- Foregrip "
             Else
                 attachString += "Foregrip "
             End If
             attachCount += 1
-            End If
-            If radUnderLaser.Checked Then
+        End If
+        If radUnderLaser.Checked Then
             If attachCount > 0 Then
                 attachString += "- Laser "
             Else
                 attachString += "Laser "
             End If
             attachCount += 1
-            End If
+        End If
         Return Trim(attachString)
     End Function
 
@@ -1910,7 +1984,7 @@ Public Class Main
         diaTest.Show()
         diaTest.ShowInTaskbar = True
     End Sub
-    
+
     Private Function convertINIValue(ByVal inputValue As String, ByVal decimalSymbol As Char) As Double
         inputValue = inputValue.Replace(decimalSymbol, "."c)
         Return CDbl(Val(inputValue))
@@ -1955,295 +2029,291 @@ Public Class Main
     Private Function calculateAdjustment(ByVal actor As Double, ByVal action As Double) As Double
         Return Math.Round((actor * (action / 100)) + (actor), 3)
     End Function
-    Private Sub BackgroundWorker1_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
-        'TODO: Convert to arrays
-        Dim aryHits() As Integer = {0, 0, 0, 0, 0}
-        Dim coord1x(Val(Pl.Burst)) As Integer
-        Dim coord1y(Val(Pl.Burst)) As Integer
-        Dim coord2x(Val(Pl.Burst)) As Integer
-        Dim coord2y(Val(Pl.Burst)) As Integer
-        Dim coord3x(Val(Pl.Burst)) As Integer
-        Dim coord3y(Val(Pl.Burst)) As Integer
-        Dim coord4x(Val(Pl.Burst)) As Integer
-        Dim coord4y(Val(Pl.Burst)) As Integer
-        Dim coord5x(Val(Pl.Burst)) As Integer
-        Dim coord5y(Val(Pl.Burst)) As Integer
-        Dim coord6x(Val(Pl.Burst)) As Integer
-        Dim coord6y(Val(Pl.Burst)) As Integer
 
-        'Make Adjustments to values
-        Dim dblRecoilH As Double = calculateAdjustment(Pl.RecoilUp, Pl.AdjRecoilV)
+    Private Sub bgWorker_RenderSingle_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderSingle.DoWork
+        ''TODO: Convert to arrays
+        'Dim aryHits() As Integer = {0, 0, 0, 0, 0}
+        'Dim coord1x(Val(Pl.Burst)) As Integer
+        'Dim coord1y(Val(Pl.Burst)) As Integer
+        'Dim coord2x(Val(Pl.Burst)) As Integer
+        'Dim coord2y(Val(Pl.Burst)) As Integer
+        'Dim coord3x(Val(Pl.Burst)) As Integer
+        'Dim coord3y(Val(Pl.Burst)) As Integer
+        'Dim coord4x(Val(Pl.Burst)) As Integer
+        'Dim coord4y(Val(Pl.Burst)) As Integer
+        'Dim coord5x(Val(Pl.Burst)) As Integer
+        'Dim coord5y(Val(Pl.Burst)) As Integer
+        'Dim coord6x(Val(Pl.Burst)) As Integer
+        'Dim coord6y(Val(Pl.Burst)) As Integer
 
-        Dim dblRecoilR As Double = calculateAdjustment(Pl.RecoilRight, Pl.AdjRecoilH)
-        Dim dblRecoilL As Double = calculateAdjustment(Pl.RecoilLeft, Pl.AdjRecoilH)
+        ''Make Adjustments to values
+        'Dim dblRecoilH As Double = calculateAdjustment(Pl.RecoilUp, Pl.AdjRecoilV)
 
-        Dim dblSpreadMin As Double = calculateAdjustment(Pl.SpreadMin, Pl.AdjSpreadMin)
-        Dim dblSpreadInc As Double = calculateAdjustment(Pl.SpreadInc, Pl.AdjSpreadInc)
+        'Dim dblRecoilR As Double = calculateAdjustment(Pl.RecoilRight, Pl.AdjRecoilH)
+        'Dim dblRecoilL As Double = calculateAdjustment(Pl.RecoilLeft, Pl.AdjRecoilH)
 
-        'Removing recoil Decrease calculations v2.23
-        'Dim dblRecoilDeceasePerSecond As Double = Double.Parse(Pl.RecoilDecrease, System.Globalization.CultureInfo.InvariantCulture)
+        'Dim dblSpreadMin As Double = calculateAdjustment(Pl.SpreadMin, Pl.AdjSpreadMin)
+        'Dim dblSpreadInc As Double = calculateAdjustment(Pl.SpreadInc, Pl.AdjSpreadInc)
 
-        Dim solMask As Bitmap = New Bitmap(My.Resources.sil_mask_fullsize)
+        ''Removing recoil Decrease calculations v2.23
+        ''Dim dblRecoilDeceasePerSecond As Double = Double.Parse(Pl.RecoilDecrease, System.Globalization.CultureInfo.InvariantCulture)
 
-        Dim silhouetteHeight As Integer = Math.Round((Math.Atan(1.85 / Pl.TargetRange) * (180 / Math.PI)) * Pl.Scale, 0)
-        Dim silhouetteDiff As Double = silhouetteHeight / solMask.Height
-        Dim silhouetteWidth As Integer = Math.Round((silhouetteDiff * solMask.Width), 0)
+        'Dim solMask As Bitmap = New Bitmap(My.Resources.sil_mask_fullsize)
 
-        Dim picVCenter As Integer = Math.Round((silhouetteHeight * IMAGE_V_CENTER_PERCENT), 0)
-        Dim picHCenter As Integer = Math.Round((silhouetteWidth * IMAGE_H_CENTER_PERCENT), 0)
+        'Dim silhouetteHeight As Integer = Math.Round((Math.Atan(1.85 / Pl.TargetRange) * (180 / Math.PI)) * Pl.Scale, 0)
+        'Dim silhouetteDiff As Double = silhouetteHeight / solMask.Height
+        'Dim silhouetteWidth As Integer = Math.Round((silhouetteDiff * solMask.Width), 0)
 
-        Dim solscaledMask As New Bitmap(CInt(silhouetteWidth), CInt(silhouetteHeight))
+        'Dim picVCenter As Integer = Math.Round((silhouetteHeight * IMAGE_V_CENTER_PERCENT), 0)
+        'Dim picHCenter As Integer = Math.Round((silhouetteWidth * IMAGE_H_CENTER_PERCENT), 0)
 
-        Dim sil_centerY As Integer = 1680 - picVCenter
-        Dim sil_centerX As Integer = 1000 - picHCenter
+        'Dim solscaledMask As New Bitmap(CInt(silhouetteWidth), CInt(silhouetteHeight))
 
-        Dim soldestMask As Graphics = Graphics.FromImage(solscaledMask)
+        'Dim sil_centerY As Integer = 1680 - picVCenter
+        'Dim sil_centerX As Integer = 1000 - picHCenter
 
-        ' The silhouette will be covering most of the image, instead of drawing the image, just white out the area and cap it at 9800
-        If silhouetteHeight > 9800 Then
-            Pl.MaskGraphic.Clear(Color.White)
-            silhouetteHeight = 9800
-            silhouetteWidth = Math.Round(silhouetteHeight / silhouetteDiff, 0)
-        Else
-            soldestMask.DrawImage(solMask, 0, 0, solscaledMask.Width + 1, solscaledMask.Height + 1)
-            Pl.MaskGraphic.Clear(Color.Black)
-            Pl.MaskGraphic.DrawImage(solscaledMask, sil_centerX, sil_centerY)
-        End If
+        'Dim soldestMask As Graphics = Graphics.FromImage(solscaledMask)
 
-        Dim sol As Bitmap = New Bitmap(Pl.Silh)
+        '' The silhouette will be covering most of the image, instead of drawing the image, just white out the area and cap it at 9800
+        'If silhouetteHeight > 9800 Then
+        '    Pl.MaskGraphic.Clear(Color.White)
+        '    silhouetteHeight = 9800
+        '    silhouetteWidth = Math.Round(silhouetteHeight / silhouetteDiff, 0)
+        'Else
+        '    soldestMask.DrawImage(solMask, 0, 0, solscaledMask.Width + 1, solscaledMask.Height + 1)
+        '    Pl.MaskGraphic.Clear(Color.Black)
+        '    Pl.MaskGraphic.DrawImage(solscaledMask, sil_centerX, sil_centerY)
+        'End If
+
+        'Dim sol As Bitmap = New Bitmap(Pl.Silh)
 
 
 
-        Dim solscaled As New Bitmap(CInt(silhouetteWidth), CInt(silhouetteHeight))
-        Dim soldest As Graphics = Graphics.FromImage(solscaled)
-        soldest.DrawImage(sol, 0, 0, solscaled.Width + 1, solscaled.Height + 1)
+        'Dim solscaled As New Bitmap(CInt(silhouetteWidth), CInt(silhouetteHeight))
+        'Dim soldest As Graphics = Graphics.FromImage(solscaled)
+        'soldest.DrawImage(sol, 0, 0, solscaled.Width + 1, solscaled.Height + 1)
 
-        If chkTimeToKill.Checked Then   'Draw the Scale Target if the option is checked.
-            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
-            Pl.ImageGraphic.DrawImage(solscaled, sil_centerX, sil_centerY)
-        Else
-            Pl.ImageGraphic.Clear(Color.FromArgb(255, 0, 0, 0))
-        End If
-        If chkBars.Checked Then 'Draw bars first if option is checked
-            drawBars(Pl.ImageGraphic)
-        End If
-        Dim scale = Val(Pl.Scale)
-        Dim montako = 0
-        Dim upd = 0
+        'If Pl.RenderScaleTarget Then   'Draw the Scale Target if the option is checked.
+        '    Pl.ImageGraphic.Clear(Color.FromArgb(Pl.BackgroundColorAlpha, Pl.BackgroundColorRed, Pl.BackgroundColorGreen, Pl.BackgroundColorBlue))
+        '    Pl.ImageGraphic.DrawImage(solscaled, sil_centerX, sil_centerY)
+        'Else
+        '    Pl.ImageGraphic.Clear(Color.FromArgb(Pl.BackgroundColorAlpha, Pl.BackgroundColorRed, Pl.BackgroundColorGreen, Pl.BackgroundColorBlue))
+        'End If
+        'If Pl.RenderBars Then 'Draw bars first if option is checked
+        '    drawBars(Pl.ImageGraphic)
+        'End If
+        'Dim scale = Val(Pl.Scale)
+        'Dim montako = 0
+        'Dim upd = 0
 
-        Dim startX = 1000
-        Dim startY = 1680
+        'Dim startX = 1000
+        'Dim startY = 1680
 
-        For ee = 0 To Pl.Burst ' Burst Loop
-            If BackgroundWorker1.CancellationPending Then
-                ' Set Cancel to True
-                SetImage_ThreadSafe(Pl.Image)
-                e.Cancel = True
-                Exit For
-            End If
+        'For ee = 0 To Pl.Burst ' Burst Loop
+        '    If BackgroundWorker1.CancellationPending Then
+        '        ' Set Cancel to True
+        '        SetImage_ThreadSafe(Pl.Image)
+        '        e.Cancel = True
+        '        Exit For
+        '    End If
 
-            upd += 1
-            If upd = UPDATE_PERIOD Then
-                upd = 0
-                SetImage_ThreadSafe(Pl.Image)
-            End If
-            addBurstCount_ThreadSafe()
-            'Dim uprecoil = 0
-            montako += 1
-            'Set the spread
-            Dim spread = dblSpreadMin * scale
+        '    upd += 1
+        '    If upd = UPDATE_PERIOD Then
+        '        upd = 0
+        '        SetImage_ThreadSafe(Pl.Image)
+        '    End If
+        '    addBurstCount_ThreadSafe()
+        '    'Dim uprecoil = 0
+        '    montako += 1
+        '    'Set the spread
+        '    Dim spread = dblSpreadMin * scale
 
-            'Set the center and first fire point (center mass)
-            Dim centerx = 1000
-            Dim centy = 1680
-            Dim iIntense As Byte
-            For a = 0 To Int(Pl.BulletsPerBurst) - 1 ' Loop through bullet bursts
+        '    'Set the center and first fire point (center mass)
+        '    Dim centerx = 1000
+        '    Dim centy = 1680
+        '    Dim iIntense As Byte
+        '    For a = 0 To Int(Pl.BulletsPerBurst) - 1 ' Loop through bullet bursts
 
-                'Set pen color based on bullet number, anything past 5 will show up as darkred
-                Dim pen1 As New System.Drawing.Pen(Color.DarkRed, 4)
-                Select Case a
-                    Case 0
-                        pen1.Color = Color.YellowGreen
-                        iIntense = CByte(15 * numIntensityScale.Value)
-                    Case 1
-                        pen1.Color = Color.Yellow
-                        iIntense = CByte(12 * numIntensityScale.Value)
-                    Case 2
-                        pen1.Color = Color.Orange
-                        iIntense = CByte(9 * numIntensityScale.Value)
-                    Case 3
-                        pen1.Color = Color.Red
-                        iIntense = CByte(6 * numIntensityScale.Value)
-                    Case 4
-                        pen1.Color = Color.DarkRed
-                        iIntense = CByte(3 * numIntensityScale.Value)
-                End Select
-                Dim radius
-                'Dim mul As Integer = 100000
-                If chkScaleRadius.Checked = True Then
-                    radius = spread * Math.Sqrt(rndD(1000, 0) / 1000)
-                Else
-                    radius = rndD(spread, 0)
-                End If
-                Dim angle = rndD(360, 0)
+        '        'Set pen color based on bullet number, anything past 5 will show up as darkred
+        '        Dim pen1 As New System.Drawing.Pen(Color.DarkRed, 4)
+        '        Select Case a
+        '            Case 0
+        '                pen1.Color = Color.YellowGreen
+        '                iIntense = CByte(15 * Pl.HeatMapIntensity)
+        '            Case 1
+        '                pen1.Color = Color.Yellow
+        '                iIntense = CByte(12 * Pl.HeatMapIntensity)
+        '            Case 2
+        '                pen1.Color = Color.Orange
+        '                iIntense = CByte(9 * Pl.HeatMapIntensity)
+        '            Case 3
+        '                pen1.Color = Color.Red
+        '                iIntense = CByte(6 * Pl.HeatMapIntensity)
+        '            Case 4
+        '                pen1.Color = Color.DarkRed
+        '                iIntense = CByte(3 * Pl.HeatMapIntensity)
+        '        End Select
+        '        Dim radius
+        '        'Dim mul As Integer = 100000
+        '        If Pl.ScaleRadius Then
+        '            radius = spread * Math.Sqrt(rndD(1000, 0) / 1000)
+        '        Else
+        '            radius = rndD(spread, 0)
+        '        End If
+        '        Dim angle = rndD(360, 0)
 
-                Dim RateOfFire As Double = Pl.RateOfFire
+        '        Dim RateOfFire As Double = Pl.RateOfFire
 
-                'Calculate X and Y values with spread
-                Dim x As Integer = centerx + radius * Math.Cos(angle)
-                Dim y As Integer = centy + radius * Math.Sin(angle)
+        '        'Calculate X and Y values with spread
+        '        Dim x As Integer = centerx + radius * Math.Cos(angle)
+        '        Dim y As Integer = centy + radius * Math.Sin(angle)
 
-                'Add Target to heatpoints
-                HeatPoints.Add(New HeatPoint(x, y, iIntense))
+        '        'Add Target to heatpoints
+        '        HeatPoints.Add(New HeatPoint(x, y, iIntense))
 
-                If Not chkTimeToKill.Checked Then
-                    Pl.ImageGraphic.DrawEllipse(pen1, x, y, 7, 7)
-                Else
-                    'Debug.WriteLine((Val(colo.R) + Val(colo.G) + Val(colo.B)).ToString())
-                    Select Case a
-                        Case 0
-                            If Pl.bulletHit(x, y) Then aryHits(0) += 1
-                            coord1x(ee) = x
-                            coord1y(ee) = y
-                        Case 1
-                            If Pl.bulletHit(x, y) Then aryHits(1) += 1
-                            coord2x(ee) = x
-                            coord2y(ee) = y
-                        Case 2
-                            If Pl.bulletHit(x, y) Then aryHits(2) += 1
-                            coord3x(ee) = x
-                            coord3y(ee) = y
-                        Case 3
-                            If Pl.bulletHit(x, y) Then aryHits(3) += 1
-                            coord4x(ee) = x
-                            coord4y(ee) = y
-                        Case 4
-                            If Pl.bulletHit(x, y) Then aryHits(4) += 1
-                            coord5x(ee) = x
-                            coord5y(ee) = y
-                    End Select
-                    Pl.ImageGraphic.DrawEllipse(pen1, x, y, 7, 7)
-                End If
+        '        If Not Pl.RenderScaleTarget Then
+        '            Pl.ImageGraphic.DrawEllipse(pen1, x, y, 7, 7)
+        '        Else
+        '            'Debug.WriteLine((Val(colo.R) + Val(colo.G) + Val(colo.B)).ToString())
+        '            Select Case a
+        '                Case 0
+        '                    If Pl.bulletHit(x, y) Then aryHits(0) += 1
+        '                    coord1x(ee) = x
+        '                    coord1y(ee) = y
+        '                Case 1
+        '                    If Pl.bulletHit(x, y) Then aryHits(1) += 1
+        '                    coord2x(ee) = x
+        '                    coord2y(ee) = y
+        '                Case 2
+        '                    If Pl.bulletHit(x, y) Then aryHits(2) += 1
+        '                    coord3x(ee) = x
+        '                    coord3y(ee) = y
+        '                Case 3
+        '                    If Pl.bulletHit(x, y) Then aryHits(3) += 1
+        '                    coord4x(ee) = x
+        '                    coord4y(ee) = y
+        '                Case 4
+        '                    If Pl.bulletHit(x, y) Then aryHits(4) += 1
+        '                    coord5x(ee) = x
+        '                    coord5y(ee) = y
+        '            End Select
+        '            Pl.ImageGraphic.DrawEllipse(pen1, x, y, 7, 7)
+        '        End If
 
-                Application.DoEvents()
-                'Calculate the new Y position
-                If a = 0 Then
-                    centy -= (CDbl(Val(dblRecoilH)) * scale) * CDbl(Val(Pl.FirstShot))
-                Else
-                    centy -= CDbl(Val(dblRecoilH)) * scale
-                End If
-                'Calculate the new X position
-                centerx += rndD(1000 + CDbl(dblRecoilR * scale), 1000 - Int(CDbl(dblRecoilL) * scale)) - 1000
-                'Calculate the new spread value
-                spread += CDbl(dblSpreadInc) * scale
-                Try
-                    'Calculate the recoil decrease v2.23
-                    'centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "x"), 0)
-                    'centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "y"), 0)
-                Catch
+        '        Application.DoEvents()
+        '        'Calculate the new Y position
+        '        If a = 0 Then
+        '            centy -= (CDbl(Val(dblRecoilH)) * scale) * CDbl(Val(Pl.FirstShot))
+        '        Else
+        '            centy -= CDbl(Val(dblRecoilH)) * scale
+        '        End If
+        '        'Calculate the new X position
+        '        centerx += rndD(1000 + CDbl(dblRecoilR * scale), 1000 - Int(CDbl(dblRecoilL) * scale)) - 1000
+        '        'Calculate the new spread value
+        '        spread += CDbl(dblSpreadInc) * scale
+        '        Try
+        '            'Calculate the recoil decrease v2.23
+        '            'centerx = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "x"), 0)
+        '            'centy = Math.Round(RecoilDecrease(startX, startY, centerx, centy, dblRecoilDeceasePerSecond, RateOfFire, scale, "y"), 0)
+        '        Catch
 
-                End Try
+        '        End Try
 
-            Next ' Next Bullet Burst
+        '    Next ' Next Bullet Burst
 
-            'Update the Progress bar
-            BackgroundWorker1.ReportProgress(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
-        Next 'Next BURST
+        '    'Update the Progress bar
+        '    BackgroundWorker1.ReportProgress(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
+        'Next 'Next BURST
 
-        Dim nl = Environment.NewLine
-        Dim intBursts As Integer = Val(txtBursts.Text)
-        If chkTimeToKill.Checked = True Then
-            For a = 0 To intBursts - 1
-                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.YellowGreen, 4), coord1x(a), coord1y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Yellow, 4), coord2x(a), coord2y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Orange, 4), coord3x(a), coord3y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Red, 4), coord4x(a), coord4y(a), 7, 7)
-                Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.DarkRed, 4), coord5x(a), coord5y(a), 7, 7)
-            Next
-            SetImage_ThreadSafe(Pl.Image)
-            Application.DoEvents()
-            Debug.WriteLine("Bursts: " & intBursts)
-            Debug.WriteLine("Hits #1: " & aryHits(0))
-            Debug.WriteLine("1st. bullet: " + Math.Round((aryHits(0) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
-                   "2nd. bullet: " + Math.Round((aryHits(1) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
-                   "3rd. bullet: " + Math.Round((aryHits(2) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
-                   "4th. bullet: " + Math.Round((aryHits(3) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
-                   "5th. bullet: " + Math.Round((aryHits(4) / (intBursts + 1) * 100), 2).ToString + "%")
+        'Dim nl = Environment.NewLine
+        'Dim intBursts As Integer = Val(Pl.Burst)
+        'If Pl.RenderScaleTarget Then
+        '    For a = 0 To intBursts - 1
+        '        Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.YellowGreen, 4), coord1x(a), coord1y(a), 7, 7)
+        '        Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Yellow, 4), coord2x(a), coord2y(a), 7, 7)
+        '        Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Orange, 4), coord3x(a), coord3y(a), 7, 7)
+        '        Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.Red, 4), coord4x(a), coord4y(a), 7, 7)
+        '        Pl.ImageGraphic.DrawEllipse(New System.Drawing.Pen(Color.DarkRed, 4), coord5x(a), coord5y(a), 7, 7)
+        '    Next
+        '    SetImage_ThreadSafe(Pl.Image)
+        '    Application.DoEvents()
+        '    Debug.WriteLine("Bursts: " & intBursts)
+        '    Debug.WriteLine("Hits #1: " & aryHits(0))
+        '    Debug.WriteLine("1st. bullet: " + Math.Round((aryHits(0) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+        '           "2nd. bullet: " + Math.Round((aryHits(1) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+        '           "3rd. bullet: " + Math.Round((aryHits(2) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+        '           "4th. bullet: " + Math.Round((aryHits(3) / (intBursts + 1) * 100), 2).ToString + "%" + nl + _
+        '           "5th. bullet: " + Math.Round((aryHits(4) / (intBursts + 1) * 100), 2).ToString + "%")
 
-        End If
-        If chkDrawTTK.Checked And chkTimeToKill.Checked Then
-            drawHitRate(Pl.ImageGraphic, Math.Round((aryHits(0) / (intBursts + 1) * 100), 2), Math.Round((aryHits(1) / (intBursts + 1) * 100), 2), Math.Round((aryHits(2) / (intBursts + 1) * 100), 2), Math.Round((aryHits(3) / (intBursts + 1) * 100), 2), Math.Round((aryHits(4) / (intBursts + 1) * 100), 2))
-        End If
-        If chkHeatMap.Checked Then
-            If chkRenderHeatTitle.Checked Then
-                drawTitle(Pl.HeatGraphic)
-            End If
-            If chkRenderHeatBars.Checked Then
-                drawBars(Pl.HeatGraphic)
-            End If
-            If chkRenderHeatAdjust.Checked Then
-                drawAdjustments(Pl.HeatGraphic)
-            End If
-            Pl.HeatGraphic = Graphics.FromImage(Pl.HeatMap)
-            SetOutPutText_ThreadSafe("Please wait... Creating heat map")
-            Application.DoEvents()
-            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
-            ' Colorize the memory bitmap and assign it as the picture boxes image
-            Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
-        End If
-        If chkTitles.Checked Then
-            drawTitle(Pl.ImageGraphic)
-        End If
-        If chkPrintAdj.Checked Then
-            drawAdjustments(Pl.ImageGraphic)
-        End If
-        If chkRenderBulletDrop.Checked Then
-            drawBulletDrop(Pl.ImageGraphic)
-        End If
-        If chkWriteDropInfo.Checked Then
-            drawDropInfo(Pl.ImageGraphic)
-        End If
-        If chkRenderAmmoInfo.Checked Then
-            drawBulletInfo(Pl.ImageGraphic)
-        End If
-        If chkDrawGrid.Checked Then
-            drawGrid(Pl.ImageGraphic)
-        End If
+        'End If
+        'If Pl.RenderTTK And Pl.RenderScaleTarget Then
+        '    drawHitRate(Pl.ImageGraphic, Math.Round((aryHits(0) / (intBursts + 1) * 100), 2), Math.Round((aryHits(1) / (intBursts + 1) * 100), 2), Math.Round((aryHits(2) / (intBursts + 1) * 100), 2), Math.Round((aryHits(3) / (intBursts + 1) * 100), 2), Math.Round((aryHits(4) / (intBursts + 1) * 100), 2))
+        'End If
+        'If Pl.RenderHeatMap Then
+        '    'Pl.HeatGraphic = Graphics.FromImage(Pl.HeatMap)
+        '    SetOutPutText_ThreadSafe("Please wait... Creating heat map")
+        '    Application.DoEvents()
+        '    Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
+        '    ' Colorize the memory bitmap and assign it as the picture boxes image
+        '    Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
+        'End If
 
-        Dim TestDrawSurface As Graphics = Graphics.FromImage(Pl.HeatMap)
-        If chkRenderHeatBars.Checked Then
-            drawBars(TestDrawSurface)
-        End If
-        If chkRenderHeatAdjust.Checked Then
-            drawAdjustments(TestDrawSurface)
-        End If
-        If chkRenderHeatTitle.Checked Then
-            drawTitle(TestDrawSurface)
-        End If
-        Pl.HeatGraphic = TestDrawSurface
+        'If Pl.RenderTitle Then
+        '    drawTitle(Pl.ImageGraphic)
+        'End If
+        'If Pl.RenderAdjustment Then
+        '    drawAdjustments(Pl.ImageGraphic)
+        'End If
+        'If Pl.RenderBulletDrop Then
+        '    drawBulletDrop(Pl.ImageGraphic)
+        'End If
+        'If Pl.RenderDropInfo Then
+        '    drawDropInfo(Pl.ImageGraphic)
+        'End If
+        'If Pl.RenderAmmoInfo Then
+        '    drawBulletInfo(Pl.ImageGraphic)
+        'End If
+        'If Pl.RenderGrid Then
+        '    drawGrid(Pl.ImageGraphic)
+        'End If
 
-        drawTTKSplit(Pl.TTKGraphic)
-        If chkDrawTTKGrid.Checked Then
-            drawTTKGrid(Pl.TTKGraphic)
-        End If
-        If chkDrawDropGrid.Checked Then
-            'drawTTKGrid(Pl.TTKGraphic)
-            drawDropGrid(Pl.TTKGraphic)
-        End If
-        drawTTKBulletDamageArc(Pl.TTKGraphic)
-        drawTTKBulletDropArc(Pl.TTKGraphic)
-        '       drawTTKChart(Pl.TTKGraphic)
+        'Dim TestDrawSurface As Graphics = Graphics.FromImage(Pl.HeatMap)
+        'If Pl.RenderHeatBars Then
+        '    drawBars(TestDrawSurface)
+        'End If
+        'If Pl.RenderHeatAdjust Then
+        '    drawAdjustments(TestDrawSurface)
+        'End If
+        'If Pl.RenderHeatTitle Then
+        '    drawTitle(TestDrawSurface)
+        'End If
+        'Pl.HeatGraphic = TestDrawSurface
+
+        'drawTTKSplit(Pl.TTKGraphic)
+        'If Pl.RenderTTKGrid Then
+        '    drawTTKGrid(Pl.TTKGraphic)
+        'End If
+        'If Pl.RenderDropGrid Then
+        '    'drawTTKGrid(Pl.TTKGraphic)
+        '    drawDropGrid(Pl.TTKGraphic)
+        'End If
+
+        'drawTTKBulletDamageArc(Pl.TTKGraphic)
+        'drawTTKBulletDropArc(Pl.TTKGraphic)
+        ''       drawTTKChart(Pl.TTKGraphic)
+        'ToggleToolStripMain_ThreadSafe(True)
+        'selectView("main")
+        'ToggleToolStripMask_ThreadSafe(True)
+        createImage(0, True)
         ToggleToolStripMain_ThreadSafe(True)
         selectView("main")
-        ToggleToolStripMask_ThreadSafe(True)
-
 
     End Sub
-    Private Sub BackgroundWorker1_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles BackgroundWorker1.ProgressChanged
+    Private Sub bgWorker_RenderSingle_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles bgWorker_RenderSingle.ProgressChanged
         Me.ToolStripProgressBar1.Value = e.ProgressPercentage
     End Sub
 
-    Private Sub BackgroundWorker1_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
+    Private Sub bgWorker_RenderSingle_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgWorker_RenderSingle.RunWorkerCompleted
         If e.Cancelled Then
             mainToolStripStatus.Text = "Cancelled"
             Debug.WriteLine("Worker 1 Cancelled")
@@ -2315,12 +2385,19 @@ Public Class Main
     End Sub
 
     Private Sub btnStop_Click(sender As System.Object, e As System.EventArgs) Handles btnStop.Click
-        ' Is the Background Worker do some work?
-        If BackgroundWorker1.IsBusy Then
+        ' Is the Background Worker doing some work?
+        If bgWorker_RenderSingle.IsBusy Then
             'If it supports cancellation, Cancel It
-            If BackgroundWorker1.WorkerSupportsCancellation Then
+            If bgWorker_RenderSingle.WorkerSupportsCancellation Then
                 ' Tell the Background Worker to stop working.
-                BackgroundWorker1.CancelAsync()
+                bgWorker_RenderSingle.CancelAsync()
+            End If
+        End If
+        If bgWorker_RenderAll.IsBusy Then
+            'If it supports cancellation, Cancel It
+            If bgWorker_RenderAll.WorkerSupportsCancellation Then
+                ' Tell the Background Worker to stop working.
+                bgWorker_RenderAll.CancelAsync()
             End If
         End If
     End Sub
@@ -2664,7 +2741,7 @@ Public Class Main
             'iCaller = 0 Called from the async worker
             'iCaller = 1 Called from the preview
             If iCaller = 0 Then
-                BackgroundWorker1.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
+                bgWorker_RenderSingle.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
             Else
                 Me.ToolStripProgressBar1.Value = Math.Round((hCount / aHeatPoints.Count) * 100)
             End If
@@ -3063,7 +3140,7 @@ ByVal DefaultValue As String) As String
         Else
             Debug.WriteLine("Weapon File Not Found: " & path)
             ' MsgBox("Weapon File Not Found: " & path)
-            Me.BackgroundWorker1.CancelAsync()
+            Me.bgWorker_RenderSingle.CancelAsync()
             Return "FILENOTFOUND"
         End If
     End Function
@@ -3153,14 +3230,14 @@ ByVal DefaultValue As String) As String
         Dim basepath As String = System.IO.Path.Combine(Directory.GetCurrentDirectory, "gun_images")
 
         Dim path = basepath & "\" & getFileName(comboWeapon1.Text).ToLower & ".png"
-            If File.Exists(path) Then
-                picPlot.Image = DirectCast(Bitmap.FromFile(path), Bitmap)
-                picPlot.SizeMode = PictureBoxSizeMode.Zoom
-                'Debug.WriteLine("Gun Image Found at " & path)
-            Else
-                Debug.WriteLine("No Gun Image Found at " & path)
-                picPlot.Image = New Bitmap(My.Resources.knife)
-            End If
+        If File.Exists(path) Then
+            picPlot.Image = DirectCast(Bitmap.FromFile(path), Bitmap)
+            picPlot.SizeMode = PictureBoxSizeMode.Zoom
+            'Debug.WriteLine("Gun Image Found at " & path)
+        Else
+            Debug.WriteLine("No Gun Image Found at " & path)
+            picPlot.Image = New Bitmap(My.Resources.knife)
+        End If
 
     End Sub
     Private Function updateAttachmentSelection() As String
@@ -3270,7 +3347,7 @@ ByVal DefaultValue As String) As String
         End If
     End Sub
 
-    Private Sub chkTimeToKill_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkTimeToKill.CheckedChanged
+    Private Sub chkTimeToKill_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawScaleTarget.CheckedChanged
         If sender.checked Then
             comboSilhouetteStyle.Enabled = True
             chkDrawTarget.Checked = True
@@ -3321,9 +3398,9 @@ ByVal DefaultValue As String) As String
 
     Private Sub chkDrawTarget_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawTarget.CheckedChanged
         If sender.checked Then
-            chkTimeToKill.Checked = True
+            chkDrawScaleTarget.Checked = True
         Else
-            chkTimeToKill.Checked = False
+            chkDrawScaleTarget.Checked = False
         End If
     End Sub
 
@@ -3399,16 +3476,17 @@ ByVal DefaultValue As String) As String
             'Set the Gun Name and the filename
             Pl.FileName = DataPoint.FileName
             Pl.Gun = DataPoint.ProperName
+            Debug.WriteLine("Creating Plot for: " & Pl.Gun)
+            SetOutPutText_ThreadSafe("Creating Plot for: " & Pl.Gun)
             'Load up the information into the plotic object
             loadPlotic()
             'Create the image
-
+            createImage(1, False)
             'Save the image
-
         Next
     End Sub
 
-    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
+    Private Sub bgWorker_RenderAll_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderAll.DoWork
 
     End Sub
 End Class
