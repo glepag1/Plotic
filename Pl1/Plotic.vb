@@ -53,10 +53,12 @@
 
     Private dblHeatMapIntensity As Double
 
-    Private dblBackgroundColorAlpha As Integer
-    Private dblBackgroundColorRed As Integer
-    Private dblBackgroundColorGreen As Integer
-    Private dblBackgroundColorBlue As Integer
+    Private intBackgroundColorAlpha As Integer
+    Private intBackgroundColorRed As Integer
+    Private intBackgroundColorGreen As Integer
+    Private intBackgroundColorBlue As Integer
+
+    Private intSilhouetteStyle As Integer
 
     Private blnRenderTitle As Boolean
     Private blnRenderBars As Boolean
@@ -79,7 +81,19 @@
     Private blnRenderHeatBars As Boolean
     Private blnRenderHeatAdjust As Boolean
 
+    Private blnHasAttachHBarrel As Boolean = False
+    Private blnHasAttachLaser As Boolean = False
+    Private blnHasAttachSilencer As Boolean = False
+    Private blnHasAttachFSupp As Boolean = False
+    Private blnHasAttachUnderForegrip As Boolean = False
+    Private blnHasAttachUnderBipod As Boolean = False
 
+    Private blnUseAttachHBarrel As Boolean = False
+    Private blnUseAttachLaser As Boolean = False
+    Private blnUseAttachSilencer As Boolean = False
+    Private blnUseAttachFSupp As Boolean = False
+    Private blnUseAttachUnderForegrip As Boolean = False
+    Private blnUseAttachUnderBipod As Boolean = False
 
 
 
@@ -190,34 +204,42 @@
 
     Property BackgroundColorAlpha() As Integer
         Get
-            Return dblBackgroundColorAlpha
+            Return intBackgroundColorAlpha
         End Get
         Set(ByVal Value As Integer)
-            dblBackgroundColorAlpha = Value
+            intBackgroundColorAlpha = Value
         End Set
     End Property
     Property BackgroundColorRed() As Integer
         Get
-            Return dblBackgroundColorRed
+            Return intBackgroundColorRed
         End Get
         Set(ByVal Value As Integer)
-            dblBackgroundColorRed = Value
+            intBackgroundColorRed = Value
         End Set
     End Property
     Property BackgroundColorGreen() As Integer
         Get
-            Return dblBackgroundColorGreen
+            Return intBackgroundColorGreen
         End Get
         Set(ByVal Value As Integer)
-            dblBackgroundColorGreen = Value
+            intBackgroundColorGreen = Value
         End Set
     End Property
     Property BackgroundColorBlue() As Integer
         Get
-            Return dblBackgroundColorBlue
+            Return intBackgroundColorBlue
         End Get
         Set(ByVal Value As Integer)
-            dblBackgroundColorBlue = Value
+            intBackgroundColorBlue = Value
+        End Set
+    End Property
+    Property SilhouetteStyle() As Integer
+        Get
+            Return intSilhouetteStyle
+        End Get
+        Set(ByVal Value As Integer)
+            intSilhouetteStyle = Value
         End Set
     End Property
 
@@ -352,6 +374,105 @@
         End Set
     End Property
 
+    'Has Attachment Booleans
+    Property HasAttachHBarrel() As Boolean
+        Get
+            Return blnHasAttachHBarrel
+        End Get
+        Set(ByVal Value As Boolean)
+            blnHasAttachHBarrel = Value
+        End Set
+    End Property
+    Property HasAttachLaser() As Boolean
+        Get
+            Return blnHasAttachLaser
+        End Get
+        Set(ByVal Value As Boolean)
+            blnHasAttachLaser = Value
+        End Set
+    End Property
+    Property HasAttachSilencer() As Boolean
+        Get
+            Return blnHasAttachSilencer
+        End Get
+        Set(ByVal Value As Boolean)
+            blnHasAttachSilencer = Value
+        End Set
+    End Property
+    Property HasAttachFSupp() As Boolean
+        Get
+            Return blnHasAttachFSupp
+        End Get
+        Set(ByVal Value As Boolean)
+            blnHasAttachFSupp = Value
+        End Set
+    End Property
+    Property HasAttachUnderForegrip() As Boolean
+        Get
+            Return blnHasAttachUnderForegrip
+        End Get
+        Set(ByVal Value As Boolean)
+            blnHasAttachUnderForegrip = Value
+        End Set
+    End Property
+    Property HasAttachUnderBipod() As Boolean
+        Get
+            Return blnHasAttachUnderBipod
+        End Get
+        Set(ByVal Value As Boolean)
+            blnHasAttachUnderBipod = Value
+        End Set
+    End Property
+
+    'Use Attachment Booleans
+    Property UseAttachHBarrel() As Boolean
+        Get
+            Return blnUseAttachHBarrel
+        End Get
+        Set(ByVal Value As Boolean)
+            blnUseAttachHBarrel = Value
+        End Set
+    End Property
+    Property UseAttachLaser() As Boolean
+        Get
+            Return blnUseAttachLaser
+        End Get
+        Set(ByVal Value As Boolean)
+            blnUseAttachLaser = Value
+        End Set
+    End Property
+    Property UseAttachSilencer() As Boolean
+        Get
+            Return blnUseAttachSilencer
+        End Get
+        Set(ByVal Value As Boolean)
+            blnUseAttachSilencer = Value
+        End Set
+    End Property
+    Property UseAttachFSupp() As Boolean
+        Get
+            Return blnUseAttachFSupp
+        End Get
+        Set(ByVal Value As Boolean)
+            blnUseAttachFSupp = Value
+        End Set
+    End Property
+    Property UseAttachUnderForegrip() As Boolean
+        Get
+            Return blnUseAttachUnderForegrip
+        End Get
+        Set(ByVal Value As Boolean)
+            blnUseAttachUnderForegrip = Value
+        End Set
+    End Property
+    Property UseAttachUnderBipod() As Boolean
+        Get
+            Return blnUseAttachUnderBipod
+        End Get
+        Set(ByVal Value As Boolean)
+            blnUseAttachUnderBipod = Value
+        End Set
+    End Property
 
     Property DamageMax() As Double
         Get

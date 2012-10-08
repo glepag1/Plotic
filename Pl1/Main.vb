@@ -555,7 +555,7 @@ Public Class Main
         Dim rect As New Rectangle(3, 248, 700, 180)
         g.FillRectangle(New SolidBrush(Color.FromArgb(127, 0, 0, 0)), rect)
 
-        Dim gravity As String = getbulletdata(GetValue(Pl.Gun, "ProjectileData"), "Gravity")
+        Dim gravity As String = getbulletdata(GetValue(Pl.FileName, "ProjectileData"), "Gravity")
 
         'Dim test As Double = Pl.correctionAngle(5, 700)
         If Pl.TargetRange > Pl.MaxDistance Then
@@ -1210,17 +1210,22 @@ Public Class Main
         Dim startY = 1680
 
         For ee = 0 To Pl.Burst ' Burst Loop
-            If bgWorker_RenderSingle.CancellationPending Then
-                ' Set Cancel to True
-                SetImage_ThreadSafe(Pl.Image)
-                bgWorker_RenderSingle.CancelAsync()
-                Exit For
+            If iCaller = 1 Then
+                If bgWorker_RenderSingle.CancellationPending Then
+                    ' Set Cancel to True
+                    SetImage_ThreadSafe(Pl.Image)
+                    bgWorker_RenderSingle.CancelAsync()
+                    Exit For
+                End If
             End If
-            If bgWorker_RenderAll.CancellationPending Then
-                ' Set Cancel to True
-                bgWorker_RenderAll.CancelAsync()
-                Exit For
+            If iCaller = 2 Then
+                If bgWorker_RenderAll.CancellationPending Then
+                    ' Set Cancel to True
+                    bgWorker_RenderAll.CancelAsync()
+                    Exit For
+                End If
             End If
+
             upd += 1
             If upd = UPDATE_PERIOD Then
                 upd = 0
@@ -1444,6 +1449,7 @@ Public Class Main
         'Set the gun name and make any nessasary conversions
         Pl.Gun = comboWeapon1.Text
         Pl.FileName = getFileName(comboWeapon1.Text)
+        setSelectedAttachments()
 
         If comboWeapon1.Text = "..CUSTOM.." Then
             loadCustomPlotic()
@@ -1452,6 +1458,28 @@ Public Class Main
         End If
 
         bgWorker_RenderSingle.RunWorkerAsync()
+
+    End Sub
+    Private Sub setSelectedAttachments()
+
+        If radBarrelFlash.Checked Then Pl.UseAttachFSupp = True Else Pl.UseAttachFSupp = False
+        If radBarrelHeavy.Checked Then Pl.UseAttachHBarrel = True Else Pl.UseAttachHBarrel = False
+        If radBarrelSilencer.Checked Then Pl.UseAttachSilencer = True Else Pl.UseAttachSilencer = False
+        If radUnderLaser.Checked Then Pl.UseAttachLaser = True Else Pl.UseAttachLaser = False
+
+        If radUnderBipod.Checked Then Pl.UseAttachUnderBipod = True Else Pl.UseAttachUnderBipod = False
+        If radUnderForegrip.Checked Then Pl.UseAttachUnderForegrip = True Else Pl.UseAttachUnderForegrip = False
+
+    End Sub
+    Private Sub resetAttachments()
+
+        Pl.UseAttachFSupp = False
+        Pl.UseAttachHBarrel = False
+        Pl.UseAttachSilencer = False
+        Pl.UseAttachLaser = False
+
+        Pl.UseAttachUnderBipod = False
+        Pl.UseAttachUnderForegrip = False
 
     End Sub
     Private Sub loadCustomPlotic()
@@ -1644,33 +1672,33 @@ Public Class Main
     End Function
     Private Function getAdjustMin() As Double
         Dim dblSumModifer As Double = 0
-        If radBarrelFlash.Checked Then
+        If Pl.UseAttachFSupp Then
             Dim FlashAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Flash_Suppressor", "MinAngleModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += FlashAngle
         End If
-        If radBarrelHeavy.Checked Then
+        If Pl.UseAttachHBarrel Then
             Dim HeavyBarrelAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "HeavyBarrel", "MinAngleModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += HeavyBarrelAngle
         End If
-        If radBarrelSilencer.Checked Then
+        If Pl.UseAttachSilencer Then
             Dim SilencerAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Silencer", "MinAngleModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += SilencerAngle
         End If
-        If radUnderBipod.Checked Then
+        If Pl.UseAttachUnderBipod Then
             Dim BipodAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Bipod", "MinAngleModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += BipodAngle
         End If
-        If radUnderForegrip.Checked Then
+        If Pl.UseAttachUnderForegrip Then
             Dim ForegripAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Foregrip", "MinAngleModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += ForegripAngle
         End If
-        If radUnderLaser.Checked Then
+        If Pl.UseAttachLaser Then
             Dim LaserAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "TargetPointer", "MinAngleModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += LaserAngle
         End If
-        If radBarrelNone.Checked And radUnderNone.Checked Then
-            dblSumModifer += 0
-        End If
+        'If radBarrelNone.Checked And radUnderNone.Checked Then
+        'dblSumModifer += 0
+        'End If
 
         Return dblSumModifer
     End Function
@@ -1678,33 +1706,33 @@ Public Class Main
         Dim dblSumModifer As Double = 0
 
 
-        If radBarrelFlash.Checked Then
+        If Pl.UseAttachFSupp Then
             Dim FlashAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Flash_Suppressor", "IncreasePerShotModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += FlashAngle
         End If
-        If radBarrelHeavy.Checked Then
+        If Pl.UseAttachHBarrel Then
             Dim HeavyBarrelAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "HeavyBarrel", "IncreasePerShotModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += HeavyBarrelAngle
         End If
-        If radBarrelSilencer.Checked Then
+        If Pl.UseAttachSilencer Then
             Dim SilencerAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Silencer", "IncreasePerShotModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += SilencerAngle
         End If
-        If radUnderBipod.Checked Then
+        If Pl.UseAttachUnderBipod Then
             Dim BipodAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Bipod", "IncreasePerShotModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += BipodAngle
         End If
-        If radUnderForegrip.Checked Then
+        If Pl.UseAttachUnderForegrip Then
             Dim ForegripAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Foregrip", "IncreasePerShotModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += ForegripAngle
         End If
-        If radUnderLaser.Checked Then
+        If Pl.UseAttachLaser Then
             Dim LaserAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "TargetPointer", "IncreasePerShotModifier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += LaserAngle
         End If
-        If radBarrelNone.Checked And radUnderNone.Checked Then
-            dblSumModifer += 0
-        End If
+        'If radBarrelNone.Checked And radUnderNone.Checked Then
+        'dblSumModifer += 0
+        'End If
 
         Return dblSumModifer
     End Function
@@ -1712,33 +1740,33 @@ Public Class Main
         Dim dblSumModifer As Double = 0
 
 
-        If radBarrelFlash.Checked Then
+        If Pl.UseAttachFSupp Then
             Dim FlashAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Flash_Suppressor", "RecoilMagnitudeMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += FlashAngle
         End If
-        If radBarrelHeavy.Checked Then
+        If Pl.UseAttachHBarrel Then
             Dim HeavyBarrelAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "HeavyBarrel", "RecoilMagnitudeMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += HeavyBarrelAngle
         End If
-        If radBarrelSilencer.Checked Then
+        If Pl.UseAttachSilencer Then
             Dim SilencerAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Silencer", "RecoilMagnitudeMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += SilencerAngle
         End If
-        If radUnderBipod.Checked Then
+        If Pl.UseAttachUnderBipod Then
             Dim BipodAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Bipod", "RecoilMagnitudeMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += BipodAngle
         End If
-        If radUnderForegrip.Checked Then
+        If Pl.UseAttachUnderForegrip Then
             Dim ForegripAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Foregrip", "RecoilMagnitudeMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += ForegripAngle
         End If
-        If radUnderLaser.Checked Then
+        If Pl.UseAttachLaser Then
             Dim LaserAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "TargetPointer", "RecoilMagnitudeMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += LaserAngle
         End If
-        If radBarrelNone.Checked And radUnderNone.Checked Then
-            dblSumModifer += 0
-        End If
+        'If radBarrelNone.Checked And radUnderNone.Checked Then
+        'dblSumModifer += 0
+        'End If
         If dblSumModifer < 0 Then
             If dblSumModifer < -100 Then dblSumModifer = -100
         Else
@@ -1750,33 +1778,33 @@ Public Class Main
         Dim dblSumModifer As Double = 0
 
 
-        If radBarrelFlash.Checked Then
+        If Pl.UseAttachFSupp Then
             Dim FlashAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Flash_Suppressor", "RecoilAngleMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += FlashAngle
         End If
-        If radBarrelHeavy.Checked Then
+        If Pl.UseAttachHBarrel Then
             Dim HeavyBarrelAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "HeavyBarrel", "RecoilAngleMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += HeavyBarrelAngle
         End If
-        If radBarrelSilencer.Checked Then
+        If Pl.UseAttachSilencer Then
             Dim SilencerAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Silencer", "RecoilAngleMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += SilencerAngle
         End If
-        If radUnderBipod.Checked Then
+        If Pl.UseAttachUnderBipod Then
             Dim BipodAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Bipod", "RecoilAngleMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += BipodAngle
         End If
-        If radUnderForegrip.Checked Then
+        If Pl.UseAttachUnderForegrip Then
             Dim ForegripAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "Foregrip", "RecoilAngleMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += ForegripAngle
         End If
-        If radUnderLaser.Checked Then
+        If Pl.UseAttachLaser Then
             Dim LaserAngle As Double = Math.Round(Double.Parse(GetAttachmentValue(Pl.FileName, "TargetPointer", "RecoilAngleMod", getFullStance()), System.Globalization.CultureInfo.InvariantCulture) * 100, 0) - 100
             dblSumModifer += LaserAngle
         End If
-        If radBarrelNone.Checked And radUnderNone.Checked Then
-            dblSumModifer += 0
-        End If
+        'If radBarrelNone.Checked And radUnderNone.Checked Then
+        'dblSumModifer += 0
+        'End If
 
         Return dblSumModifer
     End Function
@@ -1807,19 +1835,27 @@ Public Class Main
     Private Function buildAttachString() As String
         Dim attachString As String = ""
         Dim attachCount As Integer = 0
-        If radBarrelFlash.Checked Then
+        If Pl.UseAttachFSupp Then
             attachString += "Flash Supp. "
             attachCount += 1
         End If
-        If radBarrelHeavy.Checked Then
+        If Pl.UseAttachHBarrel Then
             attachString += "H. Barrel "
             attachCount += 1
         End If
-        If radBarrelSilencer.Checked Then
+        If Pl.UseAttachSilencer Then
             attachString += "Silencer "
             attachCount += 1
         End If
-        If radUnderBipod.Checked Then
+        If Pl.UseAttachLaser Then
+            If attachCount > 0 Then
+                attachString += "- Laser "
+            Else
+                attachString += "Laser "
+            End If
+            attachCount += 1
+        End If
+        If Pl.UseAttachUnderBipod Then
             If attachCount > 0 Then
                 attachString += "- Bipod "
             Else
@@ -1828,19 +1864,11 @@ Public Class Main
 
             attachCount += 1
         End If
-        If radUnderForegrip.Checked Then
+        If Pl.UseAttachUnderForegrip Then
             If attachCount > 0 Then
                 attachString += "- Foregrip "
             Else
                 attachString += "Foregrip "
-            End If
-            attachCount += 1
-        End If
-        If radUnderLaser.Checked Then
-            If attachCount > 0 Then
-                attachString += "- Laser "
-            Else
-                attachString += "Laser "
             End If
             attachCount += 1
         End If
@@ -2008,6 +2036,7 @@ Public Class Main
 
     Private Sub btnSaveImage_Click() Handles btnSaveImage.Click
         Dim folderSelectDialog As New FolderBrowserDialog
+        folderSelectDialog.RootFolder = Environment.SpecialFolder.Desktop
 
         If folderSelectDialog.ShowDialog() = DialogResult.OK Then
             saveImagePath = folderSelectDialog.SelectedPath
@@ -2367,7 +2396,7 @@ Public Class Main
             Dim h As New Bitmap(Pl.HeatMap)
 
             Dim heatFileName As String = file.Insert((file.Length - 4), "_heatmap")
-            Debug.WriteLine("Heat Filename: " & file)
+            Debug.WriteLine("Heat Filename: " & heatFileName)
             h.Save(heatFileName)
             h.Dispose()
         End If
@@ -2376,7 +2405,7 @@ Public Class Main
             Dim t As New Bitmap(Pl.TTK)
 
             Dim ttkFileName As String = file.Insert((file.Length - 4), "_TTK")
-            Debug.WriteLine("TTK Filename: " & file)
+            Debug.WriteLine("TTK Filename: " & ttkFileName)
             t.Save(ttkFileName)
             t.Dispose()
         End If
@@ -2535,6 +2564,19 @@ Public Class Main
             Me.Invoke(MyDelegate, New Object() {[boolean]})
         Else
             btnRenderAll.Visible = [boolean]
+        End If
+    End Sub
+
+    Delegate Sub ToolStripProgressBar1_Delegate(ByVal [integer] As Integer)
+    ' The delegates subroutine.
+    Private Sub ToolStripProgressBar1_ThreadSafe(ByVal [integer] As Integer)
+        ' InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If ToolStripProgressBar1.Control.InvokeRequired Then
+            Dim MyDelegate As New ToolStripProgressBar1_Delegate(AddressOf ToolStripProgressBar1_ThreadSafe)
+            Me.Invoke(MyDelegate, New Object() {[integer]})
+        Else
+            ToolStripProgressBar1.Value = [integer]
         End If
     End Sub
 #End Region
@@ -2757,13 +2799,9 @@ Public Class Main
         For Each DataPoint As HeatPoint In aHeatPoints
             ' Render current heat point on draw surface
             DrawHeatPoint(DrawSurface, DataPoint, numHeatRadius.Value)
-            'iCaller = 0 Called from the async worker
-            'iCaller = 1 Called from the preview
-            If iCaller = 0 Then
-                bgWorker_RenderSingle.ReportProgress(Math.Round((hCount / aHeatPoints.Count) * 100), 0)
-            Else
-                Me.ToolStripProgressBar1.Value = Math.Round((hCount / aHeatPoints.Count) * 100)
-            End If
+
+            ToolStripProgressBar1_ThreadSafe(Math.Round((hCount / aHeatPoints.Count) * 100))
+
             hCount += 1
         Next
 
@@ -3215,8 +3253,8 @@ ByVal DefaultValue As String) As String
             grpBulletDropCustom.Enabled = False
 
             grpTTKCustom.Enabled = False
-
-            updateAttachmentSelection()
+            Pl.FileName = getFileName(comboWeapon1.Text)
+            updateAttachmentSelection(True)
             renderGunImage()
         Else
             grpCustomTTK.Enabled = True
@@ -3261,59 +3299,70 @@ ByVal DefaultValue As String) As String
         End If
 
     End Sub
-    Private Function updateAttachmentSelection() As String
-        ' List order: HeavyBarrel(1), Silencer(2), Fls Supp(3), Fore Grip(4), Laser(5), Bipod(6)
+    Private Function updateAttachmentSelection(ByVal updateGUI As Boolean) As String
+        ' List order: HeavyBarrel(1), Silencer(2), Fls Supp(3), Laser(4), Fore Grip(5), Bipod(6)
         Dim strAttachList As String = "000000"
         Dim strAltList As String = ""
 
-        If GetData(getFileName(comboWeapon1.Text), "HeavyBarrel") = "FILENOTFOUND" Then
-            radBarrelHeavy.Enabled = False
+        If GetData(Pl.FileName, "HeavyBarrel") = "FILENOTFOUND" Then
+            If updateGUI Then radBarrelHeavy.Enabled = False
+            Pl.HasAttachHBarrel = False
         Else
-            radBarrelHeavy.Enabled = True
+            If updateGUI Then radBarrelHeavy.Enabled = True
+            Pl.HasAttachHBarrel = True
             strAltList = strAttachList.Remove(0, 1).Insert(0, "1")
             strAttachList = strAltList
         End If
 
-        If GetData(getFileName(comboWeapon1.Text), "Silencer") = "FILENOTFOUND" Then
-            radBarrelSilencer.Enabled = False
+        If GetData(Pl.FileName, "Silencer") = "FILENOTFOUND" Then
+            If updateGUI Then radBarrelSilencer.Enabled = False
+            Pl.HasAttachSilencer = False
         Else
-            radBarrelSilencer.Enabled = True
+            If updateGUI Then radBarrelSilencer.Enabled = True
+            Pl.HasAttachSilencer = True
             strAltList = strAttachList.Remove(1, 1).Insert(1, "1")
             strAttachList = strAltList
         End If
 
-        If GetData(getFileName(comboWeapon1.Text), "Flash_Suppressor") = "FILENOTFOUND" Then
-            radBarrelFlash.Enabled = False
+        If GetData(Pl.FileName, "Flash_Suppressor") = "FILENOTFOUND" Then
+            If updateGUI Then radBarrelFlash.Enabled = False
+            Pl.HasAttachFSupp = False
         Else
-            radBarrelFlash.Enabled = True
+            If updateGUI Then radBarrelFlash.Enabled = True
+            Pl.HasAttachFSupp = True
             strAltList = strAttachList.Remove(2, 1).Insert(2, "1")
             strAttachList = strAltList
         End If
 
-        If GetData(getFileName(comboWeapon1.Text), "Foregrip") = "FILENOTFOUND" Then
-            radUnderForegrip.Enabled = False
+        If GetData(Pl.FileName, "TargetPointer") = "FILENOTFOUND" Then
+            If updateGUI Then radUnderLaser.Enabled = False
+            Pl.HasAttachLaser = False
         Else
-            radUnderForegrip.Enabled = True
+            If updateGUI Then radUnderLaser.Enabled = True
+            Pl.HasAttachLaser = True
             strAltList = strAttachList.Remove(3, 1).Insert(3, "1")
             strAttachList = strAltList
         End If
 
-        If GetData(getFileName(comboWeapon1.Text), "TargetPointer") = "FILENOTFOUND" Then
-            radUnderLaser.Enabled = False
+        If GetData(Pl.FileName, "Foregrip") = "FILENOTFOUND" Then
+            If updateGUI Then radUnderForegrip.Enabled = False
+            Pl.HasAttachUnderForegrip = False
         Else
-            radUnderLaser.Enabled = True
+            If updateGUI Then radUnderForegrip.Enabled = True
+            Pl.HasAttachUnderForegrip = True
             strAltList = strAttachList.Remove(4, 1).Insert(4, "1")
             strAttachList = strAltList
         End If
-
-        If GetData(getFileName(comboWeapon1.Text), "Bipod") = "FILENOTFOUND" Then
-            radUnderBipod.Enabled = False
+        If GetData(Pl.FileName, "Bipod") = "FILENOTFOUND" Then
+            If updateGUI Then radUnderBipod.Enabled = False
+            Pl.HasAttachUnderBipod = False
         Else
-            radUnderBipod.Enabled = True
+            If updateGUI Then radUnderBipod.Enabled = True
+            Pl.HasAttachUnderBipod = True
             strAltList = strAttachList.Remove(5, 1).Insert(5, "1")
             strAttachList = strAltList
         End If
-        Debug.WriteLine("Attach List: " & strAttachList & " : " & strAltList)
+        Debug.WriteLine("Attach List: " & strAttachList)
         Return strAttachList
     End Function
 
@@ -3499,10 +3548,273 @@ ByVal DefaultValue As String) As String
 
         bgWorker_RenderAll.RunWorkerAsync()
     End Sub
+    Private Sub renderAllAttachments()
+        'NO Attachment
+        If Pl.HasAttachUnderForegrip = True Then
+            Pl.UseAttachUnderForegrip = True
+            loadPlotic()
+            'Create the image
+            HeatPoints.Clear()
+            createImage(2, True)
+            'Save the image
+            If chkSaveImage.Checked Then
+                Debug.WriteLine("Saving Image")
+                SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                Application.DoEvents()
+                buildFileName()
+                SaveImage()
+            End If
+            resetAttachments()
+        End If
+        If Pl.HasAttachUnderBipod = True Then
+            Pl.UseAttachUnderBipod = True
+            loadPlotic()
+            'Create the image
+            HeatPoints.Clear()
+            createImage(2, True)
+            'Save the image
+            If chkSaveImage.Checked Then
+                Debug.WriteLine("Saving Image")
+                SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                Application.DoEvents()
+                buildFileName()
+                SaveImage()
+            End If
+            resetAttachments()
+        End If
 
+        'Heavy Barrel Attachment
+        If Pl.HasAttachHBarrel Then
+            Pl.UseAttachHBarrel = True
+            'No Under Barrel
+            loadPlotic()
+            'Create the image
+            HeatPoints.Clear()
+            createImage(2, True)
+            'Save the image
+            If chkSaveImage.Checked Then
+                Debug.WriteLine("Saving Image")
+                SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                Application.DoEvents()
+                buildFileName()
+                SaveImage()
+            End If
+            resetAttachments()
+
+            If Pl.HasAttachUnderForegrip = True Then
+                Pl.UseAttachUnderForegrip = True
+                Pl.UseAttachHBarrel = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+            If Pl.HasAttachUnderBipod = True Then
+                Pl.UseAttachUnderBipod = True
+                Pl.UseAttachHBarrel = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+        End If
+
+        'Laser Attachment
+        If Pl.HasAttachLaser Then
+            Pl.UseAttachLaser = True
+            'No Under Barrel
+            loadPlotic()
+            'Create the image
+            HeatPoints.Clear()
+            createImage(2, True)
+            'Save the image
+            If chkSaveImage.Checked Then
+                Debug.WriteLine("Saving Image")
+                SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                Application.DoEvents()
+                buildFileName()
+                SaveImage()
+            End If
+            resetAttachments()
+
+            'LASER and FOREGRIP
+            If Pl.HasAttachUnderForegrip = True Then
+                Pl.UseAttachUnderForegrip = True
+                Pl.UseAttachLaser = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+            'LASER and BIPOD
+            If Pl.HasAttachUnderBipod = True Then
+                Pl.UseAttachUnderBipod = True
+                Pl.UseAttachLaser = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+        End If
+
+        'Silencer Attachment
+        If Pl.HasAttachSilencer Then
+            Pl.UseAttachSilencer = True
+            'No Under Barrel
+            loadPlotic()
+            'Create the image
+            HeatPoints.Clear()
+            createImage(2, True)
+            'Save the image
+            If chkSaveImage.Checked Then
+                Debug.WriteLine("Saving Image")
+                SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                Application.DoEvents()
+                buildFileName()
+                SaveImage()
+            End If
+            resetAttachments()
+
+            'silencer and FOREGRIP
+            If Pl.HasAttachUnderForegrip = True Then
+                Pl.UseAttachUnderForegrip = True
+                Pl.UseAttachSilencer = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+            'silencer and BIPOD
+            If Pl.HasAttachUnderBipod = True Then
+                Pl.UseAttachUnderBipod = True
+                Pl.UseAttachSilencer = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+        End If
+
+        'fsupp Attachment
+        If Pl.HasAttachFSupp Then
+            Pl.UseAttachFSupp = True
+            'No Under Barrel
+            loadPlotic()
+            'Create the image
+            HeatPoints.Clear()
+            createImage(2, True)
+            'Save the image
+            If chkSaveImage.Checked Then
+                Debug.WriteLine("Saving Image")
+                SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                Application.DoEvents()
+                buildFileName()
+                SaveImage()
+            End If
+            resetAttachments()
+
+            'fsupp and FOREGRIP
+            If Pl.HasAttachUnderForegrip = True Then
+                Pl.UseAttachUnderForegrip = True
+                Pl.UseAttachFSupp = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+            'fsupp and BIPOD
+            If Pl.HasAttachUnderBipod = True Then
+                Pl.UseAttachUnderBipod = True
+                Pl.UseAttachFSupp = True
+
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                resetAttachments()
+            End If
+        End If
+
+    End Sub
     Private Sub bgWorker_RenderAll_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderAll.DoWork
-
-
 
         ' Loop through the list of guns and create a render of each one.
         For Each DataPoint As ProperName In ProperNames
@@ -3512,10 +3824,38 @@ ByVal DefaultValue As String) As String
             Debug.WriteLine("Creating Plot for: " & Pl.Gun)
             SetOutPutText_ThreadSafe("Creating Plot for: " & Pl.Gun)
             'Load up the information into the plotic object
-            loadPlotic()
-            'Create the image
-            createImage(2, True)
-            'Save the image
+            updateAttachmentSelection(False)
+
+            'Iterate though all attachment combos if checked
+            If chkRenderAllAttach.Checked Then
+
+                renderAllAttachments()
+                If bgWorker_RenderAll.CancellationPending Then
+                    ' Set Cancel to True
+                    e.Cancel = True
+                    bgWorker_RenderAll.CancelAsync()
+                    Exit For
+                End If
+            Else
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage(2, True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                If bgWorker_RenderAll.CancellationPending Then
+                    ' Set Cancel to True
+                    e.Cancel = True
+                    bgWorker_RenderAll.CancelAsync()
+                    Exit For
+                End If
+            End If
             If bgWorker_RenderAll.CancellationPending Then
                 ' Set Cancel to True
                 e.Cancel = True

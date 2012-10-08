@@ -1275,7 +1275,7 @@ Partial Class Main
         Me.btnRenderAllStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnRenderAllStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnRenderAllStop.ForeColor = System.Drawing.Color.Firebrick
-        Me.btnRenderAllStop.Location = New System.Drawing.Point(231, 107)
+        Me.btnRenderAllStop.Location = New System.Drawing.Point(231, 106)
         Me.btnRenderAllStop.Name = "btnRenderAllStop"
         Me.btnRenderAllStop.Size = New System.Drawing.Size(121, 23)
         Me.btnRenderAllStop.TabIndex = 55
