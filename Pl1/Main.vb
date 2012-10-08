@@ -3550,6 +3550,19 @@ ByVal DefaultValue As String) As String
     End Sub
     Private Sub renderAllAttachments()
         'NO Attachment
+        loadPlotic()
+        'Create the image
+        HeatPoints.Clear()
+        createImage(2, True)
+        'Save the image
+        If chkSaveImage.Checked Then
+            Debug.WriteLine("Saving Image")
+            SetOutPutText_ThreadSafe("Please wait... Saving Image")
+            Application.DoEvents()
+            buildFileName()
+            SaveImage()
+        End If
+
         If Pl.HasAttachUnderForegrip = True Then
             Pl.UseAttachUnderForegrip = True
             loadPlotic()
