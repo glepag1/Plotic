@@ -1218,7 +1218,6 @@ Public Class Main
             End If
             If bgWorker_RenderAll.CancellationPending Then
                 ' Set Cancel to True
-                If showUpdates Then SetImage_ThreadSafe(Pl.Image)
                 bgWorker_RenderAll.CancelAsync()
                 Exit For
             End If
@@ -1331,8 +1330,10 @@ Public Class Main
 
             If iCaller = 0 Then
                 bgWorker_RenderSingle.ReportProgress(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
-            Else
+            ElseIf iCaller = 1 Then
                 Me.ToolStripProgressBar1.Value = (Math.Round(CInt((ee / Pl.Burst) * 100), 0))
+            ElseIf iCaller = 2 Then
+                bgWorker_RenderAll.ReportProgress(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
             End If
 
         Next 'Next BURST
@@ -2393,13 +2394,6 @@ Public Class Main
                 bgWorker_RenderSingle.CancelAsync()
             End If
         End If
-        If bgWorker_RenderAll.IsBusy Then
-            'If it supports cancellation, Cancel It
-            If bgWorker_RenderAll.WorkerSupportsCancellation Then
-                ' Tell the Background Worker to stop working.
-                bgWorker_RenderAll.CancelAsync()
-            End If
-        End If
     End Sub
 
     Private Function convertFileName(ByVal inputString As String) As String
@@ -2511,11 +2505,36 @@ Public Class Main
     Private Sub SetSample_ThreadSafe(ByVal [image] As Bitmap)
         ' InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
         ' If these threads are different, it returns true.
-        If picPlot.InvokeRequired Then
-            Dim MyDelegate As New SetImage_Delegate(AddressOf SetImage_ThreadSafe)
+        If picHeatPointSample.InvokeRequired Then
+            Dim MyDelegate As New SetSample_Delegate(AddressOf SetSample_ThreadSafe)
             Me.Invoke(MyDelegate, New Object() {[image]})
         Else
             picHeatPointSample.Image = [image]
+        End If
+    End Sub
+
+    Delegate Sub SetStopVisibility_Delegate(ByVal [boolean] As Boolean)
+    ' The delegates subroutine.
+    Private Sub SetStopVisibility_ThreadSafe(ByVal [boolean] As Boolean)
+        ' InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If btnRenderAllStop.InvokeRequired Then
+            Dim MyDelegate As New SetStopVisibility_Delegate(AddressOf SetStopVisibility_ThreadSafe)
+            Me.Invoke(MyDelegate, New Object() {[boolean]})
+        Else
+            btnRenderAllStop.Visible = [boolean]
+        End If
+    End Sub
+    Delegate Sub SetRenderVisibility_Delegate(ByVal [boolean] As Boolean)
+    ' The delegates subroutine.
+    Private Sub SetRenderVisibility_ThreadSafe(ByVal [boolean] As Boolean)
+        ' InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If btnRenderAll.InvokeRequired Then
+            Dim MyDelegate As New SetRenderVisibility_Delegate(AddressOf SetRenderVisibility_ThreadSafe)
+            Me.Invoke(MyDelegate, New Object() {[boolean]})
+        Else
+            btnRenderAll.Visible = [boolean]
         End If
     End Sub
 #End Region
@@ -3227,6 +3246,8 @@ ByVal DefaultValue As String) As String
 
     End Sub
     Private Sub renderGunImage()
+
+        'TO DO: Change the input to be from the call to the sub so it can be used for Render All
         Dim basepath As String = System.IO.Path.Combine(Directory.GetCurrentDirectory, "gun_images")
 
         Dim path = basepath & "\" & getFileName(comboWeapon1.Text).ToLower & ".png"
@@ -3471,6 +3492,18 @@ ByVal DefaultValue As String) As String
     End Sub
 
     Private Sub btnRenderAll_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAll.Click
+        'Switch the buttons to show Stop
+        SetRenderVisibility_ThreadSafe(False)
+        SetStopVisibility_ThreadSafe(True)
+        btnStart.Enabled = False
+
+        bgWorker_RenderAll.RunWorkerAsync()
+    End Sub
+
+    Private Sub bgWorker_RenderAll_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderAll.DoWork
+
+
+
         ' Loop through the list of guns and create a render of each one.
         For Each DataPoint As ProperName In ProperNames
             'Set the Gun Name and the filename
@@ -3481,13 +3514,33 @@ ByVal DefaultValue As String) As String
             'Load up the information into the plotic object
             loadPlotic()
             'Create the image
-            createImage(1, False)
+            createImage(2, True)
             'Save the image
+            If bgWorker_RenderAll.CancellationPending Then
+                ' Set Cancel to True
+                e.Cancel = True
+                bgWorker_RenderAll.CancelAsync()
+                Exit For
+            End If
         Next
     End Sub
 
-    Private Sub bgWorker_RenderAll_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderAll.DoWork
-
+    Private Sub bgWorker_RenderAll_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles bgWorker_RenderAll.ProgressChanged
+        Me.ToolStripProgressBar1.Value = e.ProgressPercentage
+    End Sub
+    Private Sub bgWorker_RenderAll_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgWorker_RenderAll.RunWorkerCompleted
+        SetRenderVisibility_ThreadSafe(True)
+        SetStopVisibility_ThreadSafe(False)
+        btnStart.Enabled = True
+    End Sub
+    Private Sub btnRenderAllStop_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAllStop.Click
+        If bgWorker_RenderAll.IsBusy Then
+            'If it supports cancellation, Cancel It
+            If bgWorker_RenderAll.WorkerSupportsCancellation Then
+                ' Tell the Background Worker to stop working.
+                bgWorker_RenderAll.CancelAsync()
+            End If
+        End If
     End Sub
 End Class
 #Region "Structures"

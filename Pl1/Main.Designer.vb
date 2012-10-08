@@ -81,6 +81,11 @@ Partial Class Main
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tabMain = New System.Windows.Forms.TabControl()
         Me.tabRender = New System.Windows.Forms.TabPage()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.txtBGColorAlpha = New System.Windows.Forms.TextBox()
+        Me.txtBGColorRed = New System.Windows.Forms.TextBox()
+        Me.txtBGColorBlue = New System.Windows.Forms.TextBox()
+        Me.txtBGColorGreen = New System.Windows.Forms.TextBox()
         Me.chkWriteHitRates = New System.Windows.Forms.CheckBox()
         Me.chkDrawTarget = New System.Windows.Forms.CheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -97,6 +102,7 @@ Partial Class Main
         Me.txtSub = New System.Windows.Forms.TextBox()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.tabSaveOptions = New System.Windows.Forms.TabPage()
+        Me.btnRenderAllStop = New System.Windows.Forms.Button()
         Me.chkRenderAllAttach = New System.Windows.Forms.CheckBox()
         Me.btnRenderAll = New System.Windows.Forms.Button()
         Me.chkSaveTTKChart = New System.Windows.Forms.CheckBox()
@@ -239,11 +245,6 @@ Partial Class Main
         Me.ViewHeatMapToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.txtBGColorRed = New System.Windows.Forms.TextBox()
-        Me.txtBGColorGreen = New System.Windows.Forms.TextBox()
-        Me.txtBGColorBlue = New System.Windows.Forms.TextBox()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.txtBGColorAlpha = New System.Windows.Forms.TextBox()
         Me.bgWorker_RenderAll = New System.ComponentModel.BackgroundWorker()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -258,6 +259,7 @@ Partial Class Main
         Me.StatusStrip1.SuspendLayout()
         Me.tabMain.SuspendLayout()
         Me.tabRender.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.grpAmmo.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -311,7 +313,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'grpStance
@@ -1001,6 +1002,68 @@ Partial Class Main
         Me.tabRender.TabIndex = 0
         Me.tabRender.Text = "Render Options"
         '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.txtBGColorAlpha)
+        Me.GroupBox3.Controls.Add(Me.txtBGColorRed)
+        Me.GroupBox3.Controls.Add(Me.txtBGColorBlue)
+        Me.GroupBox3.Controls.Add(Me.txtBGColorGreen)
+        Me.GroupBox3.ForeColor = System.Drawing.Color.White
+        Me.GroupBox3.Location = New System.Drawing.Point(224, 6)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(135, 52)
+        Me.GroupBox3.TabIndex = 109
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "BG Color (ARGB) 0-255"
+        '
+        'txtBGColorAlpha
+        '
+        Me.txtBGColorAlpha.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.txtBGColorAlpha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtBGColorAlpha.ForeColor = System.Drawing.Color.White
+        Me.txtBGColorAlpha.Location = New System.Drawing.Point(13, 19)
+        Me.txtBGColorAlpha.Name = "txtBGColorAlpha"
+        Me.txtBGColorAlpha.Size = New System.Drawing.Size(23, 20)
+        Me.txtBGColorAlpha.TabIndex = 109
+        Me.txtBGColorAlpha.Text = "255"
+        Me.txtBGColorAlpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'txtBGColorRed
+        '
+        Me.txtBGColorRed.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.txtBGColorRed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtBGColorRed.ForeColor = System.Drawing.Color.Red
+        Me.txtBGColorRed.Location = New System.Drawing.Point(42, 19)
+        Me.txtBGColorRed.Name = "txtBGColorRed"
+        Me.txtBGColorRed.Size = New System.Drawing.Size(23, 20)
+        Me.txtBGColorRed.TabIndex = 106
+        Me.txtBGColorRed.Text = "0"
+        Me.txtBGColorRed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'txtBGColorBlue
+        '
+        Me.txtBGColorBlue.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.txtBGColorBlue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtBGColorBlue.ForeColor = System.Drawing.Color.DeepSkyBlue
+        Me.txtBGColorBlue.Location = New System.Drawing.Point(100, 19)
+        Me.txtBGColorBlue.Name = "txtBGColorBlue"
+        Me.txtBGColorBlue.Size = New System.Drawing.Size(23, 20)
+        Me.txtBGColorBlue.TabIndex = 108
+        Me.txtBGColorBlue.Text = "0"
+        Me.txtBGColorBlue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'txtBGColorGreen
+        '
+        Me.txtBGColorGreen.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.txtBGColorGreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtBGColorGreen.ForeColor = System.Drawing.Color.Lime
+        Me.txtBGColorGreen.Location = New System.Drawing.Point(71, 19)
+        Me.txtBGColorGreen.Name = "txtBGColorGreen"
+        Me.txtBGColorGreen.Size = New System.Drawing.Size(23, 20)
+        Me.txtBGColorGreen.TabIndex = 107
+        Me.txtBGColorGreen.Text = "0"
+        Me.txtBGColorGreen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'chkWriteHitRates
         '
         Me.chkWriteHitRates.AutoSize = True
@@ -1186,6 +1249,7 @@ Partial Class Main
         'tabSaveOptions
         '
         Me.tabSaveOptions.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.tabSaveOptions.Controls.Add(Me.btnRenderAllStop)
         Me.tabSaveOptions.Controls.Add(Me.chkRenderAllAttach)
         Me.tabSaveOptions.Controls.Add(Me.btnRenderAll)
         Me.tabSaveOptions.Controls.Add(Me.chkSaveTTKChart)
@@ -1204,6 +1268,20 @@ Partial Class Main
         Me.tabSaveOptions.Size = New System.Drawing.Size(362, 185)
         Me.tabSaveOptions.TabIndex = 2
         Me.tabSaveOptions.Text = "Save"
+        '
+        'btnRenderAllStop
+        '
+        Me.btnRenderAllStop.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.btnRenderAllStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnRenderAllStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRenderAllStop.ForeColor = System.Drawing.Color.Firebrick
+        Me.btnRenderAllStop.Location = New System.Drawing.Point(231, 107)
+        Me.btnRenderAllStop.Name = "btnRenderAllStop"
+        Me.btnRenderAllStop.Size = New System.Drawing.Size(121, 23)
+        Me.btnRenderAllStop.TabIndex = 55
+        Me.btnRenderAllStop.Text = "Stop"
+        Me.btnRenderAllStop.UseVisualStyleBackColor = False
+        Me.btnRenderAllStop.Visible = False
         '
         'chkRenderAllAttach
         '
@@ -2931,68 +3009,6 @@ Partial Class Main
         Me.ViewTTKToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
         Me.ViewTTKToolStripMenuItem.Text = "View: TTK"
         '
-        'txtBGColorRed
-        '
-        Me.txtBGColorRed.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.txtBGColorRed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBGColorRed.ForeColor = System.Drawing.Color.Red
-        Me.txtBGColorRed.Location = New System.Drawing.Point(42, 19)
-        Me.txtBGColorRed.Name = "txtBGColorRed"
-        Me.txtBGColorRed.Size = New System.Drawing.Size(23, 20)
-        Me.txtBGColorRed.TabIndex = 106
-        Me.txtBGColorRed.Text = "0"
-        Me.txtBGColorRed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'txtBGColorGreen
-        '
-        Me.txtBGColorGreen.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.txtBGColorGreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBGColorGreen.ForeColor = System.Drawing.Color.Lime
-        Me.txtBGColorGreen.Location = New System.Drawing.Point(71, 19)
-        Me.txtBGColorGreen.Name = "txtBGColorGreen"
-        Me.txtBGColorGreen.Size = New System.Drawing.Size(23, 20)
-        Me.txtBGColorGreen.TabIndex = 107
-        Me.txtBGColorGreen.Text = "0"
-        Me.txtBGColorGreen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'txtBGColorBlue
-        '
-        Me.txtBGColorBlue.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.txtBGColorBlue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBGColorBlue.ForeColor = System.Drawing.Color.DeepSkyBlue
-        Me.txtBGColorBlue.Location = New System.Drawing.Point(100, 19)
-        Me.txtBGColorBlue.Name = "txtBGColorBlue"
-        Me.txtBGColorBlue.Size = New System.Drawing.Size(23, 20)
-        Me.txtBGColorBlue.TabIndex = 108
-        Me.txtBGColorBlue.Text = "0"
-        Me.txtBGColorBlue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.txtBGColorAlpha)
-        Me.GroupBox3.Controls.Add(Me.txtBGColorRed)
-        Me.GroupBox3.Controls.Add(Me.txtBGColorBlue)
-        Me.GroupBox3.Controls.Add(Me.txtBGColorGreen)
-        Me.GroupBox3.ForeColor = System.Drawing.Color.White
-        Me.GroupBox3.Location = New System.Drawing.Point(224, 6)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(135, 52)
-        Me.GroupBox3.TabIndex = 109
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "BG Color (ARGB) 0-255"
-        '
-        'txtBGColorAlpha
-        '
-        Me.txtBGColorAlpha.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.txtBGColorAlpha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBGColorAlpha.ForeColor = System.Drawing.Color.White
-        Me.txtBGColorAlpha.Location = New System.Drawing.Point(13, 19)
-        Me.txtBGColorAlpha.Name = "txtBGColorAlpha"
-        Me.txtBGColorAlpha.Size = New System.Drawing.Size(23, 20)
-        Me.txtBGColorAlpha.TabIndex = 109
-        Me.txtBGColorAlpha.Text = "255"
-        Me.txtBGColorAlpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'bgWorker_RenderAll
         '
         Me.bgWorker_RenderAll.WorkerReportsProgress = True
@@ -3040,6 +3056,8 @@ Partial Class Main
         Me.tabMain.ResumeLayout(False)
         Me.tabRender.ResumeLayout(False)
         Me.tabRender.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.grpAmmo.ResumeLayout(False)
@@ -3111,8 +3129,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3338,4 +3354,5 @@ Partial Class Main
     Friend WithEvents txtBGColorGreen As System.Windows.Forms.TextBox
     Friend WithEvents txtBGColorAlpha As System.Windows.Forms.TextBox
     Friend WithEvents bgWorker_RenderAll As System.ComponentModel.BackgroundWorker
+    Friend WithEvents btnRenderAllStop As System.Windows.Forms.Button
 End Class
