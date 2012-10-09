@@ -34,45 +34,7 @@ Public Class Main
         ' Add any initialization after the InitializeComponent() call.
         mainToolStripStatus.Text = VERSION
         Me.Text = VERSION
-        'Dim Test1 = GetValue("l96", "ProjectileData")
-        'Dim test2 = getbulletdata(Test1, "StartDamage")
-        'Dim test3 = getbulletdata(Test1, "EndDamage")
-        'Dim test4 = getbulletdata(Test1, "DamageFalloffEndDistance")
-        'Dim test5 = getbulletdata(Test1, "DamageFalloffStartDistance")
-        'Dim test6 = getbulletdata(Test1, "Gravity")
-        'Dim test8 = getbulletdata(Test1, "AmmunitionType")
 
-        'Dim test2a = GetValue("G3A3", "MagazineCapacity")
-        'Dim test2b = GetValue("G3A3", "NumberOfMagazines")
-        'Dim test2c = GetValue("G3A3", "TraceFrequency")
-        'Dim test2d = GetValue("G3A3", "RateOfFire")
-        'Dim test2e = GetValue("G3A3", "RateOfFireForBurst")
-        'Dim test02 = GetAttachmentValue("FAMAS", "HeavyBarrel", "DecreasePerSecondModifier", "StandZoom")
-        'Dim test02a = GetAttachmentValue("FAMAS", "Silencer", "DecreasePerSecondModifier", "StandZoom")
-        'Dim test04 = GetValue("FAMAS", "RecoilAmplitudeMax")
-        'Vert Recoil Adjust
-        'Dim test05 = GetAttachmentValue("FAMAS", "HeavyBarrel", "RecoilMagnitudeMod", "StandNoZoom")
-        'horizontal recoil adjust
-        'Dim test06 = GetAttachmentValue("FAMAS", "Foregrip", "RecoilAngleMod", "StandNoZoom")
-
-        'Min Adjust
-        'Dim test01 = GetAttachmentValue("FAMAS", "HeavyBarrel", "MinAngleModifier", "StandNoZoom")
-        'Inc Adjust
-        'Dim test03 = GetAttachmentValue("FAMAS", "HeavyBarrel", "IncreasePerShotModifier", "StandNoZoom")
-
-        'right recoil
-        'Dim test3 = GetValue("G3A3", "HorizontalRecoilAmplitudeIncPerShotMin")
-        'left recoil
-        'Dim test4 = GetValue("G3A3", "HorizontalRecoilAmplitudeIncPerShotMax")
-
-        'Dim test5 = GetValue("G3A3", "HorizontalRecoilAmplitudeMax")
-        'up recoil
-        'Dim test6 = GetValue("G3A3", "RecoilAmplitudeIncPerShot")
-
-        'Dim test7 = GetValue("G3A3", "RecoilAmplitudeDecreaseFactor")
-        'Dim test8 = GetValue("G3A3", "RecoilAmplitudeMax")
-        'first shot
-        'Dim test0 = GetAttachmentValue("G3A3", "TargetPointer", "MinAngleModifier", "StandZoom")
         'Check for a Palette file in the same directory, use if found, otherwise use internal resource
 
         Dim palettePath As String = Path.Combine(Directory.GetCurrentDirectory, "pal.png")
@@ -2064,7 +2026,6 @@ Public Class Main
         createImage(0, True)
         ToggleToolStripMain_ThreadSafe(True)
         selectView("main")
-
     End Sub
     Private Sub bgWorker_RenderSingle_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles bgWorker_RenderSingle.ProgressChanged
         Me.ToolStripProgressBar1.Value = e.ProgressPercentage
