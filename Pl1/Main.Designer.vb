@@ -246,6 +246,7 @@ Partial Class Main
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.bgWorker_RenderAll = New System.ComponentModel.BackgroundWorker()
+        Me.grpSaveOptions = New System.Windows.Forms.GroupBox()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -313,6 +314,7 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpSaveOptions.SuspendLayout()
         Me.SuspendLayout()
         '
         'grpStance
@@ -1249,19 +1251,10 @@ Partial Class Main
         'tabSaveOptions
         '
         Me.tabSaveOptions.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.tabSaveOptions.Controls.Add(Me.btnRenderAllStop)
         Me.tabSaveOptions.Controls.Add(Me.chkRenderAllAttach)
+        Me.tabSaveOptions.Controls.Add(Me.grpSaveOptions)
+        Me.tabSaveOptions.Controls.Add(Me.btnRenderAllStop)
         Me.tabSaveOptions.Controls.Add(Me.btnRenderAll)
-        Me.tabSaveOptions.Controls.Add(Me.chkSaveTTKChart)
-        Me.tabSaveOptions.Controls.Add(Me.chkSaveHeatMap)
-        Me.tabSaveOptions.Controls.Add(Me.Label32)
-        Me.tabSaveOptions.Controls.Add(Me.Label31)
-        Me.tabSaveOptions.Controls.Add(Me.Label29)
-        Me.tabSaveOptions.Controls.Add(Me.Label30)
-        Me.tabSaveOptions.Controls.Add(Me.lblPath)
-        Me.tabSaveOptions.Controls.Add(Me.txtFilename)
-        Me.tabSaveOptions.Controls.Add(Me.chkSaveImage)
-        Me.tabSaveOptions.Controls.Add(Me.btnSaveImage)
         Me.tabSaveOptions.Location = New System.Drawing.Point(4, 25)
         Me.tabSaveOptions.Name = "tabSaveOptions"
         Me.tabSaveOptions.Padding = New System.Windows.Forms.Padding(3)
@@ -1275,7 +1268,7 @@ Partial Class Main
         Me.btnRenderAllStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnRenderAllStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnRenderAllStop.ForeColor = System.Drawing.Color.Firebrick
-        Me.btnRenderAllStop.Location = New System.Drawing.Point(231, 106)
+        Me.btnRenderAllStop.Location = New System.Drawing.Point(140, 129)
         Me.btnRenderAllStop.Name = "btnRenderAllStop"
         Me.btnRenderAllStop.Size = New System.Drawing.Size(121, 23)
         Me.btnRenderAllStop.TabIndex = 55
@@ -1288,7 +1281,7 @@ Partial Class Main
         Me.chkRenderAllAttach.AutoSize = True
         Me.chkRenderAllAttach.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.chkRenderAllAttach.ForeColor = System.Drawing.Color.White
-        Me.chkRenderAllAttach.Location = New System.Drawing.Point(267, 158)
+        Me.chkRenderAllAttach.Location = New System.Drawing.Point(267, 156)
         Me.chkRenderAllAttach.Name = "chkRenderAllAttach"
         Me.chkRenderAllAttach.Size = New System.Drawing.Size(85, 17)
         Me.chkRenderAllAttach.TabIndex = 54
@@ -1301,7 +1294,7 @@ Partial Class Main
         Me.btnRenderAll.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnRenderAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnRenderAll.ForeColor = System.Drawing.Color.Gold
-        Me.btnRenderAll.Location = New System.Drawing.Point(231, 129)
+        Me.btnRenderAll.Location = New System.Drawing.Point(140, 152)
         Me.btnRenderAll.Name = "btnRenderAll"
         Me.btnRenderAll.Size = New System.Drawing.Size(121, 23)
         Me.btnRenderAll.TabIndex = 53
@@ -1314,7 +1307,7 @@ Partial Class Main
         Me.chkSaveTTKChart.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.chkSaveTTKChart.Enabled = False
         Me.chkSaveTTKChart.ForeColor = System.Drawing.Color.White
-        Me.chkSaveTTKChart.Location = New System.Drawing.Point(249, 16)
+        Me.chkSaveTTKChart.Location = New System.Drawing.Point(252, 19)
         Me.chkSaveTTKChart.Name = "chkSaveTTKChart"
         Me.chkSaveTTKChart.Size = New System.Drawing.Size(103, 17)
         Me.chkSaveTTKChart.TabIndex = 52
@@ -1327,7 +1320,7 @@ Partial Class Main
         Me.chkSaveHeatMap.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.chkSaveHeatMap.Enabled = False
         Me.chkSaveHeatMap.ForeColor = System.Drawing.Color.White
-        Me.chkSaveHeatMap.Location = New System.Drawing.Point(149, 16)
+        Me.chkSaveHeatMap.Location = New System.Drawing.Point(152, 19)
         Me.chkSaveHeatMap.Name = "chkSaveHeatMap"
         Me.chkSaveHeatMap.Size = New System.Drawing.Size(101, 17)
         Me.chkSaveHeatMap.TabIndex = 51
@@ -1339,7 +1332,7 @@ Partial Class Main
         Me.Label32.AutoSize = True
         Me.Label32.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.Label32.ForeColor = System.Drawing.Color.White
-        Me.Label32.Location = New System.Drawing.Point(28, 107)
+        Me.Label32.Location = New System.Drawing.Point(31, 110)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(81, 13)
         Me.Label32.TabIndex = 50
@@ -1350,7 +1343,7 @@ Partial Class Main
         Me.Label31.AutoSize = True
         Me.Label31.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.Label31.ForeColor = System.Drawing.Color.White
-        Me.Label31.Location = New System.Drawing.Point(29, 94)
+        Me.Label31.Location = New System.Drawing.Point(32, 97)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(79, 13)
         Me.Label31.TabIndex = 49
@@ -1361,7 +1354,7 @@ Partial Class Main
         Me.Label29.AutoSize = True
         Me.Label29.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.Label29.ForeColor = System.Drawing.Color.White
-        Me.Label29.Location = New System.Drawing.Point(27, 81)
+        Me.Label29.Location = New System.Drawing.Point(30, 84)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(83, 13)
         Me.Label29.TabIndex = 48
@@ -1372,7 +1365,7 @@ Partial Class Main
         Me.Label30.AutoSize = True
         Me.Label30.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.Label30.ForeColor = System.Drawing.Color.White
-        Me.Label30.Location = New System.Drawing.Point(10, 62)
+        Me.Label30.Location = New System.Drawing.Point(13, 65)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(52, 13)
         Me.Label30.TabIndex = 47
@@ -1383,7 +1376,7 @@ Partial Class Main
         Me.lblPath.AutoSize = True
         Me.lblPath.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.lblPath.ForeColor = System.Drawing.Color.White
-        Me.lblPath.Location = New System.Drawing.Point(12, 38)
+        Me.lblPath.Location = New System.Drawing.Point(15, 41)
         Me.lblPath.MinimumSize = New System.Drawing.Size(340, 0)
         Me.lblPath.Name = "lblPath"
         Me.lblPath.Size = New System.Drawing.Size(340, 13)
@@ -1397,7 +1390,7 @@ Partial Class Main
         Me.txtFilename.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtFilename.Enabled = False
         Me.txtFilename.ForeColor = System.Drawing.Color.White
-        Me.txtFilename.Location = New System.Drawing.Point(63, 58)
+        Me.txtFilename.Location = New System.Drawing.Point(66, 61)
         Me.txtFilename.Name = "txtFilename"
         Me.txtFilename.Size = New System.Drawing.Size(283, 20)
         Me.txtFilename.TabIndex = 45
@@ -1408,7 +1401,7 @@ Partial Class Main
         Me.chkSaveImage.AutoSize = True
         Me.chkSaveImage.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.chkSaveImage.ForeColor = System.Drawing.Color.White
-        Me.chkSaveImage.Location = New System.Drawing.Point(15, 16)
+        Me.chkSaveImage.Location = New System.Drawing.Point(18, 19)
         Me.chkSaveImage.Name = "chkSaveImage"
         Me.chkSaveImage.Size = New System.Drawing.Size(94, 17)
         Me.chkSaveImage.TabIndex = 42
@@ -1421,7 +1414,7 @@ Partial Class Main
         Me.btnSaveImage.Enabled = False
         Me.btnSaveImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSaveImage.ForeColor = System.Drawing.Color.LightGray
-        Me.btnSaveImage.Location = New System.Drawing.Point(110, 13)
+        Me.btnSaveImage.Location = New System.Drawing.Point(113, 16)
         Me.btnSaveImage.Name = "btnSaveImage"
         Me.btnSaveImage.Size = New System.Drawing.Size(29, 21)
         Me.btnSaveImage.TabIndex = 43
@@ -3014,6 +3007,24 @@ Partial Class Main
         Me.bgWorker_RenderAll.WorkerReportsProgress = True
         Me.bgWorker_RenderAll.WorkerSupportsCancellation = True
         '
+        'grpSaveOptions
+        '
+        Me.grpSaveOptions.Controls.Add(Me.chkSaveImage)
+        Me.grpSaveOptions.Controls.Add(Me.btnSaveImage)
+        Me.grpSaveOptions.Controls.Add(Me.chkSaveTTKChart)
+        Me.grpSaveOptions.Controls.Add(Me.txtFilename)
+        Me.grpSaveOptions.Controls.Add(Me.chkSaveHeatMap)
+        Me.grpSaveOptions.Controls.Add(Me.lblPath)
+        Me.grpSaveOptions.Controls.Add(Me.Label32)
+        Me.grpSaveOptions.Controls.Add(Me.Label30)
+        Me.grpSaveOptions.Controls.Add(Me.Label31)
+        Me.grpSaveOptions.Controls.Add(Me.Label29)
+        Me.grpSaveOptions.Location = New System.Drawing.Point(-4, -9)
+        Me.grpSaveOptions.Name = "grpSaveOptions"
+        Me.grpSaveOptions.Size = New System.Drawing.Size(370, 127)
+        Me.grpSaveOptions.TabIndex = 56
+        Me.grpSaveOptions.TabStop = False
+        '
         'Main
         '
         Me.AcceptButton = Me.btnStart
@@ -3129,6 +3140,8 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpSaveOptions.ResumeLayout(False)
+        Me.grpSaveOptions.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3355,4 +3368,5 @@ Partial Class Main
     Friend WithEvents txtBGColorAlpha As System.Windows.Forms.TextBox
     Friend WithEvents bgWorker_RenderAll As System.ComponentModel.BackgroundWorker
     Friend WithEvents btnRenderAllStop As System.Windows.Forms.Button
+    Friend WithEvents grpSaveOptions As System.Windows.Forms.GroupBox
 End Class
