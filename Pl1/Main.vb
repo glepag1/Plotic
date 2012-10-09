@@ -3546,10 +3546,18 @@ ByVal DefaultValue As String) As String
         SetStopVisibility_ThreadSafe(True)
         btnStart.Enabled = False
 
+        grpBarrel.Enabled = False
+        grpUnderBarrel.Enabled = False
+        grpStance.Enabled = False
+        grpWeapon.Enabled = False
+        grpSaveOptions.Enabled = False
+
         bgWorker_RenderAll.RunWorkerAsync()
     End Sub
-    Private Sub renderAllAttachments()
-        'NO Attachment
+    Private Sub RenderAndSave(ByVal blnResetAttachments As Boolean)
+
+        If checkforCancel(bgWorker_RenderAll) Then Exit Sub
+
         loadPlotic()
         'Create the image
         HeatPoints.Clear()
@@ -3562,93 +3570,49 @@ ByVal DefaultValue As String) As String
             buildFileName()
             SaveImage()
         End If
-
+        If blnResetAttachments Then resetAttachments()
+    End Sub
+    Private Function checkforCancel(ByRef bgWorker As System.ComponentModel.BackgroundWorker)
+        If bgWorker.CancellationPending Then
+            ' 
+            bgWorker.CancelAsync()
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+    Private Sub renderAllAttachments()
+        'NO Attachment
+        RenderAndSave(False)
+        'just foregrip
         If Pl.HasAttachUnderForegrip = True Then
             Pl.UseAttachUnderForegrip = True
-            loadPlotic()
-            'Create the image
-            HeatPoints.Clear()
-            createImage(2, True)
-            'Save the image
-            If chkSaveImage.Checked Then
-                Debug.WriteLine("Saving Image")
-                SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                Application.DoEvents()
-                buildFileName()
-                SaveImage()
-            End If
-            resetAttachments()
+            RenderAndSave(True)
         End If
+        'just bipod
         If Pl.HasAttachUnderBipod = True Then
             Pl.UseAttachUnderBipod = True
-            loadPlotic()
-            'Create the image
-            HeatPoints.Clear()
-            createImage(2, True)
-            'Save the image
-            If chkSaveImage.Checked Then
-                Debug.WriteLine("Saving Image")
-                SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                Application.DoEvents()
-                buildFileName()
-                SaveImage()
-            End If
-            resetAttachments()
+            RenderAndSave(True)
         End If
 
         'Heavy Barrel Attachment
         If Pl.HasAttachHBarrel Then
             Pl.UseAttachHBarrel = True
             'No Under Barrel
-            loadPlotic()
-            'Create the image
-            HeatPoints.Clear()
-            createImage(2, True)
-            'Save the image
-            If chkSaveImage.Checked Then
-                Debug.WriteLine("Saving Image")
-                SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                Application.DoEvents()
-                buildFileName()
-                SaveImage()
-            End If
-            resetAttachments()
-
+            RenderAndSave(True)
+            'hbarrel and foregrip
             If Pl.HasAttachUnderForegrip = True Then
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachHBarrel = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
+            'hbarrel and bipod
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachHBarrel = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
         End If
 
@@ -3656,57 +3620,21 @@ ByVal DefaultValue As String) As String
         If Pl.HasAttachLaser Then
             Pl.UseAttachLaser = True
             'No Under Barrel
-            loadPlotic()
-            'Create the image
-            HeatPoints.Clear()
-            createImage(2, True)
-            'Save the image
-            If chkSaveImage.Checked Then
-                Debug.WriteLine("Saving Image")
-                SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                Application.DoEvents()
-                buildFileName()
-                SaveImage()
-            End If
-            resetAttachments()
+            RenderAndSave(True)
 
             'LASER and FOREGRIP
             If Pl.HasAttachUnderForegrip = True Then
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachLaser = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
             'LASER and BIPOD
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachLaser = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
         End If
 
@@ -3714,57 +3642,21 @@ ByVal DefaultValue As String) As String
         If Pl.HasAttachSilencer Then
             Pl.UseAttachSilencer = True
             'No Under Barrel
-            loadPlotic()
-            'Create the image
-            HeatPoints.Clear()
-            createImage(2, True)
-            'Save the image
-            If chkSaveImage.Checked Then
-                Debug.WriteLine("Saving Image")
-                SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                Application.DoEvents()
-                buildFileName()
-                SaveImage()
-            End If
-            resetAttachments()
+            RenderAndSave(True)
 
             'silencer and FOREGRIP
             If Pl.HasAttachUnderForegrip = True Then
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachSilencer = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
             'silencer and BIPOD
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachSilencer = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
         End If
 
@@ -3772,57 +3664,21 @@ ByVal DefaultValue As String) As String
         If Pl.HasAttachFSupp Then
             Pl.UseAttachFSupp = True
             'No Under Barrel
-            loadPlotic()
-            'Create the image
-            HeatPoints.Clear()
-            createImage(2, True)
-            'Save the image
-            If chkSaveImage.Checked Then
-                Debug.WriteLine("Saving Image")
-                SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                Application.DoEvents()
-                buildFileName()
-                SaveImage()
-            End If
-            resetAttachments()
+            RenderAndSave(True)
 
             'fsupp and FOREGRIP
             If Pl.HasAttachUnderForegrip = True Then
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachFSupp = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
             'fsupp and BIPOD
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachFSupp = True
 
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                resetAttachments()
+            RenderAndSave(True)
             End If
         End If
 
@@ -3885,6 +3741,12 @@ ByVal DefaultValue As String) As String
         SetRenderVisibility_ThreadSafe(True)
         SetStopVisibility_ThreadSafe(False)
         btnStart.Enabled = True
+
+        grpBarrel.Enabled = True
+        grpUnderBarrel.Enabled = True
+        grpStance.Enabled = True
+        grpWeapon.Enabled = True
+        grpSaveOptions.Enabled = True
     End Sub
     Private Sub btnRenderAllStop_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAllStop.Click
         If bgWorker_RenderAll.IsBusy Then
