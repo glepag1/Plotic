@@ -1296,14 +1296,7 @@ Public Class Main
             Next ' Next Bullet Burst
 
             'Update the Progress bar
-
-            If iCaller = 0 Then
-                bgWorker_RenderSingle.ReportProgress(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
-            ElseIf iCaller = 1 Then
-                Me.ToolStripProgressBar1.Value = (Math.Round(CInt((ee / Pl.Burst) * 100), 0))
-            ElseIf iCaller = 2 Then
-                bgWorker_RenderAll.ReportProgress(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
-            End If
+            ToolStripProgressBar1_ThreadSafe(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
 
         Next 'Next BURST
 
