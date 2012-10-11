@@ -22,7 +22,6 @@ Public Class Main
 
     Public Pl As New Plotic
 
-
     Private Sub exitApplication()
         System.Environment.Exit(1)
     End Sub
