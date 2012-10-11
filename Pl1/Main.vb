@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.51"
+    Private Const VERSION As String = "Plotic v2.52"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -548,11 +548,13 @@ Public Class Main
         Dim hPos As Integer = 1500
         Dim rect As New Rectangle(1498, 288, 500, 140)
         g.FillRectangle(New SolidBrush(Color.FromArgb(127, 0, 0, 0)), rect)
+        Dim strWeapon As String = Pl.FileName
+        If Pl.FileName = "M16A4" Then strWeapon = "M16A4_2"
+        If Pl.FileName = "M4A1" Then strWeapon = "M4A1_2"
+        Dim bulletType = getbulletdata(GetValue(strWeapon, "ProjectileData"), "AmmunitionType")
 
-        Dim bulletType = getbulletdata(GetValue(Pl.FileName, "ProjectileData"), "AmmunitionType")
-
-        Dim bulletRounds = GetValue(Pl.FileName, "MagazineCapacity")
-        Dim bulletMagazines = GetValue(Pl.FileName, "NumberOfMagazines")
+        Dim bulletRounds = GetValue(strWeapon, "MagazineCapacity")
+        Dim bulletMagazines = GetValue(strWeapon, "NumberOfMagazines")
         '        g.DrawString("Ammo: " & bulletType.ToString, New Font("Consolas", 35), greenBrush2, hPos, 290)
         g.DrawString(bulletType.ToString, New Font("Consolas", 35), greenBrush2, hPos, 290)
         g.DrawString("Rounds: " + bulletRounds.ToString, New Font("Consolas", 30), greenBrush1, hPos, 330)
