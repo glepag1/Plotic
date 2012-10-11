@@ -271,63 +271,6 @@ Public Class Main
         Next
 
     End Sub
-    Public Sub drawTTKChart(ByVal g As Graphics)
-        Dim greenBrush1 As New SolidBrush(Color.YellowGreen)
-        Dim topY = 1500
-        Dim bottomY = 1950
-        Dim rightX = 1925
-        Dim leftX = 50
-
-        Dim graphWidth = rightX - leftX
-        Dim graphHeight = bottomY - topY
-        Dim pixelsPerMeter As Integer = Math.Round(((graphWidth / numTTKRange.Value)), 0)
-        Dim metersperPixel As Double = 1 / pixelsPerMeter
-
-        Dim damageDifference As Double = Pl.DamageMax - Pl.DamageMin
-        Dim distanceDifference As Double = Pl.RangeMin - Pl.RangeMax
-
-        Dim penRed As New System.Drawing.Pen(Color.Red, 3)
-        Dim penWhite As New System.Drawing.Pen(Color.White, 1)
-        penRed.DashStyle = Drawing2D.DashStyle.Solid
-        penWhite.DashStyle = Drawing2D.DashStyle.Solid
-
-        Dim maxRangeInMeters As Double = rightX * metersperPixel
-
-        Dim dblMaxDamageAtRange As Double = numDamageMin.Value + (((Pl.DamageMax - Pl.DamageMin) / (Pl.RangeMax - Pl.RangeMin)) * (numTTKRange.Value - Pl.RangeMin))
-        Dim maxTTK As Double = ((Math.Round((100 / dblMaxDamageAtRange), 0) - 1) / (Pl.RateOfFire / 60)) + (maxRangeInMeters / Pl.BulletVelocity)
-
-
-        'Calculate the position of the other points
-        Dim yValue As Integer = topY
-        For i = leftX To rightX Step 1
-            Dim rangeInMeters As Double = (i - leftX) * metersperPixel
-
-            'Dim damageAtDistance As Double = Pl.
-            Dim dblDamageAtRange As Double = Pl.DamageMin + (((Pl.DamageMax - Pl.DamageMin) / (Pl.RangeMax - Pl.RangeMin)) * (numTTKRange.Value - Pl.RangeMin))
-            Dim TTK As Double = ((Math.Round((100 / dblDamageAtRange), 0) - 1) / (Pl.RateOfFire / 60)) + (rangeInMeters / Pl.BulletVelocity)
-            'Debug.WriteLine(i & ": " & rangeInMeters & "-> " & Math.Round(TTK, 6) & " :: " & Math.Round(TTK / maxTTK, 4))
-
-            If rangeInMeters <= Pl.RangeMax Then
-                ' Debug.WriteLine(rangeInMeters & "-> " & yValue)
-                yValue = topY
-            ElseIf rangeInMeters >= Pl.RangeMin Then
-                yValue = bottomY
-                ' Debug.WriteLine(rangeInMeters & "-> " & yValue)
-            Else
-                Dim a As Double = rangeInMeters - Pl.RangeMax 
-                Dim b As Double = TTK / maxTTK
-                Dim c As Double = damageDifference * b
-                Dim d As Double = Math.Round(Pl.DamageMax - c, 2)
-                ' Debug.WriteLine(rangeInMeters & "-> " & d)
-                Dim e As Double = Math.Round(graphHeight * b, 2)
-                yValue = Math.Round(bottomY - e, 0)
-
-            End If
-
-            g.DrawEllipse(penRed, i, yValue, 1, 1)
-        Next
-
-    End Sub
 
     Public Sub drawDropGrid(ByVal g As Graphics)
 
