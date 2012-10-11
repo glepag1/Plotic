@@ -234,8 +234,11 @@ Public Class Main
         Dim pixelsPerMeter As Integer = Math.Round(((graphWidth / numTTKRange.Value)), 0)
         Dim metersperPixel As Double = 1 / pixelsPerMeter
 
-        Dim damageDifference As Double = numDamageMax.Value - numDamageMin.Value
-        Dim distanceDifference As Double = numMinRange.Value - numMaxRange.Value
+        'Dim damageDifference As Double = numDamageMax.Value - numDamageMin.Value
+        'Dim distanceDifference As Double = numMinRange.Value - numMaxRange.Value
+
+        Dim damageDifference As Double = Pl.DamageMax - Pl.DamageMin
+        Dim distanceDifference As Double = Pl.RangeMax - Pl.RangeMin
 
         Dim penRed As New System.Drawing.Pen(Color.Red, 3)
         Dim penWhite As New System.Drawing.Pen(Color.White, 1)
@@ -248,17 +251,17 @@ Public Class Main
 
             Dim rangeInMeters As Double = (i - leftX) * metersperPixel
 
-            If rangeInMeters <= numMaxRange.Value Then
-                ' Debug.WriteLine(rangeInMeters & "-> " & yValue)
+            If rangeInMeters <= Pl.RangeMin Then
+                'Debug.WriteLine(rangeInMeters & "-> " & yValue)
                 yValue = topY
-            ElseIf rangeInMeters >= numMinRange.Value Then
+            ElseIf rangeInMeters >= Pl.RangeMax Then
                 yValue = bottomY
-                ' Debug.WriteLine(rangeInMeters & "-> " & yValue)
+                'Debug.WriteLine(rangeInMeters & "-> " & yValue)
             Else
-                Dim a As Double = rangeInMeters - numMaxRange.Value
+                Dim a As Double = rangeInMeters - Pl.RangeMin
                 Dim b As Double = a / distanceDifference
                 Dim c As Double = damageDifference * b
-                Dim d As Double = Math.Round(numDamageMax.Value - c, 2)
+                Dim d As Double = Math.Round(Pl.DamageMax - c, 2)
                 ' Debug.WriteLine(rangeInMeters & "-> " & d)
                 Dim e As Double = Math.Round(graphHeight * b, 2)
                 yValue = Math.Round(topY + e, 0)
@@ -303,7 +306,7 @@ Public Class Main
             'Dim damageAtDistance As Double = Pl.
             Dim dblDamageAtRange As Double = Pl.DamageMin + (((Pl.DamageMax - Pl.DamageMin) / (Pl.RangeMax - Pl.RangeMin)) * (numTTKRange.Value - Pl.RangeMin))
             Dim TTK As Double = ((Math.Round((100 / dblDamageAtRange), 0) - 1) / (Pl.RateOfFire / 60)) + (rangeInMeters / Pl.BulletVelocity)
-            Debug.WriteLine(i & ": " & rangeInMeters & "-> " & Math.Round(TTK, 6) & " :: " & Math.Round(TTK / maxTTK, 4))
+            'Debug.WriteLine(i & ": " & rangeInMeters & "-> " & Math.Round(TTK, 6) & " :: " & Math.Round(TTK / maxTTK, 4))
 
             If rangeInMeters <= Pl.RangeMax Then
                 ' Debug.WriteLine(rangeInMeters & "-> " & yValue)
@@ -1333,49 +1336,68 @@ Public Class Main
             Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
         End If
 
+        'Render Title
         If Pl.RenderTitle Then
             drawTitle(Pl.ImageGraphic)
         End If
+        'Render Adjustments
         If Pl.RenderAdjustment Then
             drawAdjustments(Pl.ImageGraphic)
         End If
+        'Render Bullet Drop locations on target
         If Pl.RenderBulletDrop Then
             drawBulletDrop(Pl.ImageGraphic)
         End If
+        'Render Bullet drop information
         If Pl.RenderDropInfo Then
             drawDropInfo(Pl.ImageGraphic)
         End If
+        'Render Ammunition information
         If Pl.RenderAmmoInfo Then
             drawBulletInfo(Pl.ImageGraphic)
         End If
+        'Render the grid
         If Pl.RenderGrid Then
             drawGrid(Pl.ImageGraphic)
         End If
 
+        'Create a temp draw surface out of the heatmap
         Dim TestDrawSurface As Graphics = Graphics.FromImage(Pl.HeatMap)
+        'Render the bars on the heatmap
         If Pl.RenderHeatBars Then
             drawBars(TestDrawSurface)
         End If
+        'Render the adjustments on the heatmap
         If Pl.RenderHeatAdjust Then
             drawAdjustments(TestDrawSurface)
         End If
+        'Render the title on the heatmap
         If Pl.RenderHeatTitle Then
             drawTitle(TestDrawSurface)
         End If
+        'Save the heatmap to the graphic
         Pl.HeatGraphic = TestDrawSurface
 
+        'Render splitter on TTK chart
         drawTTKSplit(Pl.TTKGraphic)
+
+        'Render grid on TTK chart
         If Pl.RenderTTKGrid Then
             drawTTKGrid(Pl.TTKGraphic)
         End If
+        'Render a grid for the bullet drop graphic of the TTK chart
         If Pl.RenderDropGrid Then
             'drawTTKGrid(Pl.TTKGraphic)
             drawDropGrid(Pl.TTKGraphic)
         End If
-        intBurstCycle = 0
+
         drawTTKBulletDamageArc(Pl.TTKGraphic)
         drawTTKBulletDropArc(Pl.TTKGraphic)
-        '       drawTTKChart(Pl.TTKGraphic)
+
+        'Reset the burst cycle back to zero
+        intBurstCycle = 0
+
+        'drawTTKChart(Pl.TTKGraphic)
         '       ToggleToolStripMain_ThreadSafe(True)
         '        selectView("main")
         '        ToggleToolStripMask_ThreadSafe(True)
