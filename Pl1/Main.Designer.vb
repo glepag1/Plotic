@@ -102,19 +102,20 @@ Partial Class Main
         Me.txtSub = New System.Windows.Forms.TextBox()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.tabSaveOptions = New System.Windows.Forms.TabPage()
-        Me.btnRenderAllStop = New System.Windows.Forms.Button()
         Me.chkRenderAllAttach = New System.Windows.Forms.CheckBox()
-        Me.btnRenderAll = New System.Windows.Forms.Button()
-        Me.chkSaveTTKChart = New System.Windows.Forms.CheckBox()
-        Me.chkSaveHeatMap = New System.Windows.Forms.CheckBox()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.lblPath = New System.Windows.Forms.Label()
-        Me.txtFilename = New System.Windows.Forms.TextBox()
+        Me.grpSaveOptions = New System.Windows.Forms.GroupBox()
         Me.chkSaveImage = New System.Windows.Forms.CheckBox()
         Me.btnSaveImage = New System.Windows.Forms.Button()
+        Me.chkSaveTTKChart = New System.Windows.Forms.CheckBox()
+        Me.txtFilename = New System.Windows.Forms.TextBox()
+        Me.chkSaveHeatMap = New System.Windows.Forms.CheckBox()
+        Me.lblPath = New System.Windows.Forms.Label()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.btnRenderAllStop = New System.Windows.Forms.Button()
+        Me.btnRenderAll = New System.Windows.Forms.Button()
         Me.tabHeatMap = New System.Windows.Forms.TabPage()
         Me.btnRenderHeatPreview = New System.Windows.Forms.Button()
         Me.picHeatPointSample = New System.Windows.Forms.PictureBox()
@@ -138,6 +139,7 @@ Partial Class Main
         Me.numMaxDistance = New System.Windows.Forms.NumericUpDown()
         Me.grpBulletGeneral = New System.Windows.Forms.GroupBox()
         Me.grpStyle = New System.Windows.Forms.GroupBox()
+        Me.picBulletDropStylePreview = New System.Windows.Forms.PictureBox()
         Me.radBulletDropRenderType1 = New System.Windows.Forms.RadioButton()
         Me.radBulletDropRenderType3 = New System.Windows.Forms.RadioButton()
         Me.radBulletDropRenderType2 = New System.Windows.Forms.RadioButton()
@@ -246,7 +248,6 @@ Partial Class Main
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.bgWorker_RenderAll = New System.ComponentModel.BackgroundWorker()
-        Me.grpSaveOptions = New System.Windows.Forms.GroupBox()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -265,6 +266,7 @@ Partial Class Main
         Me.grpAmmo.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.tabSaveOptions.SuspendLayout()
+        Me.grpSaveOptions.SuspendLayout()
         Me.tabHeatMap.SuspendLayout()
         CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numIntensityScale, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -277,6 +279,7 @@ Partial Class Main
         CType(Me.numMaxDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpBulletGeneral.SuspendLayout()
         Me.grpStyle.SuspendLayout()
+        CType(Me.picBulletDropStylePreview, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numDropLineThickness, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numDropVerticalScale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numDropHorizontalScale, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -314,7 +317,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.grpSaveOptions.SuspendLayout()
         Me.SuspendLayout()
         '
         'grpStance
@@ -1262,20 +1264,6 @@ Partial Class Main
         Me.tabSaveOptions.TabIndex = 2
         Me.tabSaveOptions.Text = "Save"
         '
-        'btnRenderAllStop
-        '
-        Me.btnRenderAllStop.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.btnRenderAllStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnRenderAllStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnRenderAllStop.ForeColor = System.Drawing.Color.Firebrick
-        Me.btnRenderAllStop.Location = New System.Drawing.Point(140, 129)
-        Me.btnRenderAllStop.Name = "btnRenderAllStop"
-        Me.btnRenderAllStop.Size = New System.Drawing.Size(121, 23)
-        Me.btnRenderAllStop.TabIndex = 55
-        Me.btnRenderAllStop.Text = "Stop"
-        Me.btnRenderAllStop.UseVisualStyleBackColor = False
-        Me.btnRenderAllStop.Visible = False
-        '
         'chkRenderAllAttach
         '
         Me.chkRenderAllAttach.AutoSize = True
@@ -1288,113 +1276,23 @@ Partial Class Main
         Me.chkRenderAllAttach.Text = "Attachments"
         Me.chkRenderAllAttach.UseVisualStyleBackColor = False
         '
-        'btnRenderAll
+        'grpSaveOptions
         '
-        Me.btnRenderAll.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.btnRenderAll.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnRenderAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnRenderAll.ForeColor = System.Drawing.Color.Gold
-        Me.btnRenderAll.Location = New System.Drawing.Point(140, 152)
-        Me.btnRenderAll.Name = "btnRenderAll"
-        Me.btnRenderAll.Size = New System.Drawing.Size(121, 23)
-        Me.btnRenderAll.TabIndex = 53
-        Me.btnRenderAll.Text = "Render All Weapons"
-        Me.btnRenderAll.UseVisualStyleBackColor = False
-        '
-        'chkSaveTTKChart
-        '
-        Me.chkSaveTTKChart.AutoSize = True
-        Me.chkSaveTTKChart.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.chkSaveTTKChart.Enabled = False
-        Me.chkSaveTTKChart.ForeColor = System.Drawing.Color.White
-        Me.chkSaveTTKChart.Location = New System.Drawing.Point(252, 19)
-        Me.chkSaveTTKChart.Name = "chkSaveTTKChart"
-        Me.chkSaveTTKChart.Size = New System.Drawing.Size(103, 17)
-        Me.chkSaveTTKChart.TabIndex = 52
-        Me.chkSaveTTKChart.Text = "Save TTK Chart"
-        Me.chkSaveTTKChart.UseVisualStyleBackColor = False
-        '
-        'chkSaveHeatMap
-        '
-        Me.chkSaveHeatMap.AutoSize = True
-        Me.chkSaveHeatMap.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.chkSaveHeatMap.Enabled = False
-        Me.chkSaveHeatMap.ForeColor = System.Drawing.Color.White
-        Me.chkSaveHeatMap.Location = New System.Drawing.Point(152, 19)
-        Me.chkSaveHeatMap.Name = "chkSaveHeatMap"
-        Me.chkSaveHeatMap.Size = New System.Drawing.Size(101, 17)
-        Me.chkSaveHeatMap.TabIndex = 51
-        Me.chkSaveHeatMap.Text = "Save Heat Map"
-        Me.chkSaveHeatMap.UseVisualStyleBackColor = False
-        '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.Label32.ForeColor = System.Drawing.Color.White
-        Me.Label32.Location = New System.Drawing.Point(31, 110)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(81, 13)
-        Me.Label32.TabIndex = 50
-        Me.Label32.Text = "Sub = <<Sub>>"
-        '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.Label31.ForeColor = System.Drawing.Color.White
-        Me.Label31.Location = New System.Drawing.Point(32, 97)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(79, 13)
-        Me.Label31.TabIndex = 49
-        Me.Label31.Text = "Info = <<Info>>"
-        '
-        'Label29
-        '
-        Me.Label29.AutoSize = True
-        Me.Label29.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.Label29.ForeColor = System.Drawing.Color.White
-        Me.Label29.Location = New System.Drawing.Point(30, 84)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(83, 13)
-        Me.Label29.TabIndex = 48
-        Me.Label29.Text = "Title = <<Title>>"
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.Label30.ForeColor = System.Drawing.Color.White
-        Me.Label30.Location = New System.Drawing.Point(13, 65)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(52, 13)
-        Me.Label30.TabIndex = 47
-        Me.Label30.Text = "Filename:"
-        '
-        'lblPath
-        '
-        Me.lblPath.AutoSize = True
-        Me.lblPath.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.lblPath.ForeColor = System.Drawing.Color.White
-        Me.lblPath.Location = New System.Drawing.Point(15, 41)
-        Me.lblPath.MinimumSize = New System.Drawing.Size(340, 0)
-        Me.lblPath.Name = "lblPath"
-        Me.lblPath.Size = New System.Drawing.Size(340, 13)
-        Me.lblPath.TabIndex = 46
-        Me.lblPath.Text = "<<Plotic>>"
-        Me.lblPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtFilename
-        '
-        Me.txtFilename.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.txtFilename.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtFilename.Enabled = False
-        Me.txtFilename.ForeColor = System.Drawing.Color.White
-        Me.txtFilename.Location = New System.Drawing.Point(66, 61)
-        Me.txtFilename.Name = "txtFilename"
-        Me.txtFilename.Size = New System.Drawing.Size(283, 20)
-        Me.txtFilename.TabIndex = 45
-        Me.txtFilename.Text = "<<Title>>_<<Info>>_<<Sub>>"
+        Me.grpSaveOptions.Controls.Add(Me.chkSaveImage)
+        Me.grpSaveOptions.Controls.Add(Me.btnSaveImage)
+        Me.grpSaveOptions.Controls.Add(Me.chkSaveTTKChart)
+        Me.grpSaveOptions.Controls.Add(Me.txtFilename)
+        Me.grpSaveOptions.Controls.Add(Me.chkSaveHeatMap)
+        Me.grpSaveOptions.Controls.Add(Me.lblPath)
+        Me.grpSaveOptions.Controls.Add(Me.Label32)
+        Me.grpSaveOptions.Controls.Add(Me.Label30)
+        Me.grpSaveOptions.Controls.Add(Me.Label31)
+        Me.grpSaveOptions.Controls.Add(Me.Label29)
+        Me.grpSaveOptions.Location = New System.Drawing.Point(-4, -9)
+        Me.grpSaveOptions.Name = "grpSaveOptions"
+        Me.grpSaveOptions.Size = New System.Drawing.Size(370, 127)
+        Me.grpSaveOptions.TabIndex = 56
+        Me.grpSaveOptions.TabStop = False
         '
         'chkSaveImage
         '
@@ -1420,6 +1318,128 @@ Partial Class Main
         Me.btnSaveImage.TabIndex = 43
         Me.btnSaveImage.Text = "..."
         Me.btnSaveImage.UseVisualStyleBackColor = False
+        '
+        'chkSaveTTKChart
+        '
+        Me.chkSaveTTKChart.AutoSize = True
+        Me.chkSaveTTKChart.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.chkSaveTTKChart.Enabled = False
+        Me.chkSaveTTKChart.ForeColor = System.Drawing.Color.White
+        Me.chkSaveTTKChart.Location = New System.Drawing.Point(252, 19)
+        Me.chkSaveTTKChart.Name = "chkSaveTTKChart"
+        Me.chkSaveTTKChart.Size = New System.Drawing.Size(103, 17)
+        Me.chkSaveTTKChart.TabIndex = 52
+        Me.chkSaveTTKChart.Text = "Save TTK Chart"
+        Me.chkSaveTTKChart.UseVisualStyleBackColor = False
+        '
+        'txtFilename
+        '
+        Me.txtFilename.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.txtFilename.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtFilename.Enabled = False
+        Me.txtFilename.ForeColor = System.Drawing.Color.White
+        Me.txtFilename.Location = New System.Drawing.Point(66, 61)
+        Me.txtFilename.Name = "txtFilename"
+        Me.txtFilename.Size = New System.Drawing.Size(283, 20)
+        Me.txtFilename.TabIndex = 45
+        Me.txtFilename.Text = "<<Title>>_<<Info>>_<<Sub>>"
+        '
+        'chkSaveHeatMap
+        '
+        Me.chkSaveHeatMap.AutoSize = True
+        Me.chkSaveHeatMap.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.chkSaveHeatMap.Enabled = False
+        Me.chkSaveHeatMap.ForeColor = System.Drawing.Color.White
+        Me.chkSaveHeatMap.Location = New System.Drawing.Point(152, 19)
+        Me.chkSaveHeatMap.Name = "chkSaveHeatMap"
+        Me.chkSaveHeatMap.Size = New System.Drawing.Size(101, 17)
+        Me.chkSaveHeatMap.TabIndex = 51
+        Me.chkSaveHeatMap.Text = "Save Heat Map"
+        Me.chkSaveHeatMap.UseVisualStyleBackColor = False
+        '
+        'lblPath
+        '
+        Me.lblPath.AutoSize = True
+        Me.lblPath.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.lblPath.ForeColor = System.Drawing.Color.White
+        Me.lblPath.Location = New System.Drawing.Point(15, 41)
+        Me.lblPath.MinimumSize = New System.Drawing.Size(340, 0)
+        Me.lblPath.Name = "lblPath"
+        Me.lblPath.Size = New System.Drawing.Size(340, 13)
+        Me.lblPath.TabIndex = 46
+        Me.lblPath.Text = "<<Plotic>>"
+        Me.lblPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.Label32.ForeColor = System.Drawing.Color.White
+        Me.Label32.Location = New System.Drawing.Point(31, 110)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(81, 13)
+        Me.Label32.TabIndex = 50
+        Me.Label32.Text = "Sub = <<Sub>>"
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.Label30.ForeColor = System.Drawing.Color.White
+        Me.Label30.Location = New System.Drawing.Point(13, 65)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(52, 13)
+        Me.Label30.TabIndex = 47
+        Me.Label30.Text = "Filename:"
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.Label31.ForeColor = System.Drawing.Color.White
+        Me.Label31.Location = New System.Drawing.Point(32, 97)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(79, 13)
+        Me.Label31.TabIndex = 49
+        Me.Label31.Text = "Info = <<Info>>"
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.Label29.ForeColor = System.Drawing.Color.White
+        Me.Label29.Location = New System.Drawing.Point(30, 84)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(83, 13)
+        Me.Label29.TabIndex = 48
+        Me.Label29.Text = "Title = <<Title>>"
+        '
+        'btnRenderAllStop
+        '
+        Me.btnRenderAllStop.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.btnRenderAllStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnRenderAllStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRenderAllStop.ForeColor = System.Drawing.Color.Firebrick
+        Me.btnRenderAllStop.Location = New System.Drawing.Point(140, 129)
+        Me.btnRenderAllStop.Name = "btnRenderAllStop"
+        Me.btnRenderAllStop.Size = New System.Drawing.Size(121, 23)
+        Me.btnRenderAllStop.TabIndex = 55
+        Me.btnRenderAllStop.Text = "Stop"
+        Me.btnRenderAllStop.UseVisualStyleBackColor = False
+        Me.btnRenderAllStop.Visible = False
+        '
+        'btnRenderAll
+        '
+        Me.btnRenderAll.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.btnRenderAll.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnRenderAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRenderAll.ForeColor = System.Drawing.Color.Gold
+        Me.btnRenderAll.Location = New System.Drawing.Point(140, 152)
+        Me.btnRenderAll.Name = "btnRenderAll"
+        Me.btnRenderAll.Size = New System.Drawing.Size(121, 23)
+        Me.btnRenderAll.TabIndex = 53
+        Me.btnRenderAll.Text = "Render All Weapons"
+        Me.btnRenderAll.UseVisualStyleBackColor = False
         '
         'tabHeatMap
         '
@@ -1717,6 +1737,7 @@ Partial Class Main
         '
         'grpStyle
         '
+        Me.grpStyle.Controls.Add(Me.picBulletDropStylePreview)
         Me.grpStyle.Controls.Add(Me.radBulletDropRenderType1)
         Me.grpStyle.Controls.Add(Me.radBulletDropRenderType3)
         Me.grpStyle.Controls.Add(Me.radBulletDropRenderType2)
@@ -1729,10 +1750,20 @@ Partial Class Main
         Me.grpStyle.TabStop = False
         Me.grpStyle.Text = "Render Style"
         '
+        'picBulletDropStylePreview
+        '
+        Me.picBulletDropStylePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.picBulletDropStylePreview.Location = New System.Drawing.Point(60, 14)
+        Me.picBulletDropStylePreview.Name = "picBulletDropStylePreview"
+        Me.picBulletDropStylePreview.Size = New System.Drawing.Size(36, 36)
+        Me.picBulletDropStylePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.picBulletDropStylePreview.TabIndex = 157
+        Me.picBulletDropStylePreview.TabStop = False
+        '
         'radBulletDropRenderType1
         '
         Me.radBulletDropRenderType1.AutoSize = True
-        Me.radBulletDropRenderType1.Location = New System.Drawing.Point(13, 14)
+        Me.radBulletDropRenderType1.Location = New System.Drawing.Point(5, 14)
         Me.radBulletDropRenderType1.Name = "radBulletDropRenderType1"
         Me.radBulletDropRenderType1.Size = New System.Drawing.Size(58, 17)
         Me.radBulletDropRenderType1.TabIndex = 154
@@ -1743,7 +1774,7 @@ Partial Class Main
         '
         Me.radBulletDropRenderType3.AutoSize = True
         Me.radBulletDropRenderType3.Checked = True
-        Me.radBulletDropRenderType3.Location = New System.Drawing.Point(13, 55)
+        Me.radBulletDropRenderType3.Location = New System.Drawing.Point(5, 55)
         Me.radBulletDropRenderType3.Name = "radBulletDropRenderType3"
         Me.radBulletDropRenderType3.Size = New System.Drawing.Size(63, 17)
         Me.radBulletDropRenderType3.TabIndex = 156
@@ -1754,7 +1785,7 @@ Partial Class Main
         'radBulletDropRenderType2
         '
         Me.radBulletDropRenderType2.AutoSize = True
-        Me.radBulletDropRenderType2.Location = New System.Drawing.Point(13, 34)
+        Me.radBulletDropRenderType2.Location = New System.Drawing.Point(5, 34)
         Me.radBulletDropRenderType2.Name = "radBulletDropRenderType2"
         Me.radBulletDropRenderType2.Size = New System.Drawing.Size(58, 17)
         Me.radBulletDropRenderType2.TabIndex = 155
@@ -3007,24 +3038,6 @@ Partial Class Main
         Me.bgWorker_RenderAll.WorkerReportsProgress = True
         Me.bgWorker_RenderAll.WorkerSupportsCancellation = True
         '
-        'grpSaveOptions
-        '
-        Me.grpSaveOptions.Controls.Add(Me.chkSaveImage)
-        Me.grpSaveOptions.Controls.Add(Me.btnSaveImage)
-        Me.grpSaveOptions.Controls.Add(Me.chkSaveTTKChart)
-        Me.grpSaveOptions.Controls.Add(Me.txtFilename)
-        Me.grpSaveOptions.Controls.Add(Me.chkSaveHeatMap)
-        Me.grpSaveOptions.Controls.Add(Me.lblPath)
-        Me.grpSaveOptions.Controls.Add(Me.Label32)
-        Me.grpSaveOptions.Controls.Add(Me.Label30)
-        Me.grpSaveOptions.Controls.Add(Me.Label31)
-        Me.grpSaveOptions.Controls.Add(Me.Label29)
-        Me.grpSaveOptions.Location = New System.Drawing.Point(-4, -9)
-        Me.grpSaveOptions.Name = "grpSaveOptions"
-        Me.grpSaveOptions.Size = New System.Drawing.Size(370, 127)
-        Me.grpSaveOptions.TabIndex = 56
-        Me.grpSaveOptions.TabStop = False
-        '
         'Main
         '
         Me.AcceptButton = Me.btnStart
@@ -3077,6 +3090,8 @@ Partial Class Main
         Me.GroupBox1.PerformLayout()
         Me.tabSaveOptions.ResumeLayout(False)
         Me.tabSaveOptions.PerformLayout()
+        Me.grpSaveOptions.ResumeLayout(False)
+        Me.grpSaveOptions.PerformLayout()
         Me.tabHeatMap.ResumeLayout(False)
         Me.tabHeatMap.PerformLayout()
         CType(Me.picHeatPointSample, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3094,6 +3109,7 @@ Partial Class Main
         Me.grpBulletGeneral.PerformLayout()
         Me.grpStyle.ResumeLayout(False)
         Me.grpStyle.PerformLayout()
+        CType(Me.picBulletDropStylePreview, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numDropLineThickness, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numDropVerticalScale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numDropHorizontalScale, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3140,8 +3156,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.grpSaveOptions.ResumeLayout(False)
-        Me.grpSaveOptions.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3369,4 +3383,5 @@ Partial Class Main
     Friend WithEvents bgWorker_RenderAll As System.ComponentModel.BackgroundWorker
     Friend WithEvents btnRenderAllStop As System.Windows.Forms.Button
     Friend WithEvents grpSaveOptions As System.Windows.Forms.GroupBox
+    Friend WithEvents picBulletDropStylePreview As System.Windows.Forms.PictureBox
 End Class

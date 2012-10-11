@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.52"
+    Private Const VERSION As String = "Plotic v2.53"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -1324,6 +1324,7 @@ Public Class Main
                    "5th. bullet: " + Math.Round((aryHits(4) / (intBursts + 1) * 100), 2).ToString + "%")
 
         End If
+        'Render hit rate info
         If Pl.RenderTTK And Pl.RenderScaleTarget Then
             drawHitRate(Pl.ImageGraphic, Math.Round((aryHits(0) / (intBursts + 1) * 100), 2), Math.Round((aryHits(1) / (intBursts + 1) * 100), 2), Math.Round((aryHits(2) / (intBursts + 1) * 100), 2), Math.Round((aryHits(3) / (intBursts + 1) * 100), 2), Math.Round((aryHits(4) / (intBursts + 1) * 100), 2))
         End If
@@ -1385,22 +1386,18 @@ Public Class Main
         If Pl.RenderTTKGrid Then
             drawTTKGrid(Pl.TTKGraphic)
         End If
-        'Render a grid for the bullet drop graphic of the TTK chart
+        'Render a grid for the bullet drop chart
         If Pl.RenderDropGrid Then
-            'drawTTKGrid(Pl.TTKGraphic)
             drawDropGrid(Pl.TTKGraphic)
         End If
 
+        'Render the bullet damage graph
         drawTTKBulletDamageArc(Pl.TTKGraphic)
+        'Render the bullet drop graph
         drawTTKBulletDropArc(Pl.TTKGraphic)
 
         'Reset the burst cycle back to zero
         intBurstCycle = 0
-
-        'drawTTKChart(Pl.TTKGraphic)
-        '       ToggleToolStripMain_ThreadSafe(True)
-        '        selectView("main")
-        '        ToggleToolStripMask_ThreadSafe(True)
     End Sub
 
     Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
@@ -2245,6 +2242,18 @@ Public Class Main
             Me.Invoke(MyDelegate, New Object() {[image]})
         Else
             picHeatPointSample.Image = [image]
+        End If
+    End Sub
+    Delegate Sub SetBulletDropPreview_Delegate(ByVal [image] As Bitmap)
+    ' The delegates subroutine.
+    Private Sub SetBulletDropPreview_ThreadSafe(ByVal [image] As Bitmap)
+        ' InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If picBulletDropStylePreview.InvokeRequired Then
+            Dim MyDelegate As New SetBulletDropPreview_Delegate(AddressOf SetBulletDropPreview_ThreadSafe)
+            Me.Invoke(MyDelegate, New Object() {[image]})
+        Else
+            picBulletDropStylePreview.Image = [image]
         End If
     End Sub
 
@@ -3256,6 +3265,33 @@ ByVal DefaultValue As String) As String
         HeatPoints.Clear()
     End Sub
 
+    Private Sub createBulletDropPreview()
+        Dim bSampleMap As Bitmap = New Bitmap(72, 72)
+        Dim grhSampleGraphic As Graphics = Graphics.FromImage(bSampleMap)
+
+        Dim centerx = 36
+        Dim centery = 36
+
+        Dim penAdjustTarget As New System.Drawing.Pen(Color.White, numDropLineThickness.Value)
+        Dim penDropTarget As New System.Drawing.Pen(Color.Red, numDropLineThickness.Value)
+        Dim pen6 As New System.Drawing.Pen(Color.White, numDropLineThickness.Value)
+        pen6.DashStyle = Drawing2D.DashStyle.Solid
+
+        Dim bulletTargetX = centerx - 25
+        Dim bulletTargetY = centery - 25
+
+        If radBulletDropRenderType1.Checked Then
+            grhSampleGraphic.DrawEllipse(penDropTarget, bulletTargetX, bulletTargetY, 50, 50)
+
+        ElseIf radBulletDropRenderType2.Checked Then
+            grhSampleGraphic.DrawLine(penDropTarget, centerx - 25, bulletTargetY + 25, centerx + 25, bulletTargetY + 25)
+
+        ElseIf radBulletDropRenderType3.Checked Then
+            grhSampleGraphic.DrawLine(penDropTarget, centerx - 25, bulletTargetY + 25, centerx + 25, bulletTargetY + 25)
+            grhSampleGraphic.DrawEllipse(penDropTarget, bulletTargetX, bulletTargetY, 50, 50)
+        End If
+        SetBulletDropPreview_ThreadSafe(bSampleMap)
+    End Sub
     Private Sub btnRenderHeatPreview_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderHeatPreview.Click
         drawSamplePoints()
     End Sub
@@ -3476,6 +3512,10 @@ ByVal DefaultValue As String) As String
                 bgWorker_RenderAll.CancelAsync()
             End If
         End If
+    End Sub
+
+    Private Sub radBulletDropRenderType_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radBulletDropRenderType2.CheckedChanged, radBulletDropRenderType1.CheckedChanged, radBulletDropRenderType3.CheckedChanged
+        createBulletDropPreview()
     End Sub
 End Class
 #Region "Structures"
