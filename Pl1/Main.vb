@@ -1560,42 +1560,43 @@ Public Class Main
         Pl.TargetRange = numMeters.Value
         Pl.RateOfFire = GetRateOfFire(Pl.FileName)
 
-        If comboSilhouetteStyle.Text = "1" Then
+
+        If comboSilhouetteStyle_ThreadSafe() = "1" Then
             Pl.Silh = New Bitmap(My.Resources.sil_1_fullsize)
-        ElseIf comboSilhouetteStyle.Text = "2" Then
+        ElseIf comboSilhouetteStyle_ThreadSafe() = "2" Then
             Pl.Silh = New Bitmap(My.Resources.sil_2_fullsize)
-        ElseIf comboSilhouetteStyle.Text = "3" Then
+        ElseIf comboSilhouetteStyle_ThreadSafe() = "3" Then
             Pl.Silh = New Bitmap(My.Resources.sil_3_fullsize)
         End If
 
-        'Set new options
+            'Set new options
 
-        Pl.HeatMapIntensity = Double.Parse(numIntensityScale.Value, System.Globalization.CultureInfo.InvariantCulture)
+            Pl.HeatMapIntensity = Double.Parse(numIntensityScale.Value, System.Globalization.CultureInfo.InvariantCulture)
 
-        Pl.BackgroundColorAlpha = Integer.Parse(txtBGColorAlpha.Text)
-        Pl.BackgroundColorRed = Integer.Parse(txtBGColorRed.Text)
-        Pl.BackgroundColorGreen = Integer.Parse(txtBGColorGreen.Text)
-        Pl.BackgroundColorBlue = Integer.Parse(txtBGColorBlue.Text)
+            Pl.BackgroundColorAlpha = Integer.Parse(txtBGColorAlpha.Text)
+            Pl.BackgroundColorRed = Integer.Parse(txtBGColorRed.Text)
+            Pl.BackgroundColorGreen = Integer.Parse(txtBGColorGreen.Text)
+            Pl.BackgroundColorBlue = Integer.Parse(txtBGColorBlue.Text)
 
-        setOption(chkDrawTarget, Pl.RenderScaleTarget)
-        setOption(chkTitles, Pl.RenderTitle)
-        setOption(chkBars, Pl.RenderBars)
-        setOption(chkPrintAdj, Pl.RenderAdjustment)
-        setOption(chkScaleRadius, Pl.ScaleRadius)
-        setOption(chkDrawTTK, Pl.RenderTTK)
+            setOption(chkDrawTarget, Pl.RenderScaleTarget)
+            setOption(chkTitles, Pl.RenderTitle)
+            setOption(chkBars, Pl.RenderBars)
+            setOption(chkPrintAdj, Pl.RenderAdjustment)
+            setOption(chkScaleRadius, Pl.ScaleRadius)
+            setOption(chkDrawTTK, Pl.RenderTTK)
 
-        setOption(chkHeatMap, Pl.RenderHeatMap)
-        setOption(chkRenderHeatTitle, Pl.RenderHeatTitle)
-        setOption(chkRenderHeatBars, Pl.RenderHeatBars)
-        setOption(chkRenderHeatAdjust, Pl.RenderHeatAdjust)
+            setOption(chkHeatMap, Pl.RenderHeatMap)
+            setOption(chkRenderHeatTitle, Pl.RenderHeatTitle)
+            setOption(chkRenderHeatBars, Pl.RenderHeatBars)
+            setOption(chkRenderHeatAdjust, Pl.RenderHeatAdjust)
 
-        setOption(chkRenderBulletDrop, Pl.RenderBulletDrop)
-        setOption(chkWriteDropInfo, Pl.RenderDropInfo)
-        setOption(chkRenderAmmoInfo, Pl.RenderAmmoInfo)
-        setOption(chkDrawGrid, Pl.RenderGrid)
+            setOption(chkRenderBulletDrop, Pl.RenderBulletDrop)
+            setOption(chkWriteDropInfo, Pl.RenderDropInfo)
+            setOption(chkRenderAmmoInfo, Pl.RenderAmmoInfo)
+            setOption(chkDrawGrid, Pl.RenderGrid)
 
-        setOption(chkDrawTTKGrid, Pl.RenderTTKGrid)
-        setOption(chkDrawDropGrid, Pl.RenderDropGrid)
+            setOption(chkDrawTTKGrid, Pl.RenderTTKGrid)
+            setOption(chkDrawDropGrid, Pl.RenderDropGrid)
 
 
     End Sub
@@ -2284,6 +2285,20 @@ Public Class Main
             ToolStripProgressBar1.Value = [integer]
         End If
     End Sub
+    Delegate Function comboSilhouetteStyle_Delegate() As String
+    ' The delegates subroutine.
+    Private Function comboSilhouetteStyle_ThreadSafe() As String
+        Dim strSilStyle As String = "1"
+        ' InvokeRequired required compares the thread ID of the calling thread to the thread ID of the creating thread.
+        ' If these threads are different, it returns true.
+        If comboSilhouetteStyle.InvokeRequired Then
+            Dim MyDelegate As New comboSilhouetteStyle_Delegate(AddressOf comboSilhouetteStyle_ThreadSafe)
+            strSilStyle = Me.Invoke(MyDelegate, New Object() {})
+        Else
+            strSilStyle = comboSilhouetteStyle.Text
+        End If
+        Return strSilStyle
+    End Function
 #End Region
 
     Private Sub chkSaveImage_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkSaveImage.CheckedChanged
