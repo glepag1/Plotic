@@ -184,12 +184,12 @@ Partial Class Main
         Me.numTTKRange = New System.Windows.Forms.NumericUpDown()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpTargetAdjustments = New System.Windows.Forms.GroupBox()
-        Me.NumericUpDown3 = New System.Windows.Forms.NumericUpDown()
+        Me.numTargetOffsetHorizontal = New System.Windows.Forms.NumericUpDown()
         Me.Label60 = New System.Windows.Forms.Label()
         Me.radTargetAdjustPixel = New System.Windows.Forms.RadioButton()
         Me.radTargetAdjustMeter = New System.Windows.Forms.RadioButton()
         Me.radTargetAdjustDegree = New System.Windows.Forms.RadioButton()
-        Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
+        Me.numTargetOffsetVertical = New System.Windows.Forms.NumericUpDown()
         Me.Label59 = New System.Windows.Forms.Label()
         Me.chkDrawTTK = New System.Windows.Forms.CheckBox()
         Me.comboSilhouetteStyle = New System.Windows.Forms.ComboBox()
@@ -248,6 +248,13 @@ Partial Class Main
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.bgWorker_RenderAll = New System.ComponentModel.BackgroundWorker()
+        Me.Label61 = New System.Windows.Forms.Label()
+        Me.Label62 = New System.Windows.Forms.Label()
+        Me.Label63 = New System.Windows.Forms.Label()
+        Me.Label64 = New System.Windows.Forms.Label()
+        Me.Label65 = New System.Windows.Forms.Label()
+        Me.Label66 = New System.Windows.Forms.Label()
+        Me.pnlTargetOffsetDiagram = New System.Windows.Forms.Panel()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -296,8 +303,8 @@ Partial Class Main
         CType(Me.numTTKRange, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage1.SuspendLayout()
         Me.grpTargetAdjustments.SuspendLayout()
-        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.numTargetOffsetHorizontal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.numTargetOffsetVertical, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabCustom.SuspendLayout()
         Me.grpSpread.SuspendLayout()
         CType(Me.numSpreadInc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -317,6 +324,7 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlTargetOffsetDiagram.SuspendLayout()
         Me.SuspendLayout()
         '
         'grpStance
@@ -2293,11 +2301,11 @@ Partial Class Main
         'TabPage1
         '
         Me.TabPage1.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.TabPage1.Controls.Add(Me.grpTargetAdjustments)
         Me.TabPage1.Controls.Add(Me.chkDrawTTK)
         Me.TabPage1.Controls.Add(Me.comboSilhouetteStyle)
         Me.TabPage1.Controls.Add(Me.Label48)
         Me.TabPage1.Controls.Add(Me.chkDrawScaleTarget)
+        Me.TabPage1.Controls.Add(Me.grpTargetAdjustments)
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
@@ -2307,12 +2315,13 @@ Partial Class Main
         '
         'grpTargetAdjustments
         '
-        Me.grpTargetAdjustments.Controls.Add(Me.NumericUpDown3)
+        Me.grpTargetAdjustments.Controls.Add(Me.numTargetOffsetHorizontal)
         Me.grpTargetAdjustments.Controls.Add(Me.Label60)
+        Me.grpTargetAdjustments.Controls.Add(Me.pnlTargetOffsetDiagram)
         Me.grpTargetAdjustments.Controls.Add(Me.radTargetAdjustPixel)
         Me.grpTargetAdjustments.Controls.Add(Me.radTargetAdjustMeter)
         Me.grpTargetAdjustments.Controls.Add(Me.radTargetAdjustDegree)
-        Me.grpTargetAdjustments.Controls.Add(Me.NumericUpDown1)
+        Me.grpTargetAdjustments.Controls.Add(Me.numTargetOffsetVertical)
         Me.grpTargetAdjustments.Controls.Add(Me.Label59)
         Me.grpTargetAdjustments.ForeColor = System.Drawing.Color.White
         Me.grpTargetAdjustments.Location = New System.Drawing.Point(68, 67)
@@ -2321,26 +2330,26 @@ Partial Class Main
         Me.grpTargetAdjustments.TabIndex = 105
         Me.grpTargetAdjustments.TabStop = False
         Me.grpTargetAdjustments.Text = "Target Offset"
-        Me.grpTargetAdjustments.Visible = False
         '
-        'NumericUpDown3
+        'numTargetOffsetHorizontal
         '
-        Me.NumericUpDown3.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.NumericUpDown3.DecimalPlaces = 5
-        Me.NumericUpDown3.ForeColor = System.Drawing.Color.White
-        Me.NumericUpDown3.Location = New System.Drawing.Point(89, 60)
-        Me.NumericUpDown3.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.NumericUpDown3.Name = "NumericUpDown3"
-        Me.NumericUpDown3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.NumericUpDown3.Size = New System.Drawing.Size(72, 20)
-        Me.NumericUpDown3.TabIndex = 109
+        Me.numTargetOffsetHorizontal.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.numTargetOffsetHorizontal.ForeColor = System.Drawing.Color.White
+        Me.numTargetOffsetHorizontal.Location = New System.Drawing.Point(135, 60)
+        Me.numTargetOffsetHorizontal.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
+        Me.numTargetOffsetHorizontal.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
+        Me.numTargetOffsetHorizontal.Name = "numTargetOffsetHorizontal"
+        Me.numTargetOffsetHorizontal.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.numTargetOffsetHorizontal.Size = New System.Drawing.Size(72, 20)
+        Me.numTargetOffsetHorizontal.TabIndex = 109
+        Me.numTargetOffsetHorizontal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label60
         '
         Me.Label60.AutoSize = True
         Me.Label60.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.Label60.ForeColor = System.Drawing.Color.White
-        Me.Label60.Location = New System.Drawing.Point(33, 63)
+        Me.Label60.Location = New System.Drawing.Point(79, 63)
         Me.Label60.Name = "Label60"
         Me.Label60.Size = New System.Drawing.Size(54, 13)
         Me.Label60.TabIndex = 108
@@ -2349,53 +2358,56 @@ Partial Class Main
         'radTargetAdjustPixel
         '
         Me.radTargetAdjustPixel.AutoSize = True
-        Me.radTargetAdjustPixel.Location = New System.Drawing.Point(167, 64)
+        Me.radTargetAdjustPixel.Checked = True
+        Me.radTargetAdjustPixel.Location = New System.Drawing.Point(213, 64)
         Me.radTargetAdjustPixel.Name = "radTargetAdjustPixel"
         Me.radTargetAdjustPixel.Size = New System.Drawing.Size(52, 17)
         Me.radTargetAdjustPixel.TabIndex = 107
+        Me.radTargetAdjustPixel.TabStop = True
         Me.radTargetAdjustPixel.Text = "Pixels"
         Me.radTargetAdjustPixel.UseVisualStyleBackColor = True
         '
         'radTargetAdjustMeter
         '
         Me.radTargetAdjustMeter.AutoSize = True
-        Me.radTargetAdjustMeter.Checked = True
-        Me.radTargetAdjustMeter.Location = New System.Drawing.Point(167, 48)
+        Me.radTargetAdjustMeter.Enabled = False
+        Me.radTargetAdjustMeter.Location = New System.Drawing.Point(213, 48)
         Me.radTargetAdjustMeter.Name = "radTargetAdjustMeter"
         Me.radTargetAdjustMeter.Size = New System.Drawing.Size(57, 17)
         Me.radTargetAdjustMeter.TabIndex = 106
-        Me.radTargetAdjustMeter.TabStop = True
         Me.radTargetAdjustMeter.Text = "Meters"
         Me.radTargetAdjustMeter.UseVisualStyleBackColor = True
         '
         'radTargetAdjustDegree
         '
         Me.radTargetAdjustDegree.AutoSize = True
-        Me.radTargetAdjustDegree.Location = New System.Drawing.Point(167, 32)
+        Me.radTargetAdjustDegree.Enabled = False
+        Me.radTargetAdjustDegree.Location = New System.Drawing.Point(213, 32)
         Me.radTargetAdjustDegree.Name = "radTargetAdjustDegree"
         Me.radTargetAdjustDegree.Size = New System.Drawing.Size(65, 17)
         Me.radTargetAdjustDegree.TabIndex = 105
         Me.radTargetAdjustDegree.Text = "Degrees"
         Me.radTargetAdjustDegree.UseVisualStyleBackColor = True
         '
-        'NumericUpDown1
+        'numTargetOffsetVertical
         '
-        Me.NumericUpDown1.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.NumericUpDown1.DecimalPlaces = 5
-        Me.NumericUpDown1.ForeColor = System.Drawing.Color.White
-        Me.NumericUpDown1.Location = New System.Drawing.Point(90, 34)
-        Me.NumericUpDown1.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.NumericUpDown1.Name = "NumericUpDown1"
-        Me.NumericUpDown1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.NumericUpDown1.Size = New System.Drawing.Size(71, 20)
-        Me.NumericUpDown1.TabIndex = 104
+        Me.numTargetOffsetVertical.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.numTargetOffsetVertical.ForeColor = System.Drawing.Color.White
+        Me.numTargetOffsetVertical.Location = New System.Drawing.Point(136, 34)
+        Me.numTargetOffsetVertical.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
+        Me.numTargetOffsetVertical.Minimum = New Decimal(New Integer() {2000, 0, 0, -2147483648})
+        Me.numTargetOffsetVertical.Name = "numTargetOffsetVertical"
+        Me.numTargetOffsetVertical.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.numTargetOffsetVertical.Size = New System.Drawing.Size(71, 20)
+        Me.numTargetOffsetVertical.TabIndex = 104
+        Me.numTargetOffsetVertical.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label59
         '
         Me.Label59.AutoSize = True
         Me.Label59.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
         Me.Label59.ForeColor = System.Drawing.Color.White
-        Me.Label59.Location = New System.Drawing.Point(45, 37)
+        Me.Label59.Location = New System.Drawing.Point(91, 37)
         Me.Label59.Name = "Label59"
         Me.Label59.Size = New System.Drawing.Size(42, 13)
         Me.Label59.TabIndex = 103
@@ -3038,6 +3050,80 @@ Partial Class Main
         Me.bgWorker_RenderAll.WorkerReportsProgress = True
         Me.bgWorker_RenderAll.WorkerSupportsCancellation = True
         '
+        'Label61
+        '
+        Me.Label61.AutoSize = True
+        Me.Label61.ForeColor = System.Drawing.Color.Lime
+        Me.Label61.Location = New System.Drawing.Point(27, 1)
+        Me.Label61.Name = "Label61"
+        Me.Label61.Size = New System.Drawing.Size(14, 13)
+        Me.Label61.TabIndex = 110
+        Me.Label61.Text = "V"
+        '
+        'Label62
+        '
+        Me.Label62.AutoSize = True
+        Me.Label62.ForeColor = System.Drawing.Color.Lime
+        Me.Label62.Location = New System.Drawing.Point(27, 7)
+        Me.Label62.Name = "Label62"
+        Me.Label62.Size = New System.Drawing.Size(13, 13)
+        Me.Label62.TabIndex = 111
+        Me.Label62.Text = "_"
+        '
+        'Label63
+        '
+        Me.Label63.AutoSize = True
+        Me.Label63.ForeColor = System.Drawing.Color.Lime
+        Me.Label63.Location = New System.Drawing.Point(27, 41)
+        Me.Label63.Name = "Label63"
+        Me.Label63.Size = New System.Drawing.Size(13, 13)
+        Me.Label63.TabIndex = 112
+        Me.Label63.Text = "+"
+        '
+        'Label64
+        '
+        Me.Label64.AutoSize = True
+        Me.Label64.ForeColor = System.Drawing.Color.Red
+        Me.Label64.Location = New System.Drawing.Point(0, 26)
+        Me.Label64.Name = "Label64"
+        Me.Label64.Size = New System.Drawing.Size(15, 13)
+        Me.Label64.TabIndex = 113
+        Me.Label64.Text = "H"
+        '
+        'Label65
+        '
+        Me.Label65.AutoSize = True
+        Me.Label65.ForeColor = System.Drawing.Color.Red
+        Me.Label65.Location = New System.Drawing.Point(11, 21)
+        Me.Label65.Name = "Label65"
+        Me.Label65.Size = New System.Drawing.Size(13, 13)
+        Me.Label65.TabIndex = 114
+        Me.Label65.Text = "_"
+        '
+        'Label66
+        '
+        Me.Label66.AutoSize = True
+        Me.Label66.ForeColor = System.Drawing.Color.Red
+        Me.Label66.Location = New System.Drawing.Point(41, 27)
+        Me.Label66.Name = "Label66"
+        Me.Label66.Size = New System.Drawing.Size(13, 13)
+        Me.Label66.TabIndex = 115
+        Me.Label66.Text = "+"
+        '
+        'pnlTargetOffsetDiagram
+        '
+        Me.pnlTargetOffsetDiagram.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label64)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label61)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label65)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label66)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label62)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label63)
+        Me.pnlTargetOffsetDiagram.Location = New System.Drawing.Point(8, 15)
+        Me.pnlTargetOffsetDiagram.Name = "pnlTargetOffsetDiagram"
+        Me.pnlTargetOffsetDiagram.Size = New System.Drawing.Size(65, 65)
+        Me.pnlTargetOffsetDiagram.TabIndex = 106
+        '
         'Main
         '
         Me.AcceptButton = Me.btnStart
@@ -3130,8 +3216,8 @@ Partial Class Main
         Me.TabPage1.PerformLayout()
         Me.grpTargetAdjustments.ResumeLayout(False)
         Me.grpTargetAdjustments.PerformLayout()
-        CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.numTargetOffsetHorizontal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.numTargetOffsetVertical, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabCustom.ResumeLayout(False)
         Me.grpSpread.ResumeLayout(False)
         Me.grpSpread.PerformLayout()
@@ -3156,6 +3242,8 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlTargetOffsetDiagram.ResumeLayout(False)
+        Me.pnlTargetOffsetDiagram.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3360,12 +3448,12 @@ Partial Class Main
     Friend WithEvents chkDrawScaleTarget As System.Windows.Forms.CheckBox
     Friend WithEvents chkDrawTTK As System.Windows.Forms.CheckBox
     Friend WithEvents grpTargetAdjustments As System.Windows.Forms.GroupBox
-    Friend WithEvents NumericUpDown3 As System.Windows.Forms.NumericUpDown
+    Friend WithEvents numTargetOffsetHorizontal As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label60 As System.Windows.Forms.Label
     Friend WithEvents radTargetAdjustPixel As System.Windows.Forms.RadioButton
     Friend WithEvents radTargetAdjustMeter As System.Windows.Forms.RadioButton
     Friend WithEvents radTargetAdjustDegree As System.Windows.Forms.RadioButton
-    Friend WithEvents NumericUpDown1 As System.Windows.Forms.NumericUpDown
+    Friend WithEvents numTargetOffsetVertical As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label59 As System.Windows.Forms.Label
     Friend WithEvents chkWriteHitRates As System.Windows.Forms.CheckBox
     Friend WithEvents chkDrawTarget As System.Windows.Forms.CheckBox
@@ -3384,4 +3472,11 @@ Partial Class Main
     Friend WithEvents btnRenderAllStop As System.Windows.Forms.Button
     Friend WithEvents grpSaveOptions As System.Windows.Forms.GroupBox
     Friend WithEvents picBulletDropStylePreview As System.Windows.Forms.PictureBox
+    Friend WithEvents pnlTargetOffsetDiagram As System.Windows.Forms.Panel
+    Friend WithEvents Label64 As System.Windows.Forms.Label
+    Friend WithEvents Label61 As System.Windows.Forms.Label
+    Friend WithEvents Label65 As System.Windows.Forms.Label
+    Friend WithEvents Label66 As System.Windows.Forms.Label
+    Friend WithEvents Label62 As System.Windows.Forms.Label
+    Friend WithEvents Label63 As System.Windows.Forms.Label
 End Class

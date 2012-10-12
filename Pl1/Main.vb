@@ -1078,8 +1078,9 @@ Public Class Main
 
         Dim solscaledMask As New Bitmap(CInt(silhouetteWidth), CInt(silhouetteHeight))
 
-        Dim sil_centerY As Integer = 1680 - picVCenter
-        Dim sil_centerX As Integer = 1000 - picHCenter
+        'Add offsets to the target location.
+        Dim sil_centerY As Integer = 1680 - picVCenter + Math.Round(numTargetOffsetVertical.Value, 0)
+        Dim sil_centerX As Integer = 1000 - picHCenter + Math.Round(numTargetOffsetHorizontal.Value, 0)
 
         Dim soldestMask As Graphics = Graphics.FromImage(solscaledMask)
 
@@ -3102,6 +3103,7 @@ ByVal DefaultValue As String) As String
         If sender.checked Then
             grpStyle.Enabled = True
             numDropLineThickness.Enabled = True
+            createBulletDropPreview()
         Else
             grpStyle.Enabled = False
             numDropLineThickness.Enabled = False
