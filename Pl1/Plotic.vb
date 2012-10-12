@@ -239,6 +239,13 @@
             Return intSilhouetteStyle
         End Get
         Set(ByVal Value As Integer)
+            If Value = 1 Then
+                Me.Silh = New Bitmap(My.Resources.sil_1_fullsize)
+            ElseIf Value = 2 Then
+                Me.Silh = New Bitmap(My.Resources.sil_2_fullsize)
+            ElseIf Value = 3 Then
+                Me.Silh = New Bitmap(My.Resources.sil_3_fullsize)
+            End If
             intSilhouetteStyle = Value
         End Set
     End Property
