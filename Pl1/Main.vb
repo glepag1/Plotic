@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.53"
+    Private Const VERSION As String = "Plotic v2.54"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -789,7 +789,37 @@ Public Class Main
         Pl.GridLineSpace = convertINIValue(INIRead(silentTemplateFile, "Grid", "GridValue", "1"), chrDecimalSymbol)
 
         Pl.RateOfFire = CInt(Val(INIRead(silentTemplateFile, "TTK", "RateOfFire", "650")))
+
+
+        Dim b As Bitmap = Pl.Image
+        Dim fileDir = INIRead(silentTemplateFile, "Save", "SavePath", "Unknown")
+        Dim fileName = convertFileName(INIRead(silentTemplateFile, "Save", "FileName", "Unknown"))
+        Dim fullPath As String = Path.Combine(fileDir, fileName)
+
+        Pl.RenderTitle = convertToBoolean(INIRead(silentTemplateFile, "Title", "RenderTitleText", "0"))
+        Pl.RenderGrid = convertToBoolean(INIRead(silentTemplateFile, "Grid", "RenderGrid", "0"))
+
+        Pl.RenderBars = convertToBoolean(INIRead(silentTemplateFile, "Render", "RenderBars", "0"))
+        Pl.ScaleRadius = convertToBoolean(INIRead(silentTemplateFile, "Render", "ScaleRadius", "0"))
+        Dim backgroundColorARGB As Array = INIRead(silentTemplateFile, "Render", "BackgroundARGB", "255,0,0,0").Split(",")
+
+        Pl.RenderAdjustment = convertToBoolean(INIRead(silentTemplateFile, "Attach", "RenderAttachText", "0"))
+        Dim VerticalMultiplier As String = INIRead(silentTemplateFile, "Attach", "VerticalMultiplier", "1")
+        Dim MultiplyVerticalRecoil As Integer = INIRead(silentTemplateFile, "Attach", "MultiplyVerticalRecoil", "0")
+
+        Dim IntensityScale As String = INIRead(silentTemplateFile, "HeatMap", "IntensityScale", "2")
+        Pl.RenderHeatMap = convertToBoolean(INIRead(silentTemplateFile, "HeatMap", "RenderHeatMap", "0"))
+        Dim HeatRadius As Integer = INIRead(silentTemplateFile, "HeatMap", "Radius", "0")
+
+        Pl.RenderTTK = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderTTK", "0"))
+        'Pl.rr = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderHitRates", "0"))
+
     End Sub
+    Private Function convertToBoolean(ByVal intInput As Integer) As Boolean
+        Dim blnResult As Boolean = False
+        If intInput = 1 Then blnResult = True Else blnResult = False
+        Return blnResult
+    End Function
     Private Sub createSilentImage()
         Dim chrDecimalSymbol As Char = INIRead(silentTemplateFile, "Config", "DecimalSymbol", ".")
 
