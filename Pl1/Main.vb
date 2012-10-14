@@ -811,7 +811,7 @@ Public Class Main
         Pl.RenderHeatMap = convertToBoolean(INIRead(silentTemplateFile, "HeatMap", "RenderHeatMap", "0"))
         Dim HeatRadius As Integer = INIRead(silentTemplateFile, "HeatMap", "Radius", "0")
 
-        Pl.RenderTTK = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderTTK", "0"))
+        Pl.RenderHitRates = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderTTK", "0"))
         'Pl.rr = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderHitRates", "0"))
 
     End Sub
@@ -1272,7 +1272,7 @@ Public Class Main
             Next ' Next Bullet Burst
 
             'Update the Progress bar
-            ToolStripProgressBar1_ThreadSafe(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
+            If showUpdates Then ToolStripProgressBar1_ThreadSafe(Math.Round(CInt((ee / Pl.Burst) * 100), 0))
 
         Next 'Next BURST
 
@@ -1297,19 +1297,21 @@ Public Class Main
                    "5th. bullet: " + Math.Round((aryHits(4) / (intBursts + 1) * 100), 2).ToString + "%")
 
         End If
-        'Render hit rate info
-        If Pl.RenderTTK And Pl.RenderScaleTarget Then
-            drawHitRate(Pl.ImageGraphic, Math.Round((aryHits(0) / (intBursts + 1) * 100), 2), Math.Round((aryHits(1) / (intBursts + 1) * 100), 2), Math.Round((aryHits(2) / (intBursts + 1) * 100), 2), Math.Round((aryHits(3) / (intBursts + 1) * 100), 2), Math.Round((aryHits(4) / (intBursts + 1) * 100), 2))
-        End If
+
+        'Create heatmap
         If Pl.RenderHeatMap Then
             'Pl.HeatGraphic = Graphics.FromImage(Pl.HeatMap)
             SetOutPutText_ThreadSafe("Please wait... Creating heat map")
             Application.DoEvents()
-            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, 0)
+            Pl.HeatMap = CreateIntensityMask(Pl.HeatMap, HeatPoints, numHeatRadius.Value, showUpdates)
             ' Colorize the memory bitmap and assign it as the picture boxes image
             Pl.HeatMap = Colorize(Pl.HeatMap, 255, paletteOverride)
         End If
 
+        'Render hit rate info
+        If Pl.RenderHitRates And Pl.RenderScaleTarget Then
+            drawHitRate(Pl.ImageGraphic, Math.Round((aryHits(0) / (intBursts + 1) * 100), 2), Math.Round((aryHits(1) / (intBursts + 1) * 100), 2), Math.Round((aryHits(2) / (intBursts + 1) * 100), 2), Math.Round((aryHits(3) / (intBursts + 1) * 100), 2), Math.Round((aryHits(4) / (intBursts + 1) * 100), 2))
+        End If
         'Render Title
         If Pl.RenderTitle Then
             drawTitle(Pl.ImageGraphic)
@@ -1530,7 +1532,6 @@ Public Class Main
         Pl.TargetRange = numMeters.Value
         Pl.RateOfFire = GetRateOfFire(Pl.FileName)
 
-
         Pl.SilhouetteStyle = comboSilhouetteStyle_ThreadSafe()
 
         'Set new options
@@ -1547,7 +1548,7 @@ Public Class Main
         setOption(chkBars, Pl.RenderBars)
         setOption(chkPrintAdj, Pl.RenderAdjustment)
         setOption(chkScaleRadius, Pl.ScaleRadius)
-        setOption(chkDrawTTK, Pl.RenderTTK)
+        setOption(chkRenderHitRates, Pl.RenderHitRates)
 
         setOption(chkHeatMap, Pl.RenderHeatMap)
         setOption(chkRenderHeatTitle, Pl.RenderHeatTitle)
@@ -2483,7 +2484,7 @@ Public Class Main
     End Sub
 
 #Region "Heat Map Creation"
-    Private Function CreateIntensityMask(bSurface As Bitmap, aHeatPoints As List(Of HeatPoint), iRadius As Integer, iCaller As Integer) As Bitmap
+    Private Function CreateIntensityMask(bSurface As Bitmap, aHeatPoints As List(Of HeatPoint), iRadius As Integer, showUpdates As Boolean) As Bitmap
         ' Create new graphics surface from memory bitmap
         Dim DrawSurface As Graphics = Graphics.FromImage(bSurface)
 
@@ -2496,7 +2497,7 @@ Public Class Main
             ' Render current heat point on draw surface
             DrawHeatPoint(DrawSurface, DataPoint, numHeatRadius.Value)
 
-            ToolStripProgressBar1_ThreadSafe(Math.Round((hCount / aHeatPoints.Count) * 100))
+            If showUpdates Then ToolStripProgressBar1_ThreadSafe(Math.Round((hCount / aHeatPoints.Count) * 100))
 
             hCount += 1
         Next
@@ -3173,13 +3174,13 @@ ByVal DefaultValue As String) As String
 
     Private Sub chkWriteHitRates_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkWriteHitRates.CheckedChanged
         If sender.checked Then
-            chkDrawTTK.Checked = True
+            chkRenderHitRates.Checked = True
         Else
-            chkDrawTTK.Checked = False
+            chkRenderHitRates.Checked = False
         End If
     End Sub
 
-    Private Sub chkDrawTTK_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawTTK.CheckedChanged
+    Private Sub chkDrawTTK_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkRenderHitRates.CheckedChanged
         If sender.checked Then
             chkWriteHitRates.Checked = True
         Else

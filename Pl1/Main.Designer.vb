@@ -183,18 +183,25 @@ Partial Class Main
         Me.chkDrawTTKGrid = New System.Windows.Forms.CheckBox()
         Me.numTTKRange = New System.Windows.Forms.NumericUpDown()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.chkRenderHitRates = New System.Windows.Forms.CheckBox()
+        Me.comboSilhouetteStyle = New System.Windows.Forms.ComboBox()
+        Me.Label48 = New System.Windows.Forms.Label()
+        Me.chkDrawScaleTarget = New System.Windows.Forms.CheckBox()
         Me.grpTargetAdjustments = New System.Windows.Forms.GroupBox()
         Me.numTargetOffsetHorizontal = New System.Windows.Forms.NumericUpDown()
         Me.Label60 = New System.Windows.Forms.Label()
+        Me.pnlTargetOffsetDiagram = New System.Windows.Forms.Panel()
+        Me.Label64 = New System.Windows.Forms.Label()
+        Me.Label61 = New System.Windows.Forms.Label()
+        Me.Label65 = New System.Windows.Forms.Label()
+        Me.Label66 = New System.Windows.Forms.Label()
+        Me.Label62 = New System.Windows.Forms.Label()
+        Me.Label63 = New System.Windows.Forms.Label()
         Me.radTargetAdjustPixel = New System.Windows.Forms.RadioButton()
         Me.radTargetAdjustMeter = New System.Windows.Forms.RadioButton()
         Me.radTargetAdjustDegree = New System.Windows.Forms.RadioButton()
         Me.numTargetOffsetVertical = New System.Windows.Forms.NumericUpDown()
         Me.Label59 = New System.Windows.Forms.Label()
-        Me.chkDrawTTK = New System.Windows.Forms.CheckBox()
-        Me.comboSilhouetteStyle = New System.Windows.Forms.ComboBox()
-        Me.Label48 = New System.Windows.Forms.Label()
-        Me.chkDrawScaleTarget = New System.Windows.Forms.CheckBox()
         Me.tabCustom = New System.Windows.Forms.TabPage()
         Me.grpSpread = New System.Windows.Forms.GroupBox()
         Me.Label47 = New System.Windows.Forms.Label()
@@ -248,13 +255,6 @@ Partial Class Main
         Me.ViewMaskToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewTTKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.bgWorker_RenderAll = New System.ComponentModel.BackgroundWorker()
-        Me.Label61 = New System.Windows.Forms.Label()
-        Me.Label62 = New System.Windows.Forms.Label()
-        Me.Label63 = New System.Windows.Forms.Label()
-        Me.Label64 = New System.Windows.Forms.Label()
-        Me.Label65 = New System.Windows.Forms.Label()
-        Me.Label66 = New System.Windows.Forms.Label()
-        Me.pnlTargetOffsetDiagram = New System.Windows.Forms.Panel()
         Me.grpStance.SuspendLayout()
         CType(Me.numBulletsPerBurst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpWeapon.SuspendLayout()
@@ -304,6 +304,7 @@ Partial Class Main
         Me.TabPage1.SuspendLayout()
         Me.grpTargetAdjustments.SuspendLayout()
         CType(Me.numTargetOffsetHorizontal, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlTargetOffsetDiagram.SuspendLayout()
         CType(Me.numTargetOffsetVertical, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabCustom.SuspendLayout()
         Me.grpSpread.SuspendLayout()
@@ -324,7 +325,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlTargetOffsetDiagram.SuspendLayout()
         Me.SuspendLayout()
         '
         'grpStance
@@ -2301,7 +2301,7 @@ Partial Class Main
         'TabPage1
         '
         Me.TabPage1.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.TabPage1.Controls.Add(Me.chkDrawTTK)
+        Me.TabPage1.Controls.Add(Me.chkRenderHitRates)
         Me.TabPage1.Controls.Add(Me.comboSilhouetteStyle)
         Me.TabPage1.Controls.Add(Me.Label48)
         Me.TabPage1.Controls.Add(Me.chkDrawScaleTarget)
@@ -2312,6 +2312,53 @@ Partial Class Main
         Me.TabPage1.Size = New System.Drawing.Size(354, 156)
         Me.TabPage1.TabIndex = 2
         Me.TabPage1.Text = "Target"
+        '
+        'chkRenderHitRates
+        '
+        Me.chkRenderHitRates.AutoSize = True
+        Me.chkRenderHitRates.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.chkRenderHitRates.ForeColor = System.Drawing.Color.White
+        Me.chkRenderHitRates.Location = New System.Drawing.Point(8, 26)
+        Me.chkRenderHitRates.Name = "chkRenderHitRates"
+        Me.chkRenderHitRates.Size = New System.Drawing.Size(91, 17)
+        Me.chkRenderHitRates.TabIndex = 102
+        Me.chkRenderHitRates.Text = "Write hit rates"
+        Me.chkRenderHitRates.UseVisualStyleBackColor = False
+        '
+        'comboSilhouetteStyle
+        '
+        Me.comboSilhouetteStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.comboSilhouetteStyle.Enabled = False
+        Me.comboSilhouetteStyle.ForeColor = System.Drawing.Color.White
+        Me.comboSilhouetteStyle.FormattingEnabled = True
+        Me.comboSilhouetteStyle.Items.AddRange(New Object() {"1", "2", "3"})
+        Me.comboSilhouetteStyle.Location = New System.Drawing.Point(188, 6)
+        Me.comboSilhouetteStyle.Name = "comboSilhouetteStyle"
+        Me.comboSilhouetteStyle.Size = New System.Drawing.Size(44, 21)
+        Me.comboSilhouetteStyle.TabIndex = 101
+        Me.comboSilhouetteStyle.Text = "1"
+        '
+        'Label48
+        '
+        Me.Label48.AutoSize = True
+        Me.Label48.ForeColor = System.Drawing.Color.White
+        Me.Label48.Location = New System.Drawing.Point(125, 9)
+        Me.Label48.Name = "Label48"
+        Me.Label48.Size = New System.Drawing.Size(64, 13)
+        Me.Label48.TabIndex = 100
+        Me.Label48.Text = "Target Style"
+        '
+        'chkDrawScaleTarget
+        '
+        Me.chkDrawScaleTarget.AutoSize = True
+        Me.chkDrawScaleTarget.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
+        Me.chkDrawScaleTarget.ForeColor = System.Drawing.Color.White
+        Me.chkDrawScaleTarget.Location = New System.Drawing.Point(8, 8)
+        Me.chkDrawScaleTarget.Name = "chkDrawScaleTarget"
+        Me.chkDrawScaleTarget.Size = New System.Drawing.Size(109, 17)
+        Me.chkDrawScaleTarget.TabIndex = 99
+        Me.chkDrawScaleTarget.Text = "Draw scale target"
+        Me.chkDrawScaleTarget.UseVisualStyleBackColor = False
         '
         'grpTargetAdjustments
         '
@@ -2354,6 +2401,80 @@ Partial Class Main
         Me.Label60.Size = New System.Drawing.Size(54, 13)
         Me.Label60.TabIndex = 108
         Me.Label60.Text = "Horizontal"
+        '
+        'pnlTargetOffsetDiagram
+        '
+        Me.pnlTargetOffsetDiagram.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label64)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label61)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label65)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label66)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label62)
+        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label63)
+        Me.pnlTargetOffsetDiagram.Location = New System.Drawing.Point(8, 15)
+        Me.pnlTargetOffsetDiagram.Name = "pnlTargetOffsetDiagram"
+        Me.pnlTargetOffsetDiagram.Size = New System.Drawing.Size(65, 65)
+        Me.pnlTargetOffsetDiagram.TabIndex = 106
+        '
+        'Label64
+        '
+        Me.Label64.AutoSize = True
+        Me.Label64.ForeColor = System.Drawing.Color.Red
+        Me.Label64.Location = New System.Drawing.Point(0, 26)
+        Me.Label64.Name = "Label64"
+        Me.Label64.Size = New System.Drawing.Size(15, 13)
+        Me.Label64.TabIndex = 113
+        Me.Label64.Text = "H"
+        '
+        'Label61
+        '
+        Me.Label61.AutoSize = True
+        Me.Label61.ForeColor = System.Drawing.Color.Lime
+        Me.Label61.Location = New System.Drawing.Point(27, 1)
+        Me.Label61.Name = "Label61"
+        Me.Label61.Size = New System.Drawing.Size(14, 13)
+        Me.Label61.TabIndex = 110
+        Me.Label61.Text = "V"
+        '
+        'Label65
+        '
+        Me.Label65.AutoSize = True
+        Me.Label65.ForeColor = System.Drawing.Color.Red
+        Me.Label65.Location = New System.Drawing.Point(11, 21)
+        Me.Label65.Name = "Label65"
+        Me.Label65.Size = New System.Drawing.Size(13, 13)
+        Me.Label65.TabIndex = 114
+        Me.Label65.Text = "_"
+        '
+        'Label66
+        '
+        Me.Label66.AutoSize = True
+        Me.Label66.ForeColor = System.Drawing.Color.Red
+        Me.Label66.Location = New System.Drawing.Point(41, 27)
+        Me.Label66.Name = "Label66"
+        Me.Label66.Size = New System.Drawing.Size(13, 13)
+        Me.Label66.TabIndex = 115
+        Me.Label66.Text = "+"
+        '
+        'Label62
+        '
+        Me.Label62.AutoSize = True
+        Me.Label62.ForeColor = System.Drawing.Color.Lime
+        Me.Label62.Location = New System.Drawing.Point(27, 7)
+        Me.Label62.Name = "Label62"
+        Me.Label62.Size = New System.Drawing.Size(13, 13)
+        Me.Label62.TabIndex = 111
+        Me.Label62.Text = "_"
+        '
+        'Label63
+        '
+        Me.Label63.AutoSize = True
+        Me.Label63.ForeColor = System.Drawing.Color.Lime
+        Me.Label63.Location = New System.Drawing.Point(27, 41)
+        Me.Label63.Name = "Label63"
+        Me.Label63.Size = New System.Drawing.Size(13, 13)
+        Me.Label63.TabIndex = 112
+        Me.Label63.Text = "+"
         '
         'radTargetAdjustPixel
         '
@@ -2412,53 +2533,6 @@ Partial Class Main
         Me.Label59.Size = New System.Drawing.Size(42, 13)
         Me.Label59.TabIndex = 103
         Me.Label59.Text = "Vertical"
-        '
-        'chkDrawTTK
-        '
-        Me.chkDrawTTK.AutoSize = True
-        Me.chkDrawTTK.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.chkDrawTTK.ForeColor = System.Drawing.Color.White
-        Me.chkDrawTTK.Location = New System.Drawing.Point(8, 26)
-        Me.chkDrawTTK.Name = "chkDrawTTK"
-        Me.chkDrawTTK.Size = New System.Drawing.Size(91, 17)
-        Me.chkDrawTTK.TabIndex = 102
-        Me.chkDrawTTK.Text = "Write hit rates"
-        Me.chkDrawTTK.UseVisualStyleBackColor = False
-        '
-        'comboSilhouetteStyle
-        '
-        Me.comboSilhouetteStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.comboSilhouetteStyle.Enabled = False
-        Me.comboSilhouetteStyle.ForeColor = System.Drawing.Color.White
-        Me.comboSilhouetteStyle.FormattingEnabled = True
-        Me.comboSilhouetteStyle.Items.AddRange(New Object() {"1", "2", "3"})
-        Me.comboSilhouetteStyle.Location = New System.Drawing.Point(188, 6)
-        Me.comboSilhouetteStyle.Name = "comboSilhouetteStyle"
-        Me.comboSilhouetteStyle.Size = New System.Drawing.Size(44, 21)
-        Me.comboSilhouetteStyle.TabIndex = 101
-        Me.comboSilhouetteStyle.Text = "1"
-        '
-        'Label48
-        '
-        Me.Label48.AutoSize = True
-        Me.Label48.ForeColor = System.Drawing.Color.White
-        Me.Label48.Location = New System.Drawing.Point(125, 9)
-        Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(64, 13)
-        Me.Label48.TabIndex = 100
-        Me.Label48.Text = "Target Style"
-        '
-        'chkDrawScaleTarget
-        '
-        Me.chkDrawScaleTarget.AutoSize = True
-        Me.chkDrawScaleTarget.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.chkDrawScaleTarget.ForeColor = System.Drawing.Color.White
-        Me.chkDrawScaleTarget.Location = New System.Drawing.Point(8, 8)
-        Me.chkDrawScaleTarget.Name = "chkDrawScaleTarget"
-        Me.chkDrawScaleTarget.Size = New System.Drawing.Size(109, 17)
-        Me.chkDrawScaleTarget.TabIndex = 99
-        Me.chkDrawScaleTarget.Text = "Draw scale target"
-        Me.chkDrawScaleTarget.UseVisualStyleBackColor = False
         '
         'tabCustom
         '
@@ -3050,80 +3124,6 @@ Partial Class Main
         Me.bgWorker_RenderAll.WorkerReportsProgress = True
         Me.bgWorker_RenderAll.WorkerSupportsCancellation = True
         '
-        'Label61
-        '
-        Me.Label61.AutoSize = True
-        Me.Label61.ForeColor = System.Drawing.Color.Lime
-        Me.Label61.Location = New System.Drawing.Point(27, 1)
-        Me.Label61.Name = "Label61"
-        Me.Label61.Size = New System.Drawing.Size(14, 13)
-        Me.Label61.TabIndex = 110
-        Me.Label61.Text = "V"
-        '
-        'Label62
-        '
-        Me.Label62.AutoSize = True
-        Me.Label62.ForeColor = System.Drawing.Color.Lime
-        Me.Label62.Location = New System.Drawing.Point(27, 7)
-        Me.Label62.Name = "Label62"
-        Me.Label62.Size = New System.Drawing.Size(13, 13)
-        Me.Label62.TabIndex = 111
-        Me.Label62.Text = "_"
-        '
-        'Label63
-        '
-        Me.Label63.AutoSize = True
-        Me.Label63.ForeColor = System.Drawing.Color.Lime
-        Me.Label63.Location = New System.Drawing.Point(27, 41)
-        Me.Label63.Name = "Label63"
-        Me.Label63.Size = New System.Drawing.Size(13, 13)
-        Me.Label63.TabIndex = 112
-        Me.Label63.Text = "+"
-        '
-        'Label64
-        '
-        Me.Label64.AutoSize = True
-        Me.Label64.ForeColor = System.Drawing.Color.Red
-        Me.Label64.Location = New System.Drawing.Point(0, 26)
-        Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(15, 13)
-        Me.Label64.TabIndex = 113
-        Me.Label64.Text = "H"
-        '
-        'Label65
-        '
-        Me.Label65.AutoSize = True
-        Me.Label65.ForeColor = System.Drawing.Color.Red
-        Me.Label65.Location = New System.Drawing.Point(11, 21)
-        Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(13, 13)
-        Me.Label65.TabIndex = 114
-        Me.Label65.Text = "_"
-        '
-        'Label66
-        '
-        Me.Label66.AutoSize = True
-        Me.Label66.ForeColor = System.Drawing.Color.Red
-        Me.Label66.Location = New System.Drawing.Point(41, 27)
-        Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(13, 13)
-        Me.Label66.TabIndex = 115
-        Me.Label66.Text = "+"
-        '
-        'pnlTargetOffsetDiagram
-        '
-        Me.pnlTargetOffsetDiagram.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label64)
-        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label61)
-        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label65)
-        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label66)
-        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label62)
-        Me.pnlTargetOffsetDiagram.Controls.Add(Me.Label63)
-        Me.pnlTargetOffsetDiagram.Location = New System.Drawing.Point(8, 15)
-        Me.pnlTargetOffsetDiagram.Name = "pnlTargetOffsetDiagram"
-        Me.pnlTargetOffsetDiagram.Size = New System.Drawing.Size(65, 65)
-        Me.pnlTargetOffsetDiagram.TabIndex = 106
-        '
         'Main
         '
         Me.AcceptButton = Me.btnStart
@@ -3217,6 +3217,8 @@ Partial Class Main
         Me.grpTargetAdjustments.ResumeLayout(False)
         Me.grpTargetAdjustments.PerformLayout()
         CType(Me.numTargetOffsetHorizontal, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlTargetOffsetDiagram.ResumeLayout(False)
+        Me.pnlTargetOffsetDiagram.PerformLayout()
         CType(Me.numTargetOffsetVertical, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabCustom.ResumeLayout(False)
         Me.grpSpread.ResumeLayout(False)
@@ -3242,8 +3244,6 @@ Partial Class Main
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picPlot, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlTargetOffsetDiagram.ResumeLayout(False)
-        Me.pnlTargetOffsetDiagram.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3446,7 +3446,7 @@ Partial Class Main
     Friend WithEvents comboSilhouetteStyle As System.Windows.Forms.ComboBox
     Friend WithEvents Label48 As System.Windows.Forms.Label
     Friend WithEvents chkDrawScaleTarget As System.Windows.Forms.CheckBox
-    Friend WithEvents chkDrawTTK As System.Windows.Forms.CheckBox
+    Friend WithEvents chkRenderHitRates As System.Windows.Forms.CheckBox
     Friend WithEvents grpTargetAdjustments As System.Windows.Forms.GroupBox
     Friend WithEvents numTargetOffsetHorizontal As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label60 As System.Windows.Forms.Label

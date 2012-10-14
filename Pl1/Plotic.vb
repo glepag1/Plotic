@@ -64,7 +64,6 @@
     Private blnRenderBars As Boolean
     Private blnRenderAdjustment As Boolean
     Private blnRenderHitRates As Boolean
-    Private blnRenderTTK As Boolean
     Private blnRenderScaleTarget As Boolean
 
     Private blnRenderDropInfo As Boolean
@@ -290,12 +289,12 @@
             blnScaleRadius = Value
         End Set
     End Property
-    Property RenderTTK() As Boolean
+    Property RenderHitRates() As Boolean
         Get
-            Return blnRenderTTK
+            Return blnRenderHitRates
         End Get
         Set(ByVal Value As Boolean)
-            blnRenderTTK = Value
+            blnRenderHitRates = Value
         End Set
     End Property
 
@@ -813,6 +812,5 @@
         End Set
     End Property
 #End Region
-
 End Class
 
