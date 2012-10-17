@@ -1528,7 +1528,8 @@ Public Class Main
 
         'Set new options
 
-        Pl.HeatMapIntensity = Double.Parse(numIntensityScale.Value, System.Globalization.CultureInfo.InvariantCulture)
+        'Pl.HeatMapIntensity = Double.Parse(numIntensityScale.Value, System.Globalization.CultureInfo.InvariantCulture)
+        Pl.HeatMapIntensity = Double.Parse(numIntensityScale.Value)
 
         Pl.BackgroundColorAlpha = Integer.Parse(txtBGColorAlpha.Text)
         Pl.BackgroundColorRed = Integer.Parse(txtBGColorRed.Text)
