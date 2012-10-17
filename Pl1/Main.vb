@@ -2093,7 +2093,6 @@ Public Class Main
 
     End Sub
 #End Region
-
 #Region "Render All Threaders"
     Private Sub btnRenderAll_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAll.Click
         'Switch the buttons to show Stop
@@ -2185,7 +2184,8 @@ Public Class Main
     End Sub
 #End Region
 
-    Private Function checkforCancel(ByRef bgWorker As System.ComponentModel.BackgroundWorker)
+    'Will check if the background worker is suppose to be cancelled
+    Private Function checkforCancel(ByRef bgWorker As System.ComponentModel.BackgroundWorker) As Boolean
         If bgWorker.CancellationPending Then
             ' 
             bgWorker.CancelAsync()
@@ -2199,6 +2199,7 @@ Public Class Main
         saveImageFileName = convertFileName(txtFilename.Text)
     End Sub
 
+    'Save the images
     Private Sub SaveImage()
 
         Dim b As New Bitmap(Pl.Image)
@@ -2209,7 +2210,7 @@ Public Class Main
 
         b.Save(file)
         b.Dispose()
-
+        'TODO: Use plotic values so the sub isn't dependant on the GUI values.
         If chkHeatMap.Checked And chkSaveHeatMap.Checked Then
             Dim h As New Bitmap(Pl.HeatMap)
 
@@ -2219,6 +2220,7 @@ Public Class Main
             h.Dispose()
         End If
 
+        'TODO: Use plotic values so the sub isn't dependant on the GUI values.
         If chkSaveTTKChart.Checked Then
             Dim t As New Bitmap(Pl.TTK)
 
@@ -2232,7 +2234,7 @@ Public Class Main
         'Dispose of the images
     End Sub
 
-
+    'Convert the aliases to be an actual value for saving files.
     Private Function convertFileName(ByVal inputString As String) As String
 
         inputString = inputString.Replace("<<Title>>", Pl.Title)
@@ -3051,8 +3053,8 @@ ByVal DefaultValue As String) As String
     End Function
 #End Region
 
+    'Looks up the gun name and looks for a matching image to push to the picture box
     Private Sub renderGunImage()
-
         'TO DO: Change the input to be from the call to the sub so it can be used for Render All
         Dim basepath As String = System.IO.Path.Combine(Directory.GetCurrentDirectory, "gun_images")
 
@@ -3067,6 +3069,8 @@ ByVal DefaultValue As String) As String
         End If
 
     End Sub
+
+    'Updates what attachments are available for a weapon. If updateGUI=True, invalid attachments will be disabled on the GUI.
     Private Function updateAttachmentSelection(ByVal updateGUI As Boolean) As String
         ' List order: HeavyBarrel(1), Silencer(2), Fls Supp(3), Laser(4), Fore Grip(5), Bipod(6)
         Dim strAttachList As String = "000000"
@@ -3157,6 +3161,7 @@ ByVal DefaultValue As String) As String
     'Return 0
     'End Function
 
+    'Draws a sample heatmap plot
     Private Sub drawSamplePoints()
         Dim bSampleMap As Bitmap = New Bitmap(400, 400)
         Dim iIntense As Byte
@@ -3192,6 +3197,7 @@ ByVal DefaultValue As String) As String
         HeatPoints.Clear()
     End Sub
 
+    'Creates a preview of how the bullet drop icon will look
     Private Sub createBulletDropPreview()
         Dim bSampleMap As Bitmap = New Bitmap(72, 72)
         Dim grhSampleGraphic As Graphics = Graphics.FromImage(bSampleMap)
@@ -3220,6 +3226,7 @@ ByVal DefaultValue As String) As String
         SetBulletDropPreview_ThreadSafe(bSampleMap)
     End Sub
 
+    'Call made by renderAllAttachments to create the image and save it.
     Private Sub RenderAndSave(ByVal blnResetAttachments As Boolean)
 
         If checkforCancel(bgWorker_RenderAll) Then Exit Sub
@@ -3239,6 +3246,7 @@ ByVal DefaultValue As String) As String
         If blnResetAttachments Then resetAttachments()
     End Sub
 
+    'Iterate through all of the available attachments for a weapon
     Private Sub renderAllAttachments()
         'NO Attachment
         RenderAndSave(False)
