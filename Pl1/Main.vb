@@ -108,6 +108,7 @@ Public Class Main
 
     End Sub
 
+#Region "TTK Chart Rendering"
     Public Sub drawTTKSplit(ByVal g As Graphics)
         g.Clear(Color.Black)
         g.DrawImage(Pl.Image, 0, 0, 1000, 1000)
@@ -208,19 +209,6 @@ Public Class Main
 
         'g.DrawString(numDamageMin.Value, New Font("Arial", 30), brushBlue, 1950, 1950)
     End Sub
-    Public Sub drawHitRate(ByVal g As Graphics, ByVal Hit1 As Integer, ByVal Hit2 As Integer, ByVal Hit3 As Integer, ByVal Hit4 As Integer, ByVal Hit5 As Integer)
-        Dim greenBrush1 As New SolidBrush(Color.YellowGreen)
-        Dim greenBrush2 As New SolidBrush(Color.Goldenrod)
-        Dim hPos As Integer = 1550
-        Dim rect As New Rectangle(1528, 23, 465, 260)
-        g.FillRectangle(New SolidBrush(Color.FromArgb(127, 0, 0, 0)), rect)
-        g.DrawString("Average Hit Rates", New Font("Consolas", 35), greenBrush2, (hPos - 20), 25)
-        g.DrawString("1st Bullet: " + Hit1.ToString + "%", New Font("Consolas", 30), greenBrush1, hPos, 70)
-        g.DrawString("2nd Bullet: " + Hit2.ToString + "%", New Font("Consolas", 30), greenBrush2, hPos, 110)
-        g.DrawString("3rd Bullet: " + Hit3.ToString + "%", New Font("Consolas", 30), greenBrush1, hPos, 150)
-        g.DrawString("4th Bullet: " + Hit4.ToString + "%", New Font("Consolas", 30), greenBrush2, hPos, 190)
-        g.DrawString("5th Bullet: " + Hit5.ToString + "%", New Font("Consolas", 30), greenBrush1, hPos, 230)
-    End Sub
     Public Sub drawTTKBulletDamageArc(ByVal g As Graphics)
         Dim greenBrush1 As New SolidBrush(Color.YellowGreen)
         Dim topY = 1500
@@ -271,7 +259,6 @@ Public Class Main
         Next
 
     End Sub
-
     Public Sub drawDropGrid(ByVal g As Graphics)
 
 
@@ -338,7 +325,7 @@ Public Class Main
 
 
         'g.DrawLine(penDamage, 10, yPixel, 1950, yPixel)
-        yPixel = yPixel  + pixelsPerLine
+        yPixel = yPixel + pixelsPerLine
         Dim intAltToggle As Integer = 0
         Do While (yPixel < bottomY)
             Dim linePercent As Double = meterYValue / graphHeight
@@ -423,6 +410,8 @@ Public Class Main
         Next
 
     End Sub
+#End Region
+#Region "Main Chart Render"
     Private Sub drawBulletDrop(ByVal g As Graphics)
         Dim centerx = 1000
         Dim centery = 1680
@@ -504,8 +493,21 @@ Public Class Main
         g.DrawString(bulletType.ToString, New Font("Consolas", 35), greenBrush2, hPos, 290)
         g.DrawString("Rounds: " + bulletRounds.ToString, New Font("Consolas", 30), greenBrush1, hPos, 330)
         g.DrawString("Mags: " + bulletMagazines.ToString, New Font("Consolas", 30), greenBrush2, hPos, 370)
- 
+
         'g.DrawString("Correction: " + Pl. + "%", New Font("Consolas", 30), greenBrush1, hPos, 190)
+    End Sub
+    Public Sub drawHitRate(ByVal g As Graphics, ByVal Hit1 As Integer, ByVal Hit2 As Integer, ByVal Hit3 As Integer, ByVal Hit4 As Integer, ByVal Hit5 As Integer)
+        Dim greenBrush1 As New SolidBrush(Color.YellowGreen)
+        Dim greenBrush2 As New SolidBrush(Color.Goldenrod)
+        Dim hPos As Integer = 1550
+        Dim rect As New Rectangle(1528, 23, 465, 260)
+        g.FillRectangle(New SolidBrush(Color.FromArgb(127, 0, 0, 0)), rect)
+        g.DrawString("Average Hit Rates", New Font("Consolas", 35), greenBrush2, (hPos - 20), 25)
+        g.DrawString("1st Bullet: " + Hit1.ToString + "%", New Font("Consolas", 30), greenBrush1, hPos, 70)
+        g.DrawString("2nd Bullet: " + Hit2.ToString + "%", New Font("Consolas", 30), greenBrush2, hPos, 110)
+        g.DrawString("3rd Bullet: " + Hit3.ToString + "%", New Font("Consolas", 30), greenBrush1, hPos, 150)
+        g.DrawString("4th Bullet: " + Hit4.ToString + "%", New Font("Consolas", 30), greenBrush2, hPos, 190)
+        g.DrawString("5th Bullet: " + Hit5.ToString + "%", New Font("Consolas", 30), greenBrush1, hPos, 230)
     End Sub
     Public Sub drawTitle(ByVal g As Graphics)
 
@@ -639,7 +641,6 @@ Public Class Main
         End If
 
     End Sub
-
     Public Sub drawAdjustments(ByVal g As Graphics)
         Dim greenBrush1 As New SolidBrush(Color.YellowGreen)
         Dim greenBrush2 As New SolidBrush(Color.Goldenrod)
@@ -741,6 +742,7 @@ Public Class Main
         g.DrawString("Left Right", New Font("Consolas", 45), greenBrush5, 839, 1820)
         Dim pen111 As New System.Drawing.Pen(Color.YellowGreen, 30)
     End Sub
+#End Region
 
     Private Sub startSilent()
         Debug.WriteLine("Creating image in silent mode...")
@@ -759,61 +761,8 @@ Public Class Main
 
         HeatPoints.Clear()
         loadPloticINI()
-        createSilentImage()
-    End Sub
-    Private Sub loadPloticINI()
-        Dim chrDecimalSymbol As Char = INIRead(silentTemplateFile, "Config", "DecimalSymbol", ".")
-
-        Pl.RecoilUp = convertINIValue(INIRead(silentTemplateFile, "Recoil", "RecoilUp", "Unknown"), chrDecimalSymbol)
-        Pl.RecoilLeft = convertINIValue(INIRead(silentTemplateFile, "Recoil", "RecoilLeft", "Unknown"), chrDecimalSymbol)
-        Pl.RecoilRight = convertINIValue(INIRead(silentTemplateFile, "Recoil", "RecoilRight", "Unknown"), chrDecimalSymbol)
-        Pl.FirstShot = convertINIValue(INIRead(silentTemplateFile, "Recoil", "FirstShot", "Unknown"), chrDecimalSymbol)
-
-        Pl.SpreadInc = convertINIValue(INIRead(silentTemplateFile, "Spread", "SpreadInc", "Unknown"), chrDecimalSymbol)
-        Pl.SpreadMin = convertINIValue(INIRead(silentTemplateFile, "Spread", "SpreadMin", "Unknown"), chrDecimalSymbol)
-
-        Pl.Burst = CInt(Val(INIRead(silentTemplateFile, "Burst", "Bursts", "500")))
-        Pl.BulletsPerBurst = CInt(Val(INIRead(silentTemplateFile, "Burst", "BulletsPerBurst", "5")))
-
-        Pl.AdjRecoilH = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachRecoilH", "0"), chrDecimalSymbol)
-        Pl.AdjRecoilV = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachRecoilV", "0"), chrDecimalSymbol)
-        Pl.AdjSpreadInc = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachSpreadInc", "0"), chrDecimalSymbol)
-        Pl.AdjSpreadMin = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachSpreadMin", "0"), chrDecimalSymbol)
-
-        Pl.Title = INIRead(silentTemplateFile, "Title", "TitleText", "")
-        Pl.Info = INIRead(silentTemplateFile, "Title", "InfoText", "")
-        Pl.SubText = INIRead(silentTemplateFile, "Title", "SubText", "")
-
-        Pl.Scale = CInt(Val(INIRead(silentTemplateFile, "Grid", "Scale", "650")))
-        Pl.TargetRange = CInt(Val(INIRead(silentTemplateFile, "Grid", "Distance", "30")))
-        Pl.GridLineSpace = convertINIValue(INIRead(silentTemplateFile, "Grid", "GridValue", "1"), chrDecimalSymbol)
-
-        Pl.RateOfFire = CInt(Val(INIRead(silentTemplateFile, "TTK", "RateOfFire", "650")))
-
-
-        Dim b As Bitmap = Pl.Image
-        Dim fileDir = INIRead(silentTemplateFile, "Save", "SavePath", "Unknown")
-        Dim fileName = convertFileName(INIRead(silentTemplateFile, "Save", "FileName", "Unknown"))
-        Dim fullPath As String = Path.Combine(fileDir, fileName)
-
-        Pl.RenderTitle = convertToBoolean(INIRead(silentTemplateFile, "Title", "RenderTitleText", "0"))
-        Pl.RenderGrid = convertToBoolean(INIRead(silentTemplateFile, "Grid", "RenderGrid", "0"))
-
-        Pl.RenderBars = convertToBoolean(INIRead(silentTemplateFile, "Render", "RenderBars", "0"))
-        Pl.ScaleRadius = convertToBoolean(INIRead(silentTemplateFile, "Render", "ScaleRadius", "0"))
-        Dim backgroundColorARGB As Array = INIRead(silentTemplateFile, "Render", "BackgroundARGB", "255,0,0,0").Split(",")
-
-        Pl.RenderAdjustment = convertToBoolean(INIRead(silentTemplateFile, "Attach", "RenderAttachText", "0"))
-        Dim VerticalMultiplier As String = INIRead(silentTemplateFile, "Attach", "VerticalMultiplier", "1")
-        Dim MultiplyVerticalRecoil As Integer = INIRead(silentTemplateFile, "Attach", "MultiplyVerticalRecoil", "0")
-
-        Dim IntensityScale As String = INIRead(silentTemplateFile, "HeatMap", "IntensityScale", "2")
-        Pl.RenderHeatMap = convertToBoolean(INIRead(silentTemplateFile, "HeatMap", "RenderHeatMap", "0"))
-        Dim HeatRadius As Integer = INIRead(silentTemplateFile, "HeatMap", "Radius", "0")
-
-        Pl.RenderHitRates = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderTTK", "0"))
-        'Pl.rr = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderHitRates", "0"))
-
+        createImage("Silent", False)
+        'createSilentImage()
     End Sub
     Private Function convertToBoolean(ByVal intInput As Integer) As Boolean
         Dim blnResult As Boolean = False
@@ -1069,7 +1018,7 @@ Public Class Main
         exitApplication()
     End Sub
 
-    Private Sub createImage(ByVal iCaller As Integer, ByVal showUpdates As Boolean)
+    Private Sub createImage(ByVal iCaller As String, ByVal showUpdates As Boolean)
         'TODO: Convert to arrays
         Dim aryHits() As Integer = {0, 0, 0, 0, 0}
         Dim coord1x(Val(Pl.Burst)) As Integer
@@ -1150,7 +1099,7 @@ Public Class Main
         Dim startY = 1680
 
         For ee = 0 To Pl.Burst ' Burst Loop
-            If iCaller = 1 Then
+            If iCaller = "Single" Then
                 If bgWorker_RenderSingle.CancellationPending Then
                     ' Set Cancel to True
                     SetImage_ThreadSafe(Pl.Image)
@@ -1158,7 +1107,7 @@ Public Class Main
                     Exit For
                 End If
             End If
-            If iCaller = 2 Then
+            If iCaller = "All" Then
                 If bgWorker_RenderAll.CancellationPending Then
                     ' Set Cancel to True
                     bgWorker_RenderAll.CancelAsync()
@@ -1166,10 +1115,12 @@ Public Class Main
                 End If
             End If
 
-            upd += 1
-            If upd = UPDATE_PERIOD Then
-                upd = 0
-                If showUpdates Then SetImage_ThreadSafe(Pl.Image)
+            If showUpdates Then
+                upd += 1
+                If upd = UPDATE_PERIOD Then
+                    upd = 0
+                    SetImage_ThreadSafe(Pl.Image)
+                End If
             End If
 
             addBurstCount_ThreadSafe()
@@ -1375,42 +1326,6 @@ Public Class Main
         intBurstCycle = 0
     End Sub
 
-    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
-        intBurstCycle = 0
-
-        'Disable all of the input boxes
-        btnStart.Enabled = False
-
-        Me.grpWeapon.Enabled = False
-        Me.tabMain.Enabled = False
-        Me.grpStance.Enabled = False
-        Me.viewToolStrip.Enabled = False
-
-        ' Enable the stop button
-        btnStop.Enabled = True
-
-        selectView("main")
-
-        SetImage_ThreadSafe(Pl.Image)
-
-        ' Start the Background Worker working
-        HeatPoints.Clear()
-
-
-        'Set the gun name and make any nessasary conversions
-        Pl.Gun = comboWeapon1.Text
-        Pl.FileName = getFileName(comboWeapon1.Text)
-        setSelectedAttachments()
-
-        If comboWeapon1.Text = "..CUSTOM.." Then
-            loadCustomPlotic()
-        Else
-            loadPlotic()
-        End If
-
-        bgWorker_RenderSingle.RunWorkerAsync()
-
-    End Sub
     Private Sub setSelectedAttachments()
 
         If radBarrelFlash.Checked Then Pl.UseAttachFSupp = True Else Pl.UseAttachFSupp = False
@@ -1431,6 +1346,83 @@ Public Class Main
 
         Pl.UseAttachUnderBipod = False
         Pl.UseAttachUnderForegrip = False
+
+    End Sub
+
+    Private Sub loadPloticINI()
+        Dim chrDecimalSymbol As Char = INIRead(silentTemplateFile, "Config", "DecimalSymbol", ".")
+
+        Pl.RecoilUp = convertINIValue(INIRead(silentTemplateFile, "Recoil", "RecoilUp", "Unknown"), chrDecimalSymbol)
+        Pl.RecoilLeft = convertINIValue(INIRead(silentTemplateFile, "Recoil", "RecoilLeft", "Unknown"), chrDecimalSymbol)
+        Pl.RecoilRight = convertINIValue(INIRead(silentTemplateFile, "Recoil", "RecoilRight", "Unknown"), chrDecimalSymbol)
+        Pl.FirstShot = convertINIValue(INIRead(silentTemplateFile, "Recoil", "FirstShot", "Unknown"), chrDecimalSymbol)
+
+        Pl.SpreadInc = convertINIValue(INIRead(silentTemplateFile, "Spread", "SpreadInc", "Unknown"), chrDecimalSymbol)
+        Pl.SpreadMin = convertINIValue(INIRead(silentTemplateFile, "Spread", "SpreadMin", "Unknown"), chrDecimalSymbol)
+
+        Pl.Burst = CInt(Val(INIRead(silentTemplateFile, "Burst", "Bursts", "500")))
+        Pl.BulletsPerBurst = CInt(Val(INIRead(silentTemplateFile, "Burst", "BulletsPerBurst", "5")))
+
+        Pl.AdjRecoilH = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachRecoilH", "0"), chrDecimalSymbol)
+        Pl.AdjRecoilV = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachRecoilV", "0"), chrDecimalSymbol)
+        Pl.AdjSpreadInc = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachSpreadInc", "0"), chrDecimalSymbol)
+        Pl.AdjSpreadMin = convertINIValue(INIRead(silentTemplateFile, "Attach", "AttachSpreadMin", "0"), chrDecimalSymbol)
+
+        Pl.Title = INIRead(silentTemplateFile, "Title", "TitleText", "")
+        Pl.Info = INIRead(silentTemplateFile, "Title", "InfoText", "")
+        Pl.SubText = INIRead(silentTemplateFile, "Title", "SubText", "")
+
+        Pl.Scale = CInt(Val(INIRead(silentTemplateFile, "Grid", "Scale", "650")))
+        Pl.TargetRange = CInt(Val(INIRead(silentTemplateFile, "Grid", "Distance", "30")))
+        Pl.GridLineSpace = convertINIValue(INIRead(silentTemplateFile, "Grid", "GridValue", "1"), chrDecimalSymbol)
+
+        Pl.RateOfFire = CInt(Val(INIRead(silentTemplateFile, "TTK", "RateOfFire", "650")))
+
+        saveImagePath = INIRead(silentTemplateFile, "Save", "SavePath", "Unknown")
+        saveImageFileName = convertFileName(INIRead(silentTemplateFile, "Save", "FileName", "Unknown"))
+
+        Pl.RenderTitle = convertToBoolean(INIRead(silentTemplateFile, "Title", "RenderTitleText", "0"))
+        Pl.RenderGrid = convertToBoolean(INIRead(silentTemplateFile, "Grid", "RenderGrid", "0"))
+        Pl.RenderAdjustment = convertToBoolean(INIRead(silentTemplateFile, "Attach", "RenderAttachText", "0"))
+        Pl.RenderBars = convertToBoolean(INIRead(silentTemplateFile, "Render", "RenderBars", "0"))
+        Pl.ScaleRadius = convertToBoolean(INIRead(silentTemplateFile, "Render", "ScaleRadius", "0"))
+
+        Dim backgroundColorARGB As Array = INIRead(silentTemplateFile, "Render", "BackgroundARGB", "255,0,0,0").Split(",")
+        Pl.BackgroundColorAlpha = Integer.Parse(backgroundColorARGB(0))
+        Pl.BackgroundColorRed = Integer.Parse(backgroundColorARGB(1))
+        Pl.BackgroundColorGreen = Integer.Parse(backgroundColorARGB(2))
+        Pl.BackgroundColorBlue = Integer.Parse(backgroundColorARGB(3))
+
+        Dim VerticalMultiplier As String = INIRead(silentTemplateFile, "Attach", "VerticalMultiplier", "1")
+        Dim MultiplyVerticalRecoil As Integer = INIRead(silentTemplateFile, "Attach", "MultiplyVerticalRecoil", "0")
+
+        Pl.HeatMapIntensity = Double.Parse(INIRead(silentTemplateFile, "HeatMap", "IntensityScale", "2"), System.Globalization.CultureInfo.InvariantCulture)
+        Pl.RenderHeatMap = convertToBoolean(INIRead(silentTemplateFile, "HeatMap", "RenderHeatMap", "0"))
+        Pl.RenderHeatTitle = convertToBoolean(INIRead(silentTemplateFile, "HeatMap", "RenderHeatTitle", "0"))
+        Pl.RenderHeatBars = convertToBoolean(INIRead(silentTemplateFile, "HeatMap", "RenderHeatBars", "0"))
+        Pl.RenderHeatAdjust = convertToBoolean(INIRead(silentTemplateFile, "HeatMap", "RenderHeatAdjust", "0"))
+
+        Dim HeatRadius As Integer = INIRead(silentTemplateFile, "HeatMap", "Radius", "0")
+
+        Pl.RenderHitRates = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderTTK", "0"))
+        'Pl.rr = convertToBoolean(INIRead(silentTemplateFile, "TTK", "RenderHitRates", "0"))
+
+        '' Paste
+        setOption(chkDrawTarget, Pl.RenderScaleTarget)
+
+        Pl.HealthPercent = numHealthPercent.Value
+
+        Pl.Scale = txtScale.Text
+
+        Pl.TargetRange = numMeters.Value
+
+        Pl.SilhouetteStyle = comboSilhouetteStyle_ThreadSafe()
+
+        'Set new options
+
+        setOption(chkRenderBulletDrop, Pl.RenderBulletDrop)
+        setOption(chkWriteDropInfo, Pl.RenderDropInfo)
+        setOption(chkDrawGrid, Pl.RenderGrid)
 
     End Sub
     Private Sub loadCustomPlotic()
@@ -1565,12 +1557,30 @@ Public Class Main
 
 
     End Sub
+
     Private Sub setOption(ByVal chkObject As System.Windows.Forms.CheckBox, ByRef blnObject As Boolean)
         If chkObject.Checked Then
             blnObject = True
         Else : blnObject = False
         End If
     End Sub
+
+    'Find the filename for the gun based on the proper name
+    Private Function getFileName(ByVal ProperName As String) As String
+        Dim strFilename As String = ""
+        For Each DataPoint As ProperName In ProperNames
+            If DataPoint.ProperName = ProperName Then
+                strFilename = DataPoint.FileName
+            End If
+        Next
+        If strFilename <> "" Then
+            Return strFilename
+        Else
+            Return (0)
+        End If
+    End Function
+
+#Region "Gun Data queries"
     Private Function getMinAngle() As Double
         Dim strStanceBuild As String = ""
         If chkStanceZoom.Checked Then
@@ -1602,19 +1612,6 @@ Public Class Main
         Return Double.Parse(GetValue(Pl.FileName, strStanceBuild, getStance()), System.Globalization.CultureInfo.InvariantCulture)
     End Function
 
-    Private Function getFileName(ByVal ProperName As String) As String
-        Dim strFilename As String = ""
-        For Each DataPoint As ProperName In ProperNames
-            If DataPoint.ProperName = ProperName Then
-                strFilename = DataPoint.FileName
-            End If
-        Next
-        If strFilename <> "" Then
-            Return strFilename
-        Else
-            Return (0)
-        End If
-    End Function
     Private Function getAdjustMin() As Double
         Dim dblSumModifer As Double = 0
         If Pl.UseAttachFSupp Then
@@ -1753,6 +1750,7 @@ Public Class Main
 
         Return dblSumModifer
     End Function
+#End Region
 
     Private Function buildStanceString() As String
         Dim attachString As String = ""
@@ -2005,15 +2003,62 @@ Public Class Main
         Return Math.Round((actor * (action / 100)) + (actor), 3)
     End Function
 
-    Private Sub bgWorker_RenderSingle_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderSingle.DoWork
-        createImage(0, True)
-        ToggleToolStripMain_ThreadSafe(True)
+#Region "Single Render Threaders"
+    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
+        intBurstCycle = 0
+
+        'Disable all of the input boxes
+        btnStart.Enabled = False
+
+        Me.grpWeapon.Enabled = False
+        Me.tabMain.Enabled = False
+        Me.grpStance.Enabled = False
+        Me.viewToolStrip.Enabled = False
+
+        ' Enable the stop button
+        btnStop.Enabled = True
+
         selectView("main")
+
+        SetImage_ThreadSafe(Pl.Image)
+
+        ' Start the Background Worker working
+        HeatPoints.Clear()
+
+
+        'Set the gun name and make any nessasary conversions
+        Pl.Gun = comboWeapon1.Text
+        Pl.FileName = getFileName(comboWeapon1.Text)
+        setSelectedAttachments()
+
+        If comboWeapon1.Text = "..CUSTOM.." Then
+            loadCustomPlotic()
+        Else
+            loadPlotic()
+        End If
+
+        bgWorker_RenderSingle.RunWorkerAsync()
+
     End Sub
+    Private Sub btnStop_Click(sender As System.Object, e As System.EventArgs) Handles btnStop.Click
+        ' Is the Background Worker doing some work?
+        If bgWorker_RenderSingle.IsBusy Then
+            'If it supports cancellation, Cancel It
+            If bgWorker_RenderSingle.WorkerSupportsCancellation Then
+                ' Tell the Background Worker to stop working.
+                bgWorker_RenderSingle.CancelAsync()
+            End If
+        End If
+    End Sub
+
     Private Sub bgWorker_RenderSingle_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles bgWorker_RenderSingle.ProgressChanged
         Me.ToolStripProgressBar1.Value = e.ProgressPercentage
     End Sub
-
+    Private Sub bgWorker_RenderSingle_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderSingle.DoWork
+        createImage("Single", True)
+        ToggleToolStripMain_ThreadSafe(True)
+        selectView("main")
+    End Sub
     Private Sub bgWorker_RenderSingle_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgWorker_RenderSingle.RunWorkerCompleted
         If e.Cancelled Then
             mainToolStripStatus.Text = "Cancelled"
@@ -2047,6 +2092,108 @@ Public Class Main
         'Me.MaskToolStripMenuItem.Enabled = True
 
     End Sub
+#End Region
+
+#Region "Render All Threaders"
+    Private Sub btnRenderAll_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAll.Click
+        'Switch the buttons to show Stop
+        SetRenderVisibility_ThreadSafe(False)
+        SetStopVisibility_ThreadSafe(True)
+        btnStart.Enabled = False
+
+        grpBarrel.Enabled = False
+        grpUnderBarrel.Enabled = False
+        grpStance.Enabled = False
+        grpWeapon.Enabled = False
+        grpSaveOptions.Enabled = False
+
+        bgWorker_RenderAll.RunWorkerAsync()
+    End Sub
+    Private Sub btnRenderAllStop_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAllStop.Click
+        If bgWorker_RenderAll.IsBusy Then
+            'If it supports cancellation, Cancel It
+            If bgWorker_RenderAll.WorkerSupportsCancellation Then
+                ' Tell the Background Worker to stop working.
+                bgWorker_RenderAll.CancelAsync()
+            End If
+        End If
+    End Sub
+
+    Private Sub bgWorker_RenderAll_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles bgWorker_RenderAll.ProgressChanged
+        Me.ToolStripProgressBar1.Value = e.ProgressPercentage
+    End Sub
+    Private Sub bgWorker_RenderAll_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderAll.DoWork
+
+        ' Loop through the list of guns and create a render of each one.
+        For Each DataPoint As ProperName In ProperNames
+            'Set the Gun Name and the filename
+            Pl.FileName = DataPoint.FileName
+            Pl.Gun = DataPoint.ProperName
+            Debug.WriteLine("Creating Plot for: " & Pl.Gun)
+            SetOutPutText_ThreadSafe("Creating Plot for: " & Pl.Gun)
+            'Load up the information into the plotic object
+            updateAttachmentSelection(False)
+
+            'Iterate though all attachment combos if checked
+            If chkRenderAllAttach.Checked Then
+
+                renderAllAttachments()
+                If bgWorker_RenderAll.CancellationPending Then
+                    ' Set Cancel to True
+                    e.Cancel = True
+                    bgWorker_RenderAll.CancelAsync()
+                    Exit For
+                End If
+            Else
+                loadPlotic()
+                'Create the image
+                HeatPoints.Clear()
+                createImage("All", True)
+                'Save the image
+                If chkSaveImage.Checked Then
+                    Debug.WriteLine("Saving Image")
+                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
+                    Application.DoEvents()
+                    buildFileName()
+                    SaveImage()
+                End If
+                If bgWorker_RenderAll.CancellationPending Then
+                    ' Set Cancel to True
+                    e.Cancel = True
+                    bgWorker_RenderAll.CancelAsync()
+                    Exit For
+                End If
+            End If
+            If bgWorker_RenderAll.CancellationPending Then
+                ' Set Cancel to True
+                e.Cancel = True
+                bgWorker_RenderAll.CancelAsync()
+                Exit For
+            End If
+        Next
+    End Sub
+    Private Sub bgWorker_RenderAll_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgWorker_RenderAll.RunWorkerCompleted
+        SetRenderVisibility_ThreadSafe(True)
+        SetStopVisibility_ThreadSafe(False)
+        btnStart.Enabled = True
+
+        grpBarrel.Enabled = True
+        grpUnderBarrel.Enabled = True
+        grpStance.Enabled = True
+        grpWeapon.Enabled = True
+        grpSaveOptions.Enabled = True
+    End Sub
+#End Region
+
+    Private Function checkforCancel(ByRef bgWorker As System.ComponentModel.BackgroundWorker)
+        If bgWorker.CancellationPending Then
+            ' 
+            bgWorker.CancelAsync()
+            Return True
+        Else
+            Return False
+        End If
+    End Function
 
     Private Sub buildFileName()
         saveImageFileName = convertFileName(txtFilename.Text)
@@ -2085,16 +2232,6 @@ Public Class Main
         'Dispose of the images
     End Sub
 
-    Private Sub btnStop_Click(sender As System.Object, e As System.EventArgs) Handles btnStop.Click
-        ' Is the Background Worker doing some work?
-        If bgWorker_RenderSingle.IsBusy Then
-            'If it supports cancellation, Cancel It
-            If bgWorker_RenderSingle.WorkerSupportsCancellation Then
-                ' Tell the Background Worker to stop working.
-                bgWorker_RenderSingle.CancelAsync()
-            End If
-        End If
-    End Sub
 
     Private Function convertFileName(ByVal inputString As String) As String
 
@@ -2278,28 +2415,7 @@ Public Class Main
     End Function
 #End Region
 
-    Private Sub chkSaveImage_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkSaveImage.CheckedChanged
-        If sender.checked Then
-            txtFilename.Enabled = True
-            chkSaveTTKChart.Enabled = True
-            chkSaveHeatMap.Enabled = True
-            btnSaveImage.Enabled = True
-
-            If saveImagePath = "" Then
-                btnSaveImage_Click()
-            End If
-        Else
-            txtFilename.Enabled = False
-            chkSaveTTKChart.Enabled = False
-            chkSaveHeatMap.Enabled = False
-            btnSaveImage.Enabled = False
-        End If
-    End Sub
-
-    Private Sub ToolStripStatusLabel2_Click(sender As System.Object, e As System.EventArgs) Handles ToolStripStatusLabel2.Click
-        System.Diagnostics.Process.Start("http://symthic.com")
-    End Sub
-
+#Region "File Template Creation"
     Private Sub CreateGunProper()
         ' Dim sValue As String
         Dim spath As String = Path.Combine(Directory.GetCurrentDirectory, "gun_proper.ini")
@@ -2397,7 +2513,6 @@ Public Class Main
         'sValue = sValue.Replace(ControlChars.NullChar, "|"c) ' change embedded NULLs to pipe chars
         'MessageBox.Show(sValue, "All sections post delete", MessageBoxButtons.OK)
     End Sub
-
     Private Sub CreateTemplateIni()
         ' Dim sValue As String
         Dim spath As String = Path.Combine(Directory.GetCurrentDirectory, "plotic_silent_template.ini")
@@ -2482,7 +2597,7 @@ Public Class Main
         'sValue = sValue.Replace(ControlChars.NullChar, "|"c) ' change embedded NULLs to pipe chars
         'MessageBox.Show(sValue, "All sections post delete", MessageBoxButtons.OK)
     End Sub
-
+#End Region
 #Region "Heat Map Creation"
     Private Function CreateIntensityMask(bSurface As Bitmap, aHeatPoints As List(Of HeatPoint), iRadius As Integer, showUpdates As Boolean) As Bitmap
         ' Create new graphics surface from memory bitmap
@@ -2936,50 +3051,6 @@ ByVal DefaultValue As String) As String
     End Function
 #End Region
 
-    Private Sub comboWeapon1_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles comboWeapon1.SelectedIndexChanged
-        If sender.text <> "..CUSTOM.." Then
-            grpCustomTTK.Enabled = False
-            grpAttach.Enabled = False
-            grpRecoil.Enabled = False
-            grpSpread.Enabled = False
-
-            grpStance.Enabled = True
-            grpBarrel.Enabled = True
-            grpUnderBarrel.Enabled = True
-
-            grpBulletDropCustom.Enabled = False
-
-            grpTTKCustom.Enabled = False
-            Pl.FileName = getFileName(comboWeapon1.Text)
-            updateAttachmentSelection(True)
-            renderGunImage()
-        Else
-            grpCustomTTK.Enabled = True
-            grpAttach.Enabled = True
-            grpRecoil.Enabled = True
-            grpSpread.Enabled = True
-
-            grpStance.Enabled = False
-            grpBarrel.Enabled = False
-            grpUnderBarrel.Enabled = False
-
-            grpBulletDropCustom.Enabled = True
-
-            grpTTKCustom.Enabled = True
-
-            picPlot.Image = New Bitmap(My.Resources.knife)
-        End If
-
-        'Reset the Attachments
-        radBarrelNone.Checked = True
-        radUnderNone.Checked = True
-
-        Pl.AdjRecoilH = 0
-        Pl.AdjRecoilV = 0
-        Pl.AdjSpreadInc = 0
-        Pl.AdjSpreadMin = 0
-
-    End Sub
     Private Sub renderGunImage()
 
         'TO DO: Change the input to be from the call to the sub so it can be used for Render All
@@ -3086,119 +3157,6 @@ ByVal DefaultValue As String) As String
     'Return 0
     'End Function
 
-    Private Sub LinkLabel1_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        frmAbout.Show()
-    End Sub
-
-    Private Sub chkRenderAmmoInfo_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkRenderAmmoInfo.CheckedChanged
-        If sender.checked Then
-            radAmmoImage.Enabled = True
-            radAmmoText.Enabled = True
-
-        Else
-            radAmmoImage.Enabled = False
-            radAmmoText.Enabled = False
-
-        End If
-    End Sub
-
-    Private Sub chkDrawGrid_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawGrid.CheckedChanged
-        If sender.checked Then
-            radMeters.Enabled = True
-            radDegrees.Enabled = True
-            numLineSpace.Enabled = True
-        Else
-            radMeters.Enabled = False
-            radDegrees.Enabled = False
-            numLineSpace.Enabled = False
-        End If
-    End Sub
-
-    Private Sub chkTimeToKill_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawScaleTarget.CheckedChanged
-        If sender.checked Then
-            comboSilhouetteStyle.Enabled = True
-            chkDrawTarget.Checked = True
-        Else
-            comboSilhouetteStyle.Enabled = False
-            chkDrawTarget.Checked = False
-        End If
-    End Sub
-
-    Private Sub chkRenderBulletDrop_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkRenderBulletDrop.CheckedChanged
-        If sender.checked Then
-            grpStyle.Enabled = True
-            numDropLineThickness.Enabled = True
-            createBulletDropPreview()
-        Else
-            grpStyle.Enabled = False
-            numDropLineThickness.Enabled = False
-        End If
-    End Sub
-
-    Private Sub chkDrawDropGrid_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawDropGrid.CheckedChanged
-        If sender.checked Then
-            numDropHorizontalScale.Enabled = True
-            numDropVerticalScale.Enabled = True
-        Else
-            numDropHorizontalScale.Enabled = False
-            numDropVerticalScale.Enabled = False
-        End If
-    End Sub
-
-    Private Sub chkDrawTTKGrid_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawTTKGrid.CheckedChanged
-        If sender.checked Then
-            numTTKHorizontalScale.Enabled = True
-            numTTKVerticalScale.Enabled = True
-        Else
-            numTTKHorizontalScale.Enabled = False
-            numTTKVerticalScale.Enabled = False
-        End If
-    End Sub
-
-    Private Sub picPlot_MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles picPlot.MouseDown
-        ' Retrieve current mouse coordinates.
-        Dim newX As Double = e.X
-        Dim newY As Double = e.Y
-        Dim myPoint As Point = New Point
-        ' Convert to meters or pixels?
-        Debug.WriteLine("X: " & newX & " Y: " & newY)
-    End Sub
-
-    Private Sub chkDrawTarget_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawTarget.CheckedChanged
-        If sender.checked Then
-            chkDrawScaleTarget.Checked = True
-        Else
-            chkDrawScaleTarget.Checked = False
-        End If
-    End Sub
-
-    Private Sub chkWriteHitRates_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkWriteHitRates.CheckedChanged
-        If sender.checked Then
-            chkRenderHitRates.Checked = True
-        Else
-            chkRenderHitRates.Checked = False
-        End If
-    End Sub
-
-    Private Sub chkDrawTTK_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkRenderHitRates.CheckedChanged
-        If sender.checked Then
-            chkWriteHitRates.Checked = True
-        Else
-            chkWriteHitRates.Checked = False
-        End If
-    End Sub
-
-    Private Sub chkHeatMap_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHeatMap.CheckedChanged
-        If sender.checked Then
-            chkRenderHeatAdjust.Enabled = True
-            chkRenderHeatBars.Enabled = True
-            chkRenderHeatTitle.Enabled = True
-        Else
-            chkRenderHeatAdjust.Enabled = False
-            chkRenderHeatBars.Enabled = False
-            chkRenderHeatTitle.Enabled = False
-        End If
-    End Sub
     Private Sub drawSamplePoints()
         Dim bSampleMap As Bitmap = New Bitmap(400, 400)
         Dim iIntense As Byte
@@ -3261,24 +3219,7 @@ ByVal DefaultValue As String) As String
         End If
         SetBulletDropPreview_ThreadSafe(bSampleMap)
     End Sub
-    Private Sub btnRenderHeatPreview_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderHeatPreview.Click
-        drawSamplePoints()
-    End Sub
 
-    Private Sub btnRenderAll_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAll.Click
-        'Switch the buttons to show Stop
-        SetRenderVisibility_ThreadSafe(False)
-        SetStopVisibility_ThreadSafe(True)
-        btnStart.Enabled = False
-
-        grpBarrel.Enabled = False
-        grpUnderBarrel.Enabled = False
-        grpStance.Enabled = False
-        grpWeapon.Enabled = False
-        grpSaveOptions.Enabled = False
-
-        bgWorker_RenderAll.RunWorkerAsync()
-    End Sub
     Private Sub RenderAndSave(ByVal blnResetAttachments As Boolean)
 
         If checkforCancel(bgWorker_RenderAll) Then Exit Sub
@@ -3286,7 +3227,7 @@ ByVal DefaultValue As String) As String
         loadPlotic()
         'Create the image
         HeatPoints.Clear()
-        createImage(2, True)
+        createImage("All", True)
         'Save the image
         If chkSaveImage.Checked Then
             Debug.WriteLine("Saving Image")
@@ -3297,15 +3238,7 @@ ByVal DefaultValue As String) As String
         End If
         If blnResetAttachments Then resetAttachments()
     End Sub
-    Private Function checkforCancel(ByRef bgWorker As System.ComponentModel.BackgroundWorker)
-        If bgWorker.CancellationPending Then
-            ' 
-            bgWorker.CancelAsync()
-            Return True
-        Else
-            Return False
-        End If
-    End Function
+
     Private Sub renderAllAttachments()
         'NO Attachment
         RenderAndSave(False)
@@ -3330,14 +3263,14 @@ ByVal DefaultValue As String) As String
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachHBarrel = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
             'hbarrel and bipod
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachHBarrel = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
         End If
 
@@ -3352,14 +3285,14 @@ ByVal DefaultValue As String) As String
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachLaser = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
             'LASER and BIPOD
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachLaser = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
         End If
 
@@ -3374,14 +3307,14 @@ ByVal DefaultValue As String) As String
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachSilencer = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
             'silencer and BIPOD
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachSilencer = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
         End If
 
@@ -3396,96 +3329,196 @@ ByVal DefaultValue As String) As String
                 Pl.UseAttachUnderForegrip = True
                 Pl.UseAttachFSupp = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
             'fsupp and BIPOD
             If Pl.HasAttachUnderBipod = True Then
                 Pl.UseAttachUnderBipod = True
                 Pl.UseAttachFSupp = True
 
-            RenderAndSave(True)
+                RenderAndSave(True)
             End If
         End If
 
     End Sub
-    Private Sub bgWorker_RenderAll_DoWork(sender As System.Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgWorker_RenderAll.DoWork
 
-        ' Loop through the list of guns and create a render of each one.
-        For Each DataPoint As ProperName In ProperNames
-            'Set the Gun Name and the filename
-            Pl.FileName = DataPoint.FileName
-            Pl.Gun = DataPoint.ProperName
-            Debug.WriteLine("Creating Plot for: " & Pl.Gun)
-            SetOutPutText_ThreadSafe("Creating Plot for: " & Pl.Gun)
-            'Load up the information into the plotic object
-            updateAttachmentSelection(False)
+#Region "Item Selection Actions"
+    Private Sub comboWeapon1_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles comboWeapon1.SelectedIndexChanged
+        If sender.text <> "..CUSTOM.." Then
+            grpCustomTTK.Enabled = False
+            grpAttach.Enabled = False
+            grpRecoil.Enabled = False
+            grpSpread.Enabled = False
 
-            'Iterate though all attachment combos if checked
-            If chkRenderAllAttach.Checked Then
+            grpStance.Enabled = True
+            grpBarrel.Enabled = True
+            grpUnderBarrel.Enabled = True
 
-                renderAllAttachments()
-                If bgWorker_RenderAll.CancellationPending Then
-                    ' Set Cancel to True
-                    e.Cancel = True
-                    bgWorker_RenderAll.CancelAsync()
-                    Exit For
-                End If
-            Else
-                loadPlotic()
-                'Create the image
-                HeatPoints.Clear()
-                createImage(2, True)
-                'Save the image
-                If chkSaveImage.Checked Then
-                    Debug.WriteLine("Saving Image")
-                    SetOutPutText_ThreadSafe("Please wait... Saving Image")
-                    Application.DoEvents()
-                    buildFileName()
-                    SaveImage()
-                End If
-                If bgWorker_RenderAll.CancellationPending Then
-                    ' Set Cancel to True
-                    e.Cancel = True
-                    bgWorker_RenderAll.CancelAsync()
-                    Exit For
-                End If
-            End If
-            If bgWorker_RenderAll.CancellationPending Then
-                ' Set Cancel to True
-                e.Cancel = True
-                bgWorker_RenderAll.CancelAsync()
-                Exit For
-            End If
-        Next
-    End Sub
+            grpBulletDropCustom.Enabled = False
 
-    Private Sub bgWorker_RenderAll_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles bgWorker_RenderAll.ProgressChanged
-        Me.ToolStripProgressBar1.Value = e.ProgressPercentage
-    End Sub
-    Private Sub bgWorker_RenderAll_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgWorker_RenderAll.RunWorkerCompleted
-        SetRenderVisibility_ThreadSafe(True)
-        SetStopVisibility_ThreadSafe(False)
-        btnStart.Enabled = True
+            grpTTKCustom.Enabled = False
+            Pl.FileName = getFileName(comboWeapon1.Text)
+            updateAttachmentSelection(True)
+            renderGunImage()
+        Else
+            grpCustomTTK.Enabled = True
+            grpAttach.Enabled = True
+            grpRecoil.Enabled = True
+            grpSpread.Enabled = True
 
-        grpBarrel.Enabled = True
-        grpUnderBarrel.Enabled = True
-        grpStance.Enabled = True
-        grpWeapon.Enabled = True
-        grpSaveOptions.Enabled = True
-    End Sub
-    Private Sub btnRenderAllStop_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderAllStop.Click
-        If bgWorker_RenderAll.IsBusy Then
-            'If it supports cancellation, Cancel It
-            If bgWorker_RenderAll.WorkerSupportsCancellation Then
-                ' Tell the Background Worker to stop working.
-                bgWorker_RenderAll.CancelAsync()
-            End If
+            grpStance.Enabled = False
+            grpBarrel.Enabled = False
+            grpUnderBarrel.Enabled = False
+
+            grpBulletDropCustom.Enabled = True
+
+            grpTTKCustom.Enabled = True
+
+            picPlot.Image = New Bitmap(My.Resources.knife)
         End If
+
+        'Reset the Attachments
+        radBarrelNone.Checked = True
+        radUnderNone.Checked = True
+
+        Pl.AdjRecoilH = 0
+        Pl.AdjRecoilV = 0
+        Pl.AdjSpreadInc = 0
+        Pl.AdjSpreadMin = 0
+
+    End Sub
+    Private Sub LinkLabel1_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        frmAbout.Show()
+    End Sub
+    Private Sub ToolStripStatusLabel2_Click(sender As System.Object, e As System.EventArgs) Handles ToolStripStatusLabel2.Click
+        System.Diagnostics.Process.Start("http://symthic.com")
+    End Sub
+    Private Sub picPlot_MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles picPlot.MouseDown
+        ' Retrieve current mouse coordinates.
+        Dim newX As Double = e.X
+        Dim newY As Double = e.Y
+        Dim myPoint As Point = New Point
+        ' Convert to meters or pixels?
+        Debug.WriteLine("X: " & newX & " Y: " & newY)
+    End Sub
+
+    Private Sub btnRenderHeatPreview_Click(sender As System.Object, e As System.EventArgs) Handles btnRenderHeatPreview.Click
+        drawSamplePoints()
     End Sub
 
     Private Sub radBulletDropRenderType_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radBulletDropRenderType2.CheckedChanged, radBulletDropRenderType1.CheckedChanged, radBulletDropRenderType3.CheckedChanged
         createBulletDropPreview()
     End Sub
+
+    Private Sub chkSaveImage_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkSaveImage.CheckedChanged
+        If sender.checked Then
+            txtFilename.Enabled = True
+            chkSaveTTKChart.Enabled = True
+            chkSaveHeatMap.Enabled = True
+            btnSaveImage.Enabled = True
+
+            If saveImagePath = "" Then
+                btnSaveImage_Click()
+            End If
+        Else
+            txtFilename.Enabled = False
+            chkSaveTTKChart.Enabled = False
+            chkSaveHeatMap.Enabled = False
+            btnSaveImage.Enabled = False
+        End If
+    End Sub
+    Private Sub chkRenderAmmoInfo_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkRenderAmmoInfo.CheckedChanged
+        If sender.checked Then
+            radAmmoImage.Enabled = True
+            radAmmoText.Enabled = True
+
+        Else
+            radAmmoImage.Enabled = False
+            radAmmoText.Enabled = False
+
+        End If
+    End Sub
+    Private Sub chkDrawGrid_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawGrid.CheckedChanged
+        If sender.checked Then
+            radMeters.Enabled = True
+            radDegrees.Enabled = True
+            numLineSpace.Enabled = True
+        Else
+            radMeters.Enabled = False
+            radDegrees.Enabled = False
+            numLineSpace.Enabled = False
+        End If
+    End Sub
+    Private Sub chkTimeToKill_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawScaleTarget.CheckedChanged
+        If sender.checked Then
+            comboSilhouetteStyle.Enabled = True
+            chkDrawTarget.Checked = True
+        Else
+            comboSilhouetteStyle.Enabled = False
+            chkDrawTarget.Checked = False
+        End If
+    End Sub
+    Private Sub chkRenderBulletDrop_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkRenderBulletDrop.CheckedChanged
+        If sender.checked Then
+            grpStyle.Enabled = True
+            numDropLineThickness.Enabled = True
+            createBulletDropPreview()
+        Else
+            grpStyle.Enabled = False
+            numDropLineThickness.Enabled = False
+        End If
+    End Sub
+    Private Sub chkDrawDropGrid_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawDropGrid.CheckedChanged
+        If sender.checked Then
+            numDropHorizontalScale.Enabled = True
+            numDropVerticalScale.Enabled = True
+        Else
+            numDropHorizontalScale.Enabled = False
+            numDropVerticalScale.Enabled = False
+        End If
+    End Sub
+    Private Sub chkDrawTTKGrid_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawTTKGrid.CheckedChanged
+        If sender.checked Then
+            numTTKHorizontalScale.Enabled = True
+            numTTKVerticalScale.Enabled = True
+        Else
+            numTTKHorizontalScale.Enabled = False
+            numTTKVerticalScale.Enabled = False
+        End If
+    End Sub
+    Private Sub chkDrawTarget_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkDrawTarget.CheckedChanged
+        If sender.checked Then
+            chkDrawScaleTarget.Checked = True
+        Else
+            chkDrawScaleTarget.Checked = False
+        End If
+    End Sub
+    Private Sub chkWriteHitRates_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkWriteHitRates.CheckedChanged
+        If sender.checked Then
+            chkRenderHitRates.Checked = True
+        Else
+            chkRenderHitRates.Checked = False
+        End If
+    End Sub
+    Private Sub chkDrawTTK_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkRenderHitRates.CheckedChanged
+        If sender.checked Then
+            chkWriteHitRates.Checked = True
+        Else
+            chkWriteHitRates.Checked = False
+        End If
+    End Sub
+    Private Sub chkHeatMap_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHeatMap.CheckedChanged
+        If sender.checked Then
+            chkRenderHeatAdjust.Enabled = True
+            chkRenderHeatBars.Enabled = True
+            chkRenderHeatTitle.Enabled = True
+        Else
+            chkRenderHeatAdjust.Enabled = False
+            chkRenderHeatBars.Enabled = False
+            chkRenderHeatTitle.Enabled = False
+        End If
+    End Sub
+#End Region
 End Class
 #Region "Structures"
 Public Structure HeatPoint
