@@ -7,7 +7,7 @@ Public Class Main
     Private Const UPDATE_PERIOD As Integer = 100
     Private Const IMAGE_V_CENTER_PERCENT As Double = 224 / 667
     Private Const IMAGE_H_CENTER_PERCENT As Double = 108 / 223
-    Private Const VERSION As String = "Plotic v2.54"
+    Private Const VERSION As String = "Plotic v2.6"
 
     Private HeatPoints As New List(Of HeatPoint)()
 
@@ -411,7 +411,7 @@ Public Class Main
 
     End Sub
 #End Region
-#Region "Main Chart Render"
+#Region "Main Chart Rendering"
     Private Sub drawBulletDrop(ByVal g As Graphics)
         Dim centerx = 1000
         Dim centery = 1680
@@ -1476,9 +1476,9 @@ Public Class Main
         'Removing Decrease Calculations v2.23
         'Pl.RecoilDecrease = Double.Parse(GetValue(Pl.Gun, "RecoilAmplitudeDecreaseFactor", getStance()), System.Globalization.CultureInfo.InvariantCulture)
 
-        Pl.SpreadInc = Double.Parse(GetValue(Pl.FileName, "IncreasePerShot", getStance()), System.Globalization.CultureInfo.InvariantCulture)
+        Pl.SpreadInc = Double.Parse(GetValue(Pl.FileName, "IncreasePerShot", getFullStance()), System.Globalization.CultureInfo.InvariantCulture)
         Pl.SpreadMin = Double.Parse(getMinAngle())
-        Pl.FirstShot = Double.Parse(GetValue(Pl.FileName, "FirstShotRecoilMultiplier", getStance()), System.Globalization.CultureInfo.InvariantCulture)
+        Pl.FirstShot = Double.Parse(GetValue(Pl.FileName, "FirstShotRecoilMultiplier", getFullStance()), System.Globalization.CultureInfo.InvariantCulture)
         Pl.Burst = Integer.Parse(txtBursts.Text)
         Pl.BulletsPerBurst = Integer.Parse(numBulletsPerBurst.Value)
         Pl.AdjRecoilH = getAdjustRecoilH()
@@ -1585,9 +1585,9 @@ Public Class Main
     Private Function getMinAngle() As Double
         Dim strStanceBuild As String = ""
         If chkStanceZoom.Checked Then
-            strStanceBuild = "ADS"
+            strStanceBuild = "Zoom"
         Else
-            strStanceBuild = "HIP"
+            strStanceBuild = "Xoom"
         End If
         If chkStanceMoving.Checked Then
             strStanceBuild += "Moving"
@@ -1829,9 +1829,15 @@ Public Class Main
             stance = "Prone"
         End If
         If chkStanceZoom.Checked Then
-            stance = stance & "Zoom"
+            stance += "Zoom"
         Else
-            stance = stance & "NoZoom"
+            stance += "Xoom"
+        End If
+
+        If chkStanceMoving.Checked Then
+            stance += "-Moving"
+        Else
+            stance += "-Base"
         End If
         Return stance
     End Function
@@ -1847,7 +1853,7 @@ Public Class Main
         If chkStanceZoom.Checked Then
             stance = stance & "Zoom"
         Else
-            stance = stance & "NoZoom"
+            stance = stance & "Xoom"
         End If
         Return stance
     End Function
@@ -2932,46 +2938,41 @@ ByVal DefaultValue As String) As String
         Return val
     End Function
 
-    Public Function GetValue(ByVal weapon As String, ByVal value As String, Optional ByVal stance As String = "Stand")
+    Public Function GetValue(ByVal weapon As String, ByVal value As String, Optional ByVal stance As String = "")
         Dim data = GetData(weapon, "")
         If data = "FILENOTFOUND" Then Return -1
         Dim preparsevalues = "-IncreasePerShotMinAngleMaxAngleDecreasePerSecondRecoilAmplitudeMaxRecoilAmplitudeIncPerShotHorizo" + _
 "ntalRecoilAmplitudeIncPerShotMinHorizontalRecoilAmplitudeIncPerShotMaxHorizontalRecoilAmplitudeMaxRe" + _
 "coilAmplitudeDecreaseFactor-"
         If InStr(preparsevalues, value) Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "WeaponSwayData"))
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "::WeaponSwayData"))
         Else
             If InStr(value, "MinAngle") Or InStr(value, "MaxAngle") Then
-                data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "WeaponSwayData"))
+                data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "::WeaponSwayData"))
             End If
         End If
         stance = "-" + stance + "-"
         If InStr(stance, "Stand") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Stand"))
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Stand::"))
         ElseIf InStr(stance, "Crouch") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Crouch"))
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Crouch::"))
         ElseIf InStr(stance, "Prone") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Prone") - 1)
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Prone") - 1)
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Prone::") - 1)
         End If
-        If InStr(value, "ADS") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, ControlChars.Tab & "Zoom"))
-        ElseIf InStr(value, "HIP") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "NoZoom"))
+        If InStr(stance, "Zoom") Then
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, " Zoom::"))
+        ElseIf InStr(stance, "Xoom") Then
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "NoZoom::"))
         End If
         If InStr(value, "Base") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "BaseValue"))
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "BaseValue::"))
         ElseIf InStr(value, "Moving") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Moving"))
+            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "Moving::"))
         End If
         If InStr(value, "MinAngle") Then
             value = "MinAngle"
         ElseIf InStr(value, "MaxAngle") Then
             value = "MaxAngle"
-        End If
-        If InStr(value, "Speed") Then
-            data = Microsoft.VisualBasic.Right(data, Len(data) - InStr(data, "InitialSpeed"))
-            value = "z"
         End If
         Dim start = InStr(data, value) + (Len(value) + 1)
         data = Microsoft.VisualBasic.Mid(data, start, 200)
@@ -3005,12 +3006,17 @@ ByVal DefaultValue As String) As String
         If Not attachment = "" Then
             path += "_" + attachment
         End If
-        path += ".sym"
+        Dim endPath1, endPath2 As String
+        endPath1 = path & ".sym"
+        endPath2 = path & ".txt"
+
         ' Debug.WriteLine(path)
-        If File.Exists(path) Then
-            Return My.Computer.FileSystem.ReadAllText(path)
+        If File.Exists(endPath1) Then
+            Return My.Computer.FileSystem.ReadAllText(endPath1)
+        ElseIf File.Exists(endPath2) Then
+            Return My.Computer.FileSystem.ReadAllText(endPath2)
         Else
-            Debug.WriteLine("Weapon File Not Found: " & path)
+            Debug.WriteLine("Weapon File Not Found: " & endPath1 & " / " & endPath2)
             ' MsgBox("Weapon File Not Found: " & path)
             Me.bgWorker_RenderSingle.CancelAsync()
             Return "FILENOTFOUND"
@@ -3029,7 +3035,7 @@ ByVal DefaultValue As String) As String
     End Function
 
     Public Function getbulletdata(ByVal projectilehash As String, ByVal value As String)
-        Dim viiva = InStr(projectilehash, "-")
+        Dim viiva = InStr(projectilehash, "/")
         projectilehash = Microsoft.VisualBasic.Mid(projectilehash, viiva + 1, Len(projectilehash) - viiva - 1)
         Dim projectileList As List(Of String) = GetFiles(Path.Combine(Directory.GetCurrentDirectory, "weapons\Common\Bullets"))
         '        Dim basepath As String = System.IO.Path.Combine(Directory.GetCurrentDirectory, "weapons")
