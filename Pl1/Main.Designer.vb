@@ -2591,7 +2591,7 @@ Partial Class Main
         'numSpreadInc
         '
         Me.numSpreadInc.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.numSpreadInc.DecimalPlaces = 2
+        Me.numSpreadInc.DecimalPlaces = 4
         Me.numSpreadInc.ForeColor = System.Drawing.Color.White
         Me.numSpreadInc.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.numSpreadInc.Location = New System.Drawing.Point(150, 11)
@@ -2605,7 +2605,7 @@ Partial Class Main
         'numSpreadMin
         '
         Me.numSpreadMin.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.numSpreadMin.DecimalPlaces = 2
+        Me.numSpreadMin.DecimalPlaces = 4
         Me.numSpreadMin.ForeColor = System.Drawing.Color.White
         Me.numSpreadMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.numSpreadMin.Location = New System.Drawing.Point(49, 11)
@@ -2653,7 +2653,7 @@ Partial Class Main
         'numRecoilDecrease
         '
         Me.numRecoilDecrease.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.numRecoilDecrease.DecimalPlaces = 2
+        Me.numRecoilDecrease.DecimalPlaces = 4
         Me.numRecoilDecrease.ForeColor = System.Drawing.Color.White
         Me.numRecoilDecrease.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.numRecoilDecrease.Location = New System.Drawing.Point(51, 68)
@@ -2700,7 +2700,7 @@ Partial Class Main
         'numFirstShot
         '
         Me.numFirstShot.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.numFirstShot.DecimalPlaces = 2
+        Me.numFirstShot.DecimalPlaces = 4
         Me.numFirstShot.ForeColor = System.Drawing.Color.White
         Me.numFirstShot.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.numFirstShot.Location = New System.Drawing.Point(63, 91)
@@ -2714,7 +2714,7 @@ Partial Class Main
         'numRecoilRight
         '
         Me.numRecoilRight.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.numRecoilRight.DecimalPlaces = 2
+        Me.numRecoilRight.DecimalPlaces = 4
         Me.numRecoilRight.ForeColor = System.Drawing.Color.White
         Me.numRecoilRight.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.numRecoilRight.Location = New System.Drawing.Point(70, 46)
@@ -2728,7 +2728,7 @@ Partial Class Main
         'numRecoilLeft
         '
         Me.numRecoilLeft.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.numRecoilLeft.DecimalPlaces = 2
+        Me.numRecoilLeft.DecimalPlaces = 4
         Me.numRecoilLeft.ForeColor = System.Drawing.Color.White
         Me.numRecoilLeft.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.numRecoilLeft.Location = New System.Drawing.Point(6, 46)
@@ -2742,7 +2742,7 @@ Partial Class Main
         'numRecoilUp
         '
         Me.numRecoilUp.BackColor = System.Drawing.Color.FromArgb(CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer), CType(CType(34, Byte), Integer))
-        Me.numRecoilUp.DecimalPlaces = 2
+        Me.numRecoilUp.DecimalPlaces = 4
         Me.numRecoilUp.ForeColor = System.Drawing.Color.White
         Me.numRecoilUp.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.numRecoilUp.Location = New System.Drawing.Point(37, 24)
